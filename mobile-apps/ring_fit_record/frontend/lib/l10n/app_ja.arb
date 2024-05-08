@@ -1,0 +1,13 @@
+{
+    "headerLogoTitle": "OZNAT",
+    "topScreenTitle": "TOP",
+    "topScreenMainText": "入籍指輪システム",
+    "topScreenMainTextHelp": "※特許申請中",
+    "topScreenSubText": "\"フィット率\"と\"むくみ率\"で着け心地をデータ解析",
+    "topScreenDescription1": "・朝1回、昼1回、夜1回と記録を取るごとにアイテムが増えていきます。",
+    "topScreenDescription2": "・まずはスタンプラリーの完成を目指しましょう。",
+    "topScreenDescription3": "・完成後も記録を取り続けるとより正確な分析結果が出ます。",
+    "buttonTextKeepRecord": "記録を取る",
+    "buttonTextRecordList": "記録の一覧",
+    "buttonTextAnalysisResult": "解析結果"
+}
