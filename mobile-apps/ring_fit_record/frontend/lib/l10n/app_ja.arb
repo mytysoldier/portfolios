@@ -9,5 +9,17 @@
     "topScreenDescription3": "・完成後も記録を取り続けるとより正確な分析結果が出ます。",
     "buttonTextKeepRecord": "記録を取る",
     "buttonTextRecordList": "記録の一覧",
-    "buttonTextAnalysisResult": "解析結果"
+    "buttonTextAnalysisResult": "解析結果",
+    "customerInfoScreenTitle": "お客様情報の入力/変更",
+    "customerInfoName": "お名前",
+    "customerInfoRingShape": "指輪形状",
+    "customerInfoMaterial": "素材",
+    "customerInfoSize": "サイズ",
+    "customerInfoWidth": "幅",
+    "customerInfoThickness": "厚み",
+    "customerInfoDominantHand": "利き手",
+    "customerInfoRingFingerJoint": "薬指の節",
+    "customerInfoFrequencyOfRemoval": "外す頻度",
+    "customerInfoSake": "お酒",
+    "customerInfoFitPreference": "フィット感の好み"
 }
