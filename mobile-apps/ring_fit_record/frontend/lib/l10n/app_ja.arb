@@ -21,5 +21,21 @@
     "customerInfoRingFingerJoint": "薬指の節",
     "customerInfoFrequencyOfRemoval": "外す頻度",
     "customerInfoSake": "お酒",
-    "customerInfoFitPreference": "フィット感の好み"
+    "customerInfoFitPreference": "フィット感の好み",
+    "dominantHandChoicesRightHand": "右手",
+    "dominantHandChoicesLeftHand": "左手",
+    "ringFingerJointChoicesYes": "あり",
+    "ringFingerJointChoicesYesALittle": "少しあり",
+    "ringFingerJointChoicesNo": "なし",
+    "frequencyOfRemovalChoicesMany": "多い、仕事で外す必要あり",
+    "frequencyOfRemovalChoicesSometime": "時々外す",
+    "frequencyOfRemovalChoicesFew": "少ない、外さない",
+    "sakeChoicesMany": "よく飲む",
+    "sakeChoicesSometime": "たまに飲む",
+    "sakeChoicesFew": "飲まない",
+    "fitPreferenceChoicesTight": "きつめ",
+    "fitPreferenceChoicesSomewhatTight": "多少きつめ",
+    "fitPreferenceChoicesNormal": "ふつう",
+    "fitPreferenceChoicesSlightlyLoose": "多少ゆるめ",
+    "fitPreferenceChoicesLoose": "ゆるめ"
 }

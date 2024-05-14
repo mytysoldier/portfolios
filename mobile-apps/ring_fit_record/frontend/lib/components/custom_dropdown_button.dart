@@ -6,20 +6,28 @@ class CustomDropdownButton extends StatelessWidget {
     required this.items,
     required this.value,
     required this.onChanged,
+    this.isExpanded = false,
   });
 
   final List<String> items;
   final String value;
   final ValueChanged<String?> onChanged;
+  final bool isExpanded;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton(
+      isExpanded: isExpanded,
       items: items
           .map<DropdownMenuItem<String>>(
             (item) => DropdownMenuItem(
               value: item,
-              child: Text(item),
+              child: Text(
+                item,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
             ),
           )
           .toList(),
