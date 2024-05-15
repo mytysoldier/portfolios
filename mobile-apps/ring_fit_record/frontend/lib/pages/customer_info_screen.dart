@@ -50,173 +50,199 @@ class _CustomerInfoScreenState extends State<CustomerInfoScreen> {
   Widget build(BuildContext context) {
     final l10n = L10n.of(context);
 
-    return SingleChildScrollView(
-      physics: const ClampingScrollPhysics(),
-      child: Column(
-        children: [
-          Container(
+    return Stack(
+      children: [
+        Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: 40,
+              color: Colors.brown,
+              alignment: Alignment.center,
+              child: Text(
+                l10n.customerInfoScreenTitle,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            _createRowItem(
+              l10n.customerInfoName,
+              Text(
+                user.name,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            _createRowItem(
+              l10n.customerInfoRingShape,
+              Text(
+                user.ringShape,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            _createRowItem(
+              l10n.customerInfoMaterial,
+              Text(
+                user.material,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            _createRowItem(
+              l10n.customerInfoSize,
+              Text(
+                user.size,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            _createRowItem(
+              l10n.customerInfoWidth,
+              Text(
+                '${user.width}mm',
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            _createRowItem(
+              l10n.customerInfoThickness,
+              Text(
+                '${user.thickness}mm',
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            _createRowItem(
+              l10n.customerInfoDominantHand,
+              CustomDropdownButton(
+                items: List.of([
+                  l10n.dominantHandChoicesRightHand,
+                  l10n.dominantHandChoicesLeftHand,
+                ]),
+                value: _dominantHand,
+                onChanged: (String? value) {
+                  setState(() {
+                    if (value != null) {
+                      _dominantHand = value;
+                    }
+                  });
+                },
+              ),
+            ),
+            _createRowItem(
+              l10n.customerInfoRingFingerJoint,
+              CustomDropdownButton(
+                items: List.of([
+                  l10n.ringFingerJointChoicesYes,
+                  l10n.ringFingerJointChoicesYesALittle,
+                  l10n.ringFingerJointChoicesNo,
+                ]),
+                value: _ringFingerJoint,
+                onChanged: (String? value) {
+                  setState(() {
+                    if (value != null) {
+                      _ringFingerJoint = value;
+                    }
+                  });
+                },
+              ),
+            ),
+            _createRowItem(
+              l10n.customerInfoFrequencyOfRemoval,
+              CustomDropdownButton(
+                isExpanded: true,
+                items: List.of([
+                  l10n.frequencyOfRemovalChoicesMany,
+                  l10n.frequencyOfRemovalChoicesSometime,
+                  l10n.frequencyOfRemovalChoicesFew,
+                ]),
+                value: _frequencyOfRemoval,
+                onChanged: (String? value) {
+                  setState(() {
+                    if (value != null) {
+                      _frequencyOfRemoval = value;
+                    }
+                  });
+                },
+              ),
+            ),
+            _createRowItem(
+              l10n.customerInfoSake,
+              CustomDropdownButton(
+                items: List.of([
+                  l10n.sakeChoicesMany,
+                  l10n.sakeChoicesSometime,
+                  l10n.sakeChoicesFew,
+                ]),
+                value: _sake,
+                onChanged: (String? value) {
+                  setState(() {
+                    if (value != null) {
+                      _sake = value;
+                    }
+                  });
+                },
+              ),
+            ),
+            _createRowItem(
+              l10n.customerInfoFitPreference,
+              CustomDropdownButton(
+                items: List.of([
+                  l10n.fitPreferenceChoicesTight,
+                  l10n.fitPreferenceChoicesSomewhatTight,
+                  l10n.fitPreferenceChoicesNormal,
+                  l10n.fitPreferenceChoicesSlightlyLoose,
+                  l10n.fitPreferenceChoicesLoose,
+                ]),
+                value: _fitPreference,
+                onChanged: (String? value) {
+                  setState(() {
+                    if (value != null) {
+                      _fitPreference = value;
+                    }
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
             width: double.infinity,
-            height: 40,
-            color: Colors.brown,
+            height: 48,
+            decoration: const BoxDecoration(
+              color: Color(0xffFFFFCC),
+              border: Border(
+                top: BorderSide(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+                bottom: BorderSide(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+              ),
+            ),
             alignment: Alignment.center,
             child: Text(
-              l10n.customerInfoScreenTitle,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+              l10n.buttonTextSave,
+              style: TextStyle(fontSize: 18),
             ),
           ),
-          const SizedBox(height: 24),
-          _createRowItem(
-            l10n.customerInfoName,
-            Text(
-              user.name,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ),
-          _createRowItem(
-            l10n.customerInfoRingShape,
-            Text(
-              user.ringShape,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ),
-          _createRowItem(
-            l10n.customerInfoMaterial,
-            Text(
-              user.material,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ),
-          _createRowItem(
-            l10n.customerInfoSize,
-            Text(
-              user.size,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ),
-          _createRowItem(
-            l10n.customerInfoWidth,
-            Text(
-              '${user.width}mm',
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ),
-          _createRowItem(
-            l10n.customerInfoThickness,
-            Text(
-              '${user.thickness}mm',
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ),
-          _createRowItem(
-            l10n.customerInfoDominantHand,
-            CustomDropdownButton(
-              items: List.of([
-                l10n.dominantHandChoicesRightHand,
-                l10n.dominantHandChoicesLeftHand,
-              ]),
-              value: _dominantHand,
-              onChanged: (String? value) {
-                setState(() {
-                  if (value != null) {
-                    _dominantHand = value;
-                  }
-                });
-              },
-            ),
-          ),
-          _createRowItem(
-            l10n.customerInfoRingFingerJoint,
-            CustomDropdownButton(
-              items: List.of([
-                l10n.ringFingerJointChoicesYes,
-                l10n.ringFingerJointChoicesYesALittle,
-                l10n.ringFingerJointChoicesNo,
-              ]),
-              value: _ringFingerJoint,
-              onChanged: (String? value) {
-                setState(() {
-                  if (value != null) {
-                    _ringFingerJoint = value;
-                  }
-                });
-              },
-            ),
-          ),
-          _createRowItem(
-            l10n.customerInfoFrequencyOfRemoval,
-            CustomDropdownButton(
-              isExpanded: true,
-              items: List.of([
-                l10n.frequencyOfRemovalChoicesMany,
-                l10n.frequencyOfRemovalChoicesSometime,
-                l10n.frequencyOfRemovalChoicesFew,
-              ]),
-              value: _frequencyOfRemoval,
-              onChanged: (String? value) {
-                setState(() {
-                  if (value != null) {
-                    _frequencyOfRemoval = value;
-                  }
-                });
-              },
-            ),
-          ),
-          _createRowItem(
-            l10n.customerInfoSake,
-            CustomDropdownButton(
-              items: List.of([
-                l10n.sakeChoicesMany,
-                l10n.sakeChoicesSometime,
-                l10n.sakeChoicesFew,
-              ]),
-              value: _sake,
-              onChanged: (String? value) {
-                setState(() {
-                  if (value != null) {
-                    _sake = value;
-                  }
-                });
-              },
-            ),
-          ),
-          _createRowItem(
-            l10n.customerInfoFitPreference,
-            CustomDropdownButton(
-              items: List.of([
-                l10n.fitPreferenceChoicesTight,
-                l10n.fitPreferenceChoicesSomewhatTight,
-                l10n.fitPreferenceChoicesNormal,
-                l10n.fitPreferenceChoicesSlightlyLoose,
-                l10n.fitPreferenceChoicesLoose,
-              ]),
-              value: _fitPreference,
-              onChanged: (String? value) {
-                setState(() {
-                  if (value != null) {
-                    _fitPreference = value;
-                  }
-                });
-              },
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 
