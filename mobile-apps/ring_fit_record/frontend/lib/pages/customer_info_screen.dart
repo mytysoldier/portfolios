@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:frontend/components/custom_dropdown_button.dart';
 import 'package:frontend/models/user_info.dart';
+import 'package:frontend/pages/top_screen.dart';
 
 class CustomerInfoScreen extends StatefulWidget {
   const CustomerInfoScreen({super.key});
@@ -219,26 +220,32 @@ class _CustomerInfoScreenState extends State<CustomerInfoScreen> {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Container(
-            width: double.infinity,
-            height: 48,
-            decoration: const BoxDecoration(
-              color: Color(0xffFFFFCC),
-              border: Border(
-                top: BorderSide(
-                  color: Colors.grey,
-                  width: 1,
-                ),
-                bottom: BorderSide(
-                  color: Colors.grey,
-                  width: 1,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const TopScreen()));
+            },
+            child: Container(
+              width: double.infinity,
+              height: 48,
+              decoration: const BoxDecoration(
+                color: Color(0xffFFFFCC),
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                  bottom: BorderSide(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
                 ),
               ),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              l10n.buttonTextSave,
-              style: TextStyle(fontSize: 18),
+              alignment: Alignment.center,
+              child: Text(
+                l10n.buttonTextSave,
+                style: const TextStyle(fontSize: 18),
+              ),
             ),
           ),
         )
