@@ -2,11 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:frontend/components/custom_appbar.dart';
 import 'package:frontend/components/custom_drawer.dart';
+import 'package:frontend/constants/page_type.dart';
 import 'package:frontend/pages/customer_info_screen.dart';
 import 'package:frontend/pages/top_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   final l10n = L10n.of(context);
+
+  //   return Scaffold(
+  //     appBar: CustomAppBar(
+  //       title: l10n.headerLogoTitle,
+  //     ),
+  //     endDrawer: const CustomDrawer(),
+  //     body: const CustomerInfoScreen(),
+  //   );
+  // }
+
+  @override
+  State<StatefulWidget> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  PageType pageType = PageType.TOP;
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +37,34 @@ class HomeScreen extends StatelessWidget {
       appBar: CustomAppBar(
         title: l10n.headerLogoTitle,
       ),
-      endDrawer: const CustomDrawer(),
-      body: const CustomerInfoScreen(),
+      endDrawer: CustomDrawer(
+        onTopSelected: () {
+          setState(
+            () {
+              pageType = PageType.TOP;
+            },
+          );
+        },
+        onEditCustomerInfoSelected: () {
+          setState(
+            () {
+              pageType = PageType.EDIT_CUSTOMER_INFO;
+            },
+          );
+        },
+      ),
+      body: _changeScreen(pageType),
     );
+  }
+
+  Widget _changeScreen(PageType pageType) {
+    switch (pageType) {
+      case PageType.TOP:
+        return TopScreen();
+      case PageType.EDIT_CUSTOMER_INFO:
+        return CustomerInfoScreen();
+      default:
+        return Container();
+    }
   }
 }

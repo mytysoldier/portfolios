@@ -3,7 +3,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:frontend/pages/top_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
+  const CustomDrawer({
+    super.key,
+    required this.onTopSelected,
+    required this.onEditCustomerInfoSelected,
+  });
+
+  final VoidCallback onTopSelected;
+  final VoidCallback onEditCustomerInfoSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +25,16 @@ class CustomDrawer extends StatelessWidget {
       child: ListView(
         children: [
           _createDrawerMenu(l10n.menuTextTop, () {
-            navState.push(
-                MaterialPageRoute(builder: (context) => const TopScreen()));
+            navState.pop();
+            onTopSelected();
+            // navState.push(
+            //     MaterialPageRoute(builder: (context) => const TopScreen()));
           }),
           _createDrawerMenu(l10n.menuTextEditCustomerInfo, () {
-            navState.push(
-                MaterialPageRoute(builder: (context) => const TopScreen()));
+            navState.pop();
+            onEditCustomerInfoSelected();
+            // navState.push(
+            //     MaterialPageRoute(builder: (context) => const TopScreen()));
           }),
           _createDrawerMenu(l10n.menuTextInputRecord, () {}),
           _createDrawerMenu(l10n.menuTextRecordList, () {}),
