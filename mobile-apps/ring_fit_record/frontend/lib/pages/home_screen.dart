@@ -4,6 +4,8 @@ import 'package:frontend/components/custom_appbar.dart';
 import 'package:frontend/components/custom_drawer.dart';
 import 'package:frontend/constants/page_type.dart';
 import 'package:frontend/pages/customer_info_screen.dart';
+import 'package:frontend/pages/input_record_screen.dart';
+import 'package:frontend/pages/record_list_screen.dart';
 import 'package:frontend/pages/top_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -52,17 +54,39 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           );
         },
+        onInputRecordSelected: () {
+          setState(() {
+            pageType = PageType.INPUT_RECORD;
+          });
+        },
+        onRecordListSelected: () {
+          setState(() {
+            pageType = PageType.RECORD_LIST;
+          });
+        },
       ),
-      body: _changeScreen(pageType),
+      body: _changeScreen(pageType, () {
+        setState(() {
+          pageType = PageType.TOP;
+        });
+      }),
     );
   }
 
-  Widget _changeScreen(PageType pageType) {
+  Widget _changeScreen(PageType pageType, VoidCallback? onSubmit) {
     switch (pageType) {
       case PageType.TOP:
-        return TopScreen();
+        return const TopScreen();
       case PageType.EDIT_CUSTOMER_INFO:
-        return CustomerInfoScreen();
+        return CustomerInfoScreen(
+          onSubmit: onSubmit!,
+        );
+      case PageType.INPUT_RECORD:
+        return InputRecordScreen(
+          onSubmit: onSubmit!,
+        );
+      case PageType.RECORD_LIST:
+        return const RecordListScreen();
       default:
         return Container();
     }

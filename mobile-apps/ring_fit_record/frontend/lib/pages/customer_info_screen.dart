@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:frontend/components/custom_dropdown_button.dart';
 import 'package:frontend/models/user_info.dart';
-import 'package:frontend/pages/top_screen.dart';
 
 class CustomerInfoScreen extends StatefulWidget {
-  const CustomerInfoScreen({super.key});
+  const CustomerInfoScreen({
+    super.key,
+    required this.onSubmit,
+  });
+
+  final VoidCallback onSubmit;
 
   @override
   State<StatefulWidget> createState() => _CustomerInfoScreenState();
@@ -222,8 +226,7 @@ class _CustomerInfoScreenState extends State<CustomerInfoScreen> {
           alignment: Alignment.bottomCenter,
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const TopScreen()));
+              widget.onSubmit();
             },
             child: Container(
               width: double.infinity,

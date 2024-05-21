@@ -45,5 +45,7 @@
     "fitPreferenceChoicesSomewhatTight": "多少きつめ",
     "fitPreferenceChoicesNormal": "ふつう",
     "fitPreferenceChoicesSlightlyLoose": "多少ゆるめ",
-    "fitPreferenceChoicesLoose": "ゆるめ"
+    "fitPreferenceChoicesLoose": "ゆるめ",
+    "inputRecordScreenTitle": "着け外しの記録",
+    "recordListScreenTitle": "記録の一覧と閲覧"
 }

@@ -7,10 +7,14 @@ class CustomDrawer extends StatelessWidget {
     super.key,
     required this.onTopSelected,
     required this.onEditCustomerInfoSelected,
+    required this.onInputRecordSelected,
+    required this.onRecordListSelected,
   });
 
   final VoidCallback onTopSelected;
   final VoidCallback onEditCustomerInfoSelected;
+  final VoidCallback onInputRecordSelected;
+  final VoidCallback onRecordListSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +40,14 @@ class CustomDrawer extends StatelessWidget {
             // navState.push(
             //     MaterialPageRoute(builder: (context) => const TopScreen()));
           }),
-          _createDrawerMenu(l10n.menuTextInputRecord, () {}),
-          _createDrawerMenu(l10n.menuTextRecordList, () {}),
+          _createDrawerMenu(l10n.menuTextInputRecord, () {
+            navState.pop();
+            onInputRecordSelected();
+          }),
+          _createDrawerMenu(l10n.menuTextRecordList, () {
+            navState.pop();
+            onRecordListSelected();
+          }),
           _createDrawerMenu(l10n.menuTextAnalysisResult, () {}),
           _createDrawerMenu(l10n.menuTextPrivacyPolicy, () {}),
           _createDrawerMenu(l10n.menuTextLogout, () {}),
