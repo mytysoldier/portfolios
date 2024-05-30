@@ -18,6 +18,7 @@
     "buttonTextRecordList": "記録の一覧",
     "buttonTextAnalysisResult": "解析結果",
     "buttonTextSave": "保存する",
+    "buttonTextTempSave": "一時保存して次へ",
     "customerInfoScreenTitle": "お客様情報の入力/変更",
     "customerInfoName": "お名前",
     "customerInfoRingShape": "指輪形状",
@@ -47,5 +48,13 @@
     "fitPreferenceChoicesSlightlyLoose": "多少ゆるめ",
     "fitPreferenceChoicesLoose": "ゆるめ",
     "inputRecordScreenTitle": "着け外しの記録",
-    "recordListScreenTitle": "記録の一覧と閲覧"
+    "inputRecordScreenDescription1": "まずは、着け外しの記録です。",
+    "inputRecordScreenDescription2": "節の通り具合",
+    "inputRecordScreenDescription3": "をご確認ください。",
+    "recordListScreenTitle": "記録の一覧と閲覧",
+    "conditionOfTheKnotsSelection1": "①節が痛い",
+    "conditionOfTheKnotsSelection2": "②節がかなりきつい",
+    "conditionOfTheKnotsSelection3": "③ちょうど良い(多少節がきつい)",
+    "conditionOfTheKnotsSelection4": "④節がゆるい",
+    "conditionOfTheKnotsSelection5": "⑤ゆるすぎる、失くしそう"
 }
