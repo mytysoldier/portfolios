@@ -1,12 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-// TODO statefulwidgetに変更（画面切り替えがあるため）
-class InputRecordScreen extends StatefulWidget {
-  const InputRecordScreen({
+class InputRecordScreen1 extends StatefulWidget {
+  const InputRecordScreen1({
     super.key,
     required this.onSubmit,
   });
@@ -17,7 +14,7 @@ class InputRecordScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _InputRecordScreenState();
 }
 
-class _InputRecordScreenState extends State<InputRecordScreen> {
+class _InputRecordScreenState extends State<InputRecordScreen1> {
   String _selectedCondition = '';
 
   Widget _createConditionSelection(String selectionText) {

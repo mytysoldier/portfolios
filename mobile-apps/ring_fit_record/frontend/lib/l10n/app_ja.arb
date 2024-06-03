@@ -56,5 +56,14 @@
     "conditionOfTheKnotsSelection2": "②節がかなりきつい",
     "conditionOfTheKnotsSelection3": "③ちょうど良い(多少節がきつい)",
     "conditionOfTheKnotsSelection4": "④節がゆるい",
-    "conditionOfTheKnotsSelection5": "⑤ゆるすぎる、失くしそう"
+    "conditionOfTheKnotsSelection5": "⑤ゆるすぎる、失くしそう",
+    "inputRecordScreen2Title": "装着感の記録",
+    "inputRecordScreen2Description1": "次に、指に装着した状態での記録です。",
+    "inputRecordScreen2Description2": "指の根元",
+    "inputRecordScreen2Description3": "での感覚を選択してください。",
+    "conditionOfFeelingOfWearingSelection1": "①根元でかなりきつい",
+    "conditionOfFeelingOfWearingSelection2": "②根元で多少きつい",
+    "conditionOfFeelingOfWearingSelection3": "③ちょうど良い(根元で多少動く)",
+    "conditionOfFeelingOfWearingSelection4": "④根元でゆるく感じる、ぐるぐる回る",
+    "conditionOfFeelingOfWearingSelection5": "⑤ゆるすぎる、落ちてしまう"
 }
