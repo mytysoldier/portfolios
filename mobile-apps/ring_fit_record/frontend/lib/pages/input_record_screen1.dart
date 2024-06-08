@@ -15,7 +15,12 @@ class InputRecordScreen1 extends StatefulWidget {
 }
 
 class _InputRecordScreenState extends State<InputRecordScreen1> {
+  final CarouselController _controller = CarouselController();
   String _selectedCondition = '';
+
+  Map<int, String>? _selectionTextMap;
+
+  int _currentPageIndex = 0;
 
   Widget _createConditionSelection(String selectionText) {
     return ListTile(
@@ -26,24 +31,41 @@ class _InputRecordScreenState extends State<InputRecordScreen1> {
         value: selectionText,
         groupValue: _selectedCondition,
         onChanged: (value) {
-          setState(() {
-            _selectedCondition = value!;
-          });
+          changeSelectionText(value!);
         },
       ),
     );
+  }
+
+  // ラジオボタンの切り替え時にカルーセル画像を指定のページ位置まで移動する
+  void changeSelectionText(String selectionText) {
+    int pageIndex = _selectionTextMap!.entries
+        .firstWhere((element) => element.value == selectionText)
+        .key;
+
+    _currentPageIndex = pageIndex;
+    _controller.animateToPage(pageIndex);
+    // ラジオボタンの選択切り替え
+    setState(() {
+      _selectedCondition = selectionText;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = L10n.of(context);
 
-    final CarouselController _controller = CarouselController();
-    int _currentPageIndex = 0;
-
     if (_selectedCondition.isEmpty) {
       _selectedCondition = l10n.conditionOfTheKnotsSelection1;
     }
+
+    _selectionTextMap ??= {
+      0: l10n.conditionOfTheKnotsSelection1,
+      1: l10n.conditionOfTheKnotsSelection2,
+      2: l10n.conditionOfTheKnotsSelection3,
+      3: l10n.conditionOfTheKnotsSelection4,
+      4: l10n.conditionOfTheKnotsSelection5,
+    };
 
     return SingleChildScrollView(
       child: Stack(
@@ -124,8 +146,14 @@ class _InputRecordScreenState extends State<InputRecordScreen1> {
                         onPressed: () {
                           // 最初のページ以外であればページを戻る
                           if (_currentPageIndex != 0) {
-                            _currentPageIndex++;
+                            _currentPageIndex--;
                             _controller.previousPage();
+
+                            // ラジオボタンの選択切り替え
+                            setState(() {
+                              _selectedCondition =
+                                  _selectionTextMap![_currentPageIndex]!;
+                            });
                           }
                         },
                         icon: const Icon(Icons.arrow_left),
@@ -140,6 +168,12 @@ class _InputRecordScreenState extends State<InputRecordScreen1> {
                           if (_currentPageIndex != 4) {
                             _currentPageIndex++;
                             _controller.nextPage();
+
+                            // ラジオボタンの選択切り替え
+                            setState(() {
+                              _selectedCondition =
+                                  _selectionTextMap![_currentPageIndex]!;
+                            });
                           }
                         },
                         icon: const Icon(Icons.arrow_right),

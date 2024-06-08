@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       // TOOD あとで戻す
       case PageType.INPUT_RECORD:
-        return InputRecordScreen2(
+        return InputRecordScreen1(
           onSubmit: onSubmit!,
         );
       case PageType.RECORD_LIST:
