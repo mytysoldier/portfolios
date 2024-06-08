@@ -30,11 +30,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  PageType pageType = PageType.TOP;
+  PageType? pageType;
 
   @override
   Widget build(BuildContext context) {
     final l10n = L10n.of(context);
+
+    pageType ??= PageType.TOP;
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -66,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
       ),
-      body: _changeScreen(pageType, () {
+      body: _changeScreen(pageType!, () {
         setState(() {
           pageType = PageType.TOP;
         });
@@ -74,10 +76,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _changeScreen(PageType pageType, VoidCallback? onSubmit) {
-    switch (pageType) {
+  Widget _changeScreen(PageType updatePageType, VoidCallback? onSubmit) {
+    switch (updatePageType) {
       case PageType.TOP:
-        return const TopScreen();
+        return TopScreen(onKeepRecordButtonPressed: () {
+          setState(() {
+            pageType = PageType.INPUT_RECORD;
+          });
+        });
       case PageType.EDIT_CUSTOMER_INFO:
         return CustomerInfoScreen(
           onSubmit: onSubmit!,

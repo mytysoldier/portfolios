@@ -3,7 +3,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:frontend/components/custom_buttton.dart';
 
 class TopScreen extends StatelessWidget {
-  const TopScreen({super.key});
+  const TopScreen({
+    super.key,
+    required this.onKeepRecordButtonPressed,
+    this.onRecordListButtonPressed,
+    this.onAnalysisResultButtonPressed,
+  });
+
+  final VoidCallback onKeepRecordButtonPressed;
+  final VoidCallback? onRecordListButtonPressed;
+  final VoidCallback? onAnalysisResultButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +69,10 @@ class TopScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _createCustomButton(l10n.buttonTextKeepRecord),
-              _createCustomButton(l10n.buttonTextRecordList),
-              _createCustomButton(l10n.buttonTextAnalysisResult),
+              _createCustomButton(
+                  l10n.buttonTextKeepRecord, onKeepRecordButtonPressed),
+              _createCustomButton(l10n.buttonTextRecordList, () {}),
+              _createCustomButton(l10n.buttonTextAnalysisResult, () {}),
             ],
           ),
           const SizedBox(height: 12),
@@ -90,10 +100,11 @@ class TopScreen extends StatelessWidget {
     );
   }
 
-  Widget _createCustomButton(String title) {
+  Widget _createCustomButton(String title, VoidCallback onButtonPressed) {
     return CustomButton(
       title: title,
       size: const Size(double.infinity, 90),
+      onButtonPressed: onButtonPressed,
     );
   }
 }
