@@ -6,12 +6,12 @@ class TopScreen extends StatelessWidget {
   const TopScreen({
     super.key,
     required this.onKeepRecordButtonPressed,
-    this.onRecordListButtonPressed,
+    required this.onRecordListButtonPressed,
     this.onAnalysisResultButtonPressed,
   });
 
   final VoidCallback onKeepRecordButtonPressed;
-  final VoidCallback? onRecordListButtonPressed;
+  final VoidCallback onRecordListButtonPressed;
   final VoidCallback? onAnalysisResultButtonPressed;
 
   @override
@@ -70,13 +70,22 @@ class TopScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _createCustomButton(
-                  l10n.buttonTextKeepRecord, onKeepRecordButtonPressed),
-              _createCustomButton(l10n.buttonTextRecordList, () {}),
+                l10n.buttonTextKeepRecord,
+                onKeepRecordButtonPressed,
+              ),
+              _createCustomButton(
+                l10n.buttonTextRecordList,
+                onRecordListButtonPressed,
+              ),
               _createCustomButton(l10n.buttonTextAnalysisResult, () {}),
             ],
           ),
           const SizedBox(height: 12),
-          Image.asset('assets/sinrosinpu.jpeg'),
+          Image.asset(
+            'assets/sinrosinpu.png',
+            height: 350,
+            fit: BoxFit.contain,
+          ),
           const SizedBox(height: 12),
           Container(
             height: 12,
@@ -84,7 +93,7 @@ class TopScreen extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

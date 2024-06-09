@@ -12,19 +12,6 @@ import 'package:frontend/pages/top_screen.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   final l10n = L10n.of(context);
-
-  //   return Scaffold(
-  //     appBar: CustomAppBar(
-  //       title: l10n.headerLogoTitle,
-  //     ),
-  //     endDrawer: const CustomDrawer(),
-  //     body: const CustomerInfoScreen(),
-  //   );
-  // }
-
   @override
   State<StatefulWidget> createState() => _HomeScreenState();
 }
@@ -79,11 +66,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _changeScreen(PageType updatePageType, VoidCallback? onSubmit) {
     switch (updatePageType) {
       case PageType.TOP:
-        return TopScreen(onKeepRecordButtonPressed: () {
-          setState(() {
-            pageType = PageType.INPUT_RECORD;
-          });
-        });
+        return TopScreen(
+          onKeepRecordButtonPressed: () {
+            setState(() {
+              pageType = PageType.INPUT_RECORD;
+            });
+          },
+          onRecordListButtonPressed: () {
+            setState(() {
+              pageType = PageType.RECORD_LIST;
+            });
+          },
+          // TODO 解析結果画面への遷移
+        );
       case PageType.EDIT_CUSTOMER_INFO:
         return CustomerInfoScreen(
           onSubmit: onSubmit!,
