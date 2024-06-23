@@ -77,7 +77,6 @@ class TopScreen extends StatelessWidget {
                 l10n.buttonTextRecordList,
                 onRecordListButtonPressed,
               ),
-              _createCustomButton(l10n.buttonTextAnalysisResult, () {}),
             ],
           ),
           const SizedBox(height: 12),

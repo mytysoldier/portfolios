@@ -1,6 +1,10 @@
 package models
 
+import "time"
+
 type Record struct {
-	Num  int
-	Text string
+	Attachment string
+	Comfort    string
+	Memo       string
+	CreatedAt  time.Time
 }

@@ -5,6 +5,7 @@ import (
 	dbmodels "backend/internal/db/models"
 	"backend/internal/server/models"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +23,7 @@ func RegisterRecordHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	err := db.RegisterRecord(dbmodels.Record{Num: req.Num, Text: req.Text})
+	err := db.RegisterRecord(dbmodels.Record{Attachment: req.Attachment, Comfort: req.Comfort, Memo: req.Memo, CreatedAt: time.Now()})
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err,

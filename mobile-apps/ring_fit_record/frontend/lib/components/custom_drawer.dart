@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:frontend/pages/top_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -48,7 +47,6 @@ class CustomDrawer extends StatelessWidget {
             navState.pop();
             onRecordListSelected();
           }),
-          _createDrawerMenu(l10n.menuTextAnalysisResult, () {}),
           _createDrawerMenu(l10n.menuTextPrivacyPolicy, () {}),
           _createDrawerMenu(l10n.menuTextLogout, () {}),
         ],

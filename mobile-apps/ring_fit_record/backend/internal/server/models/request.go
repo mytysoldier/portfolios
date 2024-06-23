@@ -1,6 +1,7 @@
 package models
 
 type RegisterRecord struct {
-	Num  int    `json:"num"`
-	Text string `json:"text"`
+	Attachment string `json:"attachment"`
+	Comfort    string `json:"comfort"`
+	Memo       string `json:"memo"`
 }

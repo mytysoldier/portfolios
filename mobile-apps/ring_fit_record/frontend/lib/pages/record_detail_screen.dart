@@ -4,14 +4,14 @@ import 'package:frontend/apis/api_service.dart';
 import 'package:frontend/models/record.dart';
 import 'package:intl/intl.dart';
 
-class RecordListScreen extends StatefulWidget {
-  const RecordListScreen({super.key});
+class RecordDetailScreen extends StatefulWidget {
+  const RecordDetailScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _RecordListScreenState();
+  State<StatefulWidget> createState() => _RecordDetailScreenState();
 }
 
-class _RecordListScreenState extends State<RecordListScreen> {
+class _RecordDetailScreenState extends State<RecordDetailScreen> {
   late Future<List<Record>> records;
 
   @override
