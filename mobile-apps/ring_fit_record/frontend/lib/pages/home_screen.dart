@@ -6,6 +6,7 @@ import 'package:frontend/constants/page_type.dart';
 import 'package:frontend/pages/customer_info_screen.dart';
 import 'package:frontend/pages/input_record_screen1.dart';
 import 'package:frontend/pages/input_record_screen2.dart';
+import 'package:frontend/pages/record_detail_screen.dart';
 import 'package:frontend/pages/record_list_screen.dart';
 import 'package:frontend/pages/top_screen.dart';
 
@@ -77,7 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
               pageType = PageType.RECORD_LIST;
             });
           },
-          // TODO 解析結果画面への遷移
         );
       case PageType.EDIT_CUSTOMER_INFO:
         return CustomerInfoScreen(
@@ -90,6 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       case PageType.RECORD_LIST:
         return const RecordListScreen();
+      // case PageType.RECORD_DETAIL:
+      //   return const RecordDetailScreen(
+      //     record: null,
+      //   );
       default:
         return Container();
     }

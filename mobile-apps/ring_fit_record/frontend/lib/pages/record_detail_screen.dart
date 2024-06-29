@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/apis/api_service.dart';
 import 'package:frontend/models/record.dart';
+import 'package:frontend/providers/record_detail_provider.dart';
 import 'package:intl/intl.dart';
 
-class RecordDetailScreen extends StatefulWidget {
-  const RecordDetailScreen({super.key});
+class RecordDetailScreen extends ConsumerWidget {
+  const RecordDetailScreen({
+    super.key,
+  });
 
   @override
-  State<StatefulWidget> createState() => _RecordDetailScreenState();
-}
-
-class _RecordDetailScreenState extends State<RecordDetailScreen> {
-  late Future<List<Record>> records;
-
-  @override
-  void initState() {
-    super.initState();
-    records = fetchRecords();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = L10n.of(context);
+
+    final record = ref.watch(recordDetailProvider);
 
     return Column(
       children: [
@@ -32,7 +25,7 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
           color: Colors.brown,
           alignment: Alignment.center,
           child: Text(
-            l10n.recordListScreenTitle,
+            l10n.recordDetailScreenTitle,
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -40,59 +33,6 @@ class _RecordDetailScreenState extends State<RecordDetailScreen> {
             ),
           ),
         ),
-        Expanded(
-          child: FutureBuilder(
-              future: records,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error: ${snapshot.error}'),
-                  );
-                } else {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      final record = snapshot.data![index];
-                      String formattedDate = DateFormat('yyyy/MM/dd HH:mm')
-                          .format(record.createdAt);
-                      return Container(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            top: BorderSide(
-                              width: 0.5,
-                            ),
-                          ),
-                        ),
-                        child: ListTile(
-                          dense: true,
-                          title: Row(
-                            children: [
-                              Text(formattedDate),
-                              const Icon(Icons.arrow_right),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }
-              }),
-        ),
-        // TODO
-        // Flexible(
-        //   child: ListView.builder(
-        //     itemCount: 3,
-        //     itemBuilder: (BuildContext context, index) {
-        //       return Text(
-        //         'data',
-        //       );
-        //     },
-        //   ),
-        // ),
       ],
     );
   }
