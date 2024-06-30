@@ -17,6 +17,7 @@
     "buttonTextRecordList": "記録の一覧",
     "buttonTextSave": "保存する",
     "buttonTextTempSave": "一時保存して次へ",
+    "buttonTextRecordDelete": "この記録を削除",
     "customerInfoScreenTitle": "お客様情報の入力/変更",
     "customerInfoName": "お名前",
     "customerInfoRingShape": "指輪形状",
@@ -64,5 +65,8 @@
     "conditionOfFeelingOfWearingSelection3": "③ちょうど良い(根元で多少動く)",
     "conditionOfFeelingOfWearingSelection4": "④根元でゆるく感じる、ぐるぐる回る",
     "conditionOfFeelingOfWearingSelection5": "⑤ゆるすぎる、落ちてしまう",
-    "recordDetailScreenTitle": "記録の閲覧"
+    "recordDetailScreenTitle": "記録の閲覧",
+    "recordDetailItemAttachment": "着け外し",
+    "recordDetailItemComfort": "着け心地",
+    "recordDetailItemMemo": "メモの入力"
 }

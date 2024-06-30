@@ -89,11 +89,15 @@ class _HomeScreenState extends State<HomeScreen> {
           onSubmit: onSubmit!,
         );
       case PageType.RECORD_LIST:
-        return const RecordListScreen();
-      // case PageType.RECORD_DETAIL:
-      //   return const RecordDetailScreen(
-      //     record: null,
-      //   );
+        return RecordListScreen(
+          onRecordTapped: () {
+            setState(() {
+              pageType = PageType.RECORD_DETAIL;
+            });
+          },
+        );
+      case PageType.RECORD_DETAIL:
+        return const RecordDetailScreen();
       default:
         return Container();
     }

@@ -5,7 +5,12 @@ import 'package:frontend/models/record.dart';
 import 'package:intl/intl.dart';
 
 class RecordListScreen extends StatefulWidget {
-  const RecordListScreen({super.key});
+  const RecordListScreen({
+    super.key,
+    required this.onRecordTapped,
+  });
+
+  final VoidCallback onRecordTapped;
 
   @override
   State<StatefulWidget> createState() => _RecordListScreenState();
@@ -67,13 +72,16 @@ class _RecordListScreenState extends State<RecordListScreen> {
                             ),
                           ),
                         ),
-                        child: ListTile(
-                          dense: true,
-                          title: Row(
-                            children: [
-                              Text(formattedDate),
-                              const Icon(Icons.arrow_right),
-                            ],
+                        child: GestureDetector(
+                          onTap: widget.onRecordTapped,
+                          child: ListTile(
+                            dense: true,
+                            title: Row(
+                              children: [
+                                Text(formattedDate),
+                                const Icon(Icons.arrow_right),
+                              ],
+                            ),
                           ),
                         ),
                       );
