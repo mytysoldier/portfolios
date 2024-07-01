@@ -6,4 +6,5 @@ enum PageType {
   INPUT_RECORD,
   RECORD_LIST,
   RECORD_DETAIL,
+  PRIVACY_POLICY,
 }

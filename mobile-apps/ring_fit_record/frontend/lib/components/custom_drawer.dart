@@ -8,12 +8,14 @@ class CustomDrawer extends StatelessWidget {
     required this.onEditCustomerInfoSelected,
     required this.onInputRecordSelected,
     required this.onRecordListSelected,
+    required this.onPrivacyPolicySelected,
   });
 
   final VoidCallback onTopSelected;
   final VoidCallback onEditCustomerInfoSelected;
   final VoidCallback onInputRecordSelected;
   final VoidCallback onRecordListSelected;
+  final VoidCallback onPrivacyPolicySelected;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,10 @@ class CustomDrawer extends StatelessWidget {
             navState.pop();
             onRecordListSelected();
           }),
-          _createDrawerMenu(l10n.menuTextPrivacyPolicy, () {}),
+          _createDrawerMenu(l10n.menuTextPrivacyPolicy, () {
+            navState.pop();
+            onPrivacyPolicySelected();
+          }),
           _createDrawerMenu(l10n.menuTextLogout, () {}),
         ],
       ),

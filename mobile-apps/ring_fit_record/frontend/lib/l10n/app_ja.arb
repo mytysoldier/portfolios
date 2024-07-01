@@ -68,5 +68,8 @@
     "recordDetailScreenTitle": "記録の閲覧",
     "recordDetailItemAttachment": "着け外し",
     "recordDetailItemComfort": "着け心地",
-    "recordDetailItemMemo": "メモの入力"
+    "recordDetailItemMemo": "メモの入力",
+    "recordDetailLinkPreviousRecord": "前の記録",
+    "recordDetailLinkList": "一覧",
+    "recordDetailLinkNextRecord": "次の記録"
 }
