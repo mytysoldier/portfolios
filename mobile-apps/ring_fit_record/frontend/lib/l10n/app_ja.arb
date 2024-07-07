@@ -76,5 +76,17 @@
     "privacyPolicyMainSentenceTitle": "個人情報保護方針",
     "privacyPolicyMainSentenceText": "OZNAT指輪株式会社®(以下当社)では、\nお客さまのプライバシーを尊重し、個人情報を保護することは大変重要なことと認識し以下に定める個人情報保護方針に基づき大切にお客さま個人情報をお取り扱い致します。",
     "privacyPolicySubSentence1Title": "個人情報の利用目的",
-    "privacyPolicySubSentence1Text": "当社では、取得したお客さま個人情報の利用にあたり、その利用の目的を特定し、下記の通りと致します。"
+    "privacyPolicySubSentence1Text1": "当社では、取得したお客さま個人情報の利用にあたり、その利用の目的を特定し、下記の通りと致します。",
+    "privacyPolicySubSentence1Text2": "各種お問い合わせ、小冊子請求、資料請求等への対応",
+    "privacyPolicySubSentence1Text3": "展示会等のイベントご案内、商品・サービスの情報や宣伝物等のご提供、商品・サービスのご提案またはご提供、販売・サービス窓口のご紹介等",
+    "privacyPolicySubSentence1Text4": "より良い商品・サービス向上のための調査・分析のため",
+    "privacyPolicySubSentence1Text5": "お客さまとの連絡、協力、交渉、契約の履行、履行請求等",
+    "privacyPolicySubSentence1Text6": "お客さまの事前同意をいただいた上での、ホームページ・雑誌その他広告媒体への写真・文章等の掲載",
+    "privacyPolicySubSentence1Text7": "また、あらかじめ特定した目的以外に利用する場合は、その内容・目的をご本人へ通知し、個別に同意をいただいた上で利用させていただきます。",
+    "privacyPolicySubSentence2Title": "個人情報の取得について",
+    "privacyPolicySubSentence2Text1": "当社では、不正の手段によりお客さま個人情報を取得いたしません。",
+    "privacyPolicySubSentence2Text2": "ご紹介をいただいた場合など第三者からの取得した場合、速やかにお客さまにご連絡するなど適切な対応を致します。",
+    "privacyPolicySubSentence3Title": "個人情報保護の安全管理",
+    "privacyPolicySubSentence3Text1": "当社では、保有するお客さま個人情報につきまして、不正アクセス、漏洩、などに対し、適切かつ合理的な安全対策を実施いたします。",
+    "privacyPolicySubSentence3Text2": "また、個人情報取り扱い規程の社内教育、責任者の配置、その他適切な監督を行います。"
 }
