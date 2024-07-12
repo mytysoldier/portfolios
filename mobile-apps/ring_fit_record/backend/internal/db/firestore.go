@@ -56,6 +56,23 @@ func GetRecords() []models.Record {
 	return records
 }
 
+func GetUser(docID string) models.User {
+	ctx := context.Background()
+	doc, err := ClientInstance.Collection("users").Doc(docID).Get(ctx)
+	if err != nil {
+		log.Fatalf("failed to get user: %v", err)
+		return models.User{}
+	}
+
+	var user models.User
+	if err := doc.DataTo(&user); err != nil {
+		log.Fatalf("failed to convert: %v", err)
+		return models.User{}
+	}
+
+	return user
+}
+
 func RegisterRecord(record models.Record) error {
 	ctx := context.Background()
 	_, _, err := ClientInstance.Collection("records").Add(ctx, record)

@@ -15,6 +15,9 @@ func Server() {
 	r.POST("/records", funcs.RegisterRecordHandler)
 	// 記録削除
 	r.DELETE("/records/:id", funcs.DeleteRecordHandler)
+	// ユーザー情報取得
+	// TODO IDを受け取る
+	r.GET("/user", funcs.GetUserHandler)
 
 	r.Run()
 }
