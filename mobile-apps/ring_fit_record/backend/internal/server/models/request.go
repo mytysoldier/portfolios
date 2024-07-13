@@ -9,13 +9,13 @@ type RegisterRecord struct {
 type UpdateUser struct {
 	Name               string `json:"name"`
 	RingShape          string `json:"ringShape"`
-	Material           string `json:"name"`
-	Size               string `json:"name"`
-	Width              string `json:"name"`
-	Thickness          string `json:"name"`
-	DominantHand       string `json:"name"`
-	RingFingerJoint    string `json:"name"`
-	FrequencyOfRemoval string `json:"name"`
-	Sake               string `json:"name"`
-	FitPreference      string `json:"name"`
+	Material           string `json:"material"`
+	Size               string `json:"size"`
+	Width              string `json:"width"`
+	Thickness          string `json:"thickness"`
+	DominantHand       string `json:"dominantHand"`
+	RingFingerJoint    string `json:"ringFingerJoint"`
+	FrequencyOfRemoval string `json:"frequencyOfRemoval"`
+	Sake               string `json:"sake"`
+	FitPreference      string `json:"fitPreference"`
 }

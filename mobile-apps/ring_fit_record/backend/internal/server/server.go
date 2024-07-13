@@ -18,6 +18,8 @@ func Server() {
 	// ユーザー情報取得
 	// TODO IDを受け取る
 	r.GET("/user", funcs.GetUserHandler)
+	// ユーザー情報更新
+	r.POST("/user/:docId", funcs.UpdateUserHandler)
 
 	r.Run()
 }

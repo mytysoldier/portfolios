@@ -3,6 +3,7 @@ package db
 import (
 	"backend/internal/db/models"
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"sync"
@@ -64,13 +65,28 @@ func GetUser(docID string) models.User {
 		return models.User{}
 	}
 
+	// ドキュメントのデータをコンソールに出力
+	data := doc.Data()
+	fmt.Printf("Document data: %#v\n", data)
+
 	var user models.User
 	if err := doc.DataTo(&user); err != nil {
 		log.Fatalf("failed to convert: %v", err)
 		return models.User{}
 	}
 
+	fmt.Printf("Document user data: %#v\n", user)
+
 	return user
+}
+
+func UpdateUser(docID string, user models.User) error {
+	ctx := context.Background()
+	_, err := ClientInstance.Collection("users").Doc(docID).Set(ctx, user)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func RegisterRecord(record models.Record) error {
