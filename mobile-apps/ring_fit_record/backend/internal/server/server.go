@@ -17,7 +17,7 @@ func Server() {
 	r.DELETE("/records/:id", funcs.DeleteRecordHandler)
 	// ユーザー情報取得
 	// TODO IDを受け取る
-	r.GET("/user", funcs.GetUserHandler)
+	r.GET("/user/:docId", funcs.GetUserHandler)
 	// ユーザー情報更新
 	r.POST("/user/:docId", funcs.UpdateUserHandler)
 

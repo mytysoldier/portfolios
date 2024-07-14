@@ -3,8 +3,8 @@ class UserInfo {
   final String ringShape;
   final String material;
   final String size;
-  final double width;
-  final double thickness;
+  final String width;
+  final String thickness;
   final String dominantHand;
   final String ringFingerJoint;
   final String frequencyOfRemoval;
@@ -27,17 +27,33 @@ class UserInfo {
 
   factory UserInfo.fromJson(Map<String, dynamic> json) {
     return UserInfo(
-      name: json['name'],
-      ringShape: json['ringShape'],
-      material: json['material'],
-      size: json['size'],
-      width: json['width'],
-      thickness: json['thickness'],
-      dominantHand: json['dominantHand'],
-      ringFingerJoint: json['ringFingerJoint'],
-      frequencyOfRemoval: json['frequencyOfRemoval'],
-      sake: json['sake'],
-      fitPreference: json['fitPreference'],
+      name: json['Name'],
+      ringShape: json['RingShape'],
+      material: json['Material'],
+      size: json['Size'],
+      width: json['Width'],
+      thickness: json['Thickness'],
+      dominantHand: json['DominantHand'],
+      ringFingerJoint: json['RingFingerJoint'],
+      frequencyOfRemoval: json['FrequencyOfRemoval'],
+      sake: json['Sake'],
+      fitPreference: json['FitPreference'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'ringShape': ringShape,
+      'material': material,
+      'size': size,
+      'width': width,
+      'thickness': thickness,
+      'dominantHand': dominantHand,
+      'ringFingerJoint': ringFingerJoint,
+      'frequencyOfRemoval': frequencyOfRemoval,
+      'sake': sake,
+      'fitPreference': fitPreference,
+    };
   }
 }
