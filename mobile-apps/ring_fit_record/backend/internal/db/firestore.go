@@ -84,6 +84,7 @@ func UpdateUser(docID string, user models.User) error {
 	ctx := context.Background()
 	_, err := ClientInstance.Collection("users").Doc(docID).Set(ctx, user)
 	if err != nil {
+		log.Default().Printf("failed to update user: %v", err)
 		return err
 	}
 	return nil

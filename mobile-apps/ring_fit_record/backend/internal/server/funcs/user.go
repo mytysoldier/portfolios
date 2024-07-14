@@ -19,7 +19,7 @@ func GetUserHandler(ctx *gin.Context) {
 
 func UpdateUserHandler(ctx *gin.Context) {
 	var req models.UpdateUser
-	docID := ctx.Param("id")
+	docID := ctx.Param("docId")
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
