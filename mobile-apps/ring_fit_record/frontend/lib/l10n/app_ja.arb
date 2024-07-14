@@ -17,6 +17,8 @@
     "buttonTextRecordList": "記録の一覧",
     "buttonTextSave": "保存する",
     "buttonTextTempSave": "一時保存して次へ",
+    "updateSuccess": "正常に更新が完了しました。",
+    "updateFailed": "更新に失敗しました。",
     "buttonTextRecordDelete": "この記録を削除",
     "customerInfoScreenTitle": "お客様情報の入力/変更",
     "customerInfoName": "お名前",

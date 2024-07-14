@@ -25,12 +25,15 @@ func UpdateUserHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	err := db.UpdateUser(docID, dbmodels.User{Name: req.Name, RingShape: req.RingShape, Material: req.Material, Size: req.Size, Width: req.Width, Thickness: req.Thickness, DominantHand: req.DominantHand, RingFingerJoint: req.RingFingerJoint, FrequencyOfRemoval: req.FrequencyOfRemoval, Sake: req.Sake, FitPreference: req.FitPreference})
+	user := dbmodels.User{Name: req.Name, RingShape: req.RingShape, Material: req.Material, Size: req.Size, Width: req.Width, Thickness: req.Thickness, DominantHand: req.DominantHand, RingFingerJoint: req.RingFingerJoint, FrequencyOfRemoval: req.FrequencyOfRemoval, Sake: req.Sake, FitPreference: req.FitPreference}
+	err := db.UpdateUser(docID, user)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err,
 		})
 	} else {
-		ctx.JSON(http.StatusOK, gin.H{})
+		ctx.JSON(http.StatusOK, gin.H{
+			"user": user,
+		})
 	}
 }
