@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         onInputRecordSelected: () {
           setState(() {
-            pageType = PageType.INPUT_RECORD;
+            pageType = PageType.INPUT_RECORD1;
           });
         },
         onRecordListSelected: () {
@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return TopScreen(
           onKeepRecordButtonPressed: () {
             setState(() {
-              pageType = PageType.INPUT_RECORD;
+              pageType = PageType.INPUT_RECORD1;
             });
           },
           onRecordListButtonPressed: () {
@@ -90,9 +90,13 @@ class _HomeScreenState extends State<HomeScreen> {
           onSubmit: onSubmit!,
         );
       // TOOD あとで戻す
-      case PageType.INPUT_RECORD:
+      case PageType.INPUT_RECORD1:
         return InputRecordScreen1(
-          onSubmit: onSubmit!,
+          onSubmit: () {
+            setState(() {
+              pageType = PageType.RECORD_DETAIL;
+            });
+          },
         );
       case PageType.RECORD_LIST:
         return RecordListScreen(
