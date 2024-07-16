@@ -5,7 +5,6 @@ import 'package:frontend/components/custom_drawer.dart';
 import 'package:frontend/constants/page_type.dart';
 import 'package:frontend/pages/customer_info_screen.dart';
 import 'package:frontend/pages/input_record_screen1.dart';
-import 'package:frontend/pages/input_record_screen2.dart';
 import 'package:frontend/pages/privacy_policy_screen.dart';
 import 'package:frontend/pages/record_detail_screen.dart';
 import 'package:frontend/pages/record_list_screen.dart';
