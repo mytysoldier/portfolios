@@ -67,6 +67,8 @@
     "conditionOfFeelingOfWearingSelection3": "③ちょうど良い(根元で多少動く)",
     "conditionOfFeelingOfWearingSelection4": "④根元でゆるく感じる、ぐるぐる回る",
     "conditionOfFeelingOfWearingSelection5": "⑤ゆるすぎる、落ちてしまう",
+    "inputRecordScreen3Title": "[指輪着用感の記録] メモ",
+    "inputRecordScreen3Description": "今回の記録に関連してメモしておきたいことがあれば下記の入力欄に書き込んでください。",
     "recordDetailScreenTitle": "記録の閲覧",
     "recordDetailItemAttachment": "着け外し",
     "recordDetailItemComfort": "着け心地",

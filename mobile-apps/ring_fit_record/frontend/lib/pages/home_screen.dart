@@ -5,6 +5,8 @@ import 'package:frontend/components/custom_drawer.dart';
 import 'package:frontend/constants/page_type.dart';
 import 'package:frontend/pages/customer_info_screen.dart';
 import 'package:frontend/pages/input_record_screen1.dart';
+import 'package:frontend/pages/input_record_screen2.dart';
+import 'package:frontend/pages/input_record_screen3.dart';
 import 'package:frontend/pages/privacy_policy_screen.dart';
 import 'package:frontend/pages/record_detail_screen.dart';
 import 'package:frontend/pages/record_list_screen.dart';
@@ -88,9 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
         return CustomerInfoScreen(
           onSubmit: onSubmit!,
         );
-      // TOOD あとで戻す
       case PageType.INPUT_RECORD1:
-        return InputRecordScreen1(
+        // TOOD あとで戻す
+        return InputRecordScreen3(
           onSubmit: () {
             setState(() {
               pageType = PageType.RECORD_DETAIL;

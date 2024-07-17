@@ -16,8 +16,8 @@ final currentPageIndexProvider = StateProvider((ref) => 0);
 // 現在選択中のラジオボタン状態管理
 final selectedConditionProvider = StateProvider((ref) => '');
 
-class InputRecordScreen2 extends ConsumerWidget {
-  const InputRecordScreen2({
+class InputRecordScreen3 extends ConsumerWidget {
+  const InputRecordScreen3({
     super.key,
     required this.onSubmit,
   });
@@ -32,7 +32,6 @@ class InputRecordScreen2 extends ConsumerWidget {
 
     final selectedCondition = ref.watch(selectedConditionProvider);
 
-    // TODO 見直し
     Future.microtask(() {
       if (selectedCondition.isEmpty) {
         ref.read(selectedConditionProvider.notifier).state =
@@ -97,7 +96,7 @@ class InputRecordScreen2 extends ConsumerWidget {
                 color: Colors.brown,
                 alignment: Alignment.center,
                 child: Text(
-                  l10n.inputRecordScreenTitle,
+                  l10n.inputRecordScreen3Title,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -109,107 +108,12 @@ class InputRecordScreen2 extends ConsumerWidget {
               Wrap(
                 children: [
                   Text(
-                    l10n.inputRecordScreen2Description1,
+                    l10n.inputRecordScreen3Description,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
-                    l10n.inputRecordScreen2Description2,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    ),
-                  ),
-                  Text(
-                    l10n.inputRecordScreen2Description3,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 300,
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                          height: 400,
-                          enableInfiniteScroll: false,
-                          viewportFraction: 1,
-                          // onPageChanged: (index, reason) {
-                          //   _currentPageIndex = index;
-                          // },
-                        ),
-                        items: [1, 2, 3, 4, 5].map((i) {
-                          return Builder(builder: (BuildContext context) {
-                            return Image.asset(
-                              'assets/record_of_fit/sensation_at_base_of_finger$i.png',
-                            );
-                          });
-                        }).toList(),
-                        carouselController: _controller,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: IconButton(
-                        iconSize: 40,
-                        onPressed: () {
-                          // 最初のページ以外であればページを戻る
-                          if (currentPageIndex != 0) {
-                            ref.read(currentPageIndexProvider.notifier).state =
-                                currentPageIndex - 1;
-                            _controller.previousPage();
-
-                            // ラジオボタンの選択切り替え
-                            ref.read(selectedConditionProvider.notifier).state =
-                                _selectionTextMap![currentPageIndex - 1]!;
-                          }
-                        },
-                        icon: const Icon(Icons.arrow_left),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: IconButton(
-                        iconSize: 40,
-                        onPressed: () {
-                          // 最後のページ以外であればページを進む
-                          if (currentPageIndex != 4) {
-                            ref.read(currentPageIndexProvider.notifier).state =
-                                currentPageIndex + 1;
-                            _controller.nextPage();
-                            // ラジオボタンの選択切り替え
-                            ref.read(selectedConditionProvider.notifier).state =
-                                _selectionTextMap![currentPageIndex + 1]!;
-                          }
-                        },
-                        icon: const Icon(Icons.arrow_right),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                children: <Widget>[
-                  _createConditionSelection(
-                      l10n.conditionOfFeelingOfWearingSelection1),
-                  _createConditionSelection(
-                      l10n.conditionOfFeelingOfWearingSelection2),
-                  _createConditionSelection(
-                      l10n.conditionOfFeelingOfWearingSelection3),
-                  _createConditionSelection(
-                      l10n.conditionOfFeelingOfWearingSelection4),
-                  _createConditionSelection(
-                      l10n.conditionOfFeelingOfWearingSelection5),
                 ],
               ),
               Align(
