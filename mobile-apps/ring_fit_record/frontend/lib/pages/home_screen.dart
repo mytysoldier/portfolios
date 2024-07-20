@@ -7,6 +7,7 @@ import 'package:frontend/pages/customer_info_screen.dart';
 import 'package:frontend/pages/input_record_screen1.dart';
 import 'package:frontend/pages/input_record_screen2.dart';
 import 'package:frontend/pages/input_record_screen3.dart';
+import 'package:frontend/pages/input_record_screen4.dart';
 import 'package:frontend/pages/privacy_policy_screen.dart';
 import 'package:frontend/pages/record_detail_screen.dart';
 import 'package:frontend/pages/record_list_screen.dart';
@@ -92,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       case PageType.INPUT_RECORD1:
         // TOOD あとで戻す
-        return InputRecordScreen3(
+        return InputRecordScreen4(
           onSubmit: () {
             setState(() {
               pageType = PageType.RECORD_DETAIL;
