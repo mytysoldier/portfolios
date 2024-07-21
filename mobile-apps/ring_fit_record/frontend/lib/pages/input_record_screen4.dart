@@ -102,6 +102,7 @@ class InputRecordScreen4 extends ConsumerWidget {
                   onTap: () {
                     // TODO
                     // widget.onSubmit();
+                    onSubmit();
                   },
                   child: Container(
                     // width: double.infinity,
@@ -132,6 +133,7 @@ class InputRecordScreen4 extends ConsumerWidget {
                   onTap: () {
                     // TODO
                     // widget.onSubmit();
+                    onSubmit();
                   },
                   child: Container(
                     // width: double.infinity,

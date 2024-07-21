@@ -20,9 +20,12 @@ class InputRecordScreen2 extends ConsumerWidget {
   const InputRecordScreen2({
     super.key,
     required this.onSubmit,
+    required this.onPageBack,
   });
 
   final VoidCallback onSubmit;
+
+  final VoidCallback onPageBack;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,12 +74,6 @@ class InputRecordScreen2 extends ConsumerWidget {
         ),
       );
     }
-
-    // if (selectedCondition.isEmpty) {
-    //   ref.read(selectedConditionProvider.notifier).state =
-    //       l10n.conditionOfTheKnotsSelection1;
-    //   // _selectedCondition = l10n.conditionOfTheKnotsSelection1;
-    // }
 
     _selectionTextMap ??= {
       0: l10n.conditionOfFeelingOfWearingSelection1,
@@ -214,33 +211,75 @@ class InputRecordScreen2 extends ConsumerWidget {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: GestureDetector(
-                  onTap: () {
-                    // TODO
-                    // widget.onSubmit();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 48,
-                    decoration: const BoxDecoration(
-                      color: Color(0xffFFFFCC),
-                      border: Border(
-                        top: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                        bottom: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          // TODO
+                          // widget.onSubmit();
+                          onSubmit();
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 48,
+                          decoration: const BoxDecoration(
+                            color: Color(0xffFFFFCC),
+                            border: Border(
+                              top: BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                              bottom: BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            l10n.buttonTextTempSave,
+                            style: const TextStyle(fontSize: 18),
+                          ),
                         ),
                       ),
                     ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      l10n.buttonTextTempSave,
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                  ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          // TODO
+                          // widget.onSubmit();
+                          onPageBack();
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 48,
+                          decoration: const BoxDecoration(
+                            color: Color(0xffEEEEEE),
+                            border: Border(
+                              top: BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                              left: BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                              bottom: BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            l10n.buttonTextReturn,
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               )
             ],

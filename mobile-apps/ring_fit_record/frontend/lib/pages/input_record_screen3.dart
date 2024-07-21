@@ -6,9 +6,12 @@ class InputRecordScreen3 extends ConsumerWidget {
   const InputRecordScreen3({
     super.key,
     required this.onSubmit,
+    required this.onPageBack,
   });
 
   final VoidCallback onSubmit;
+
+  final VoidCallback onPageBack;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,33 +68,73 @@ class InputRecordScreen3 extends ConsumerWidget {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: GestureDetector(
-            onTap: () {
-              // TODO
-              // widget.onSubmit();
-            },
-            child: Container(
-              width: double.infinity,
-              height: 48,
-              decoration: const BoxDecoration(
-                color: Color(0xffFFFFCC),
-                border: Border(
-                  top: BorderSide(
-                    color: Colors.grey,
-                    width: 1,
-                  ),
-                  bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 1,
+          child: Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    // TODO
+                    onSubmit();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 48,
+                    decoration: const BoxDecoration(
+                      color: Color(0xffFFFFCC),
+                      border: Border(
+                        top: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      l10n.buttonTextTempSave,
+                      style: const TextStyle(fontSize: 18),
+                    ),
                   ),
                 ),
               ),
-              alignment: Alignment.center,
-              child: Text(
-                l10n.buttonTextTempSave,
-                style: const TextStyle(fontSize: 18),
-              ),
-            ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    // TODO
+                    onPageBack();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 48,
+                    decoration: const BoxDecoration(
+                      color: Color(0xffEEEEEE),
+                      border: Border(
+                        top: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                        left: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      l10n.buttonTextReturn,
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
         )
       ],
