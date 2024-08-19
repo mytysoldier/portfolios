@@ -9,7 +9,19 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - PostgreSQL
 - Prisma
 
-## Getting Started
+## 起動方法
+
+### DB起動
+```bash
+docker-compose up -d
+```
+
+※DB接続コマンド
+```bash
+docker exec -it postgres psql -U user -d habbit_tracker
+```
+
+### Webアプリ起動
 
 First, run the development server:
 
