@@ -1,3 +1,7 @@
 .ribbon-cut {
   clip-path: polygon(0 0, 100% 0, 80% 50%, 100% 100%, 0 100%);
 }
+
+.fc-daygrid-day .fc-dayGridWeek-view {
+  border: 1px solid red;
+}
