@@ -6,4 +6,7 @@ module.exports = {
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"], // 拡張子を追加
   setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
+  moduleNameMapper: {
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+  },
 };
