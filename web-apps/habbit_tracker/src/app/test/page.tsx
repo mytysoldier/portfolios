@@ -1,26 +1,27 @@
-import { getAllHabbit } from "@/lib/prisma/habbit";
+"use client";
+import { getAllHabbit, upsertHabbit } from "@/lib/prisma/habbit";
 import { getAllUser, getUser } from "@/lib/prisma/user";
+import { HabbitDto } from "@/models/db/habbitDto";
+import { useEffect, useState } from "react";
 
-export default async function Test() {
-  const user = await getUser(1);
-  const users = await getAllUser();
+export default function Test() {
+  const addHabbit = async () => {
+    const newHabbit = new HabbitDto(1, "new Habbit");
+    try {
+      console.log("start create");
+      await upsertHabbit(newHabbit);
+      console.log("end create");
+    } catch (e) {
+      console.error(`error: ${e}`);
+    }
+  };
+
   return (
     <>
-      <div>
-        <div>user_id: {user?.id}</div>
-        <div>nickname: {user?.nickname}</div>
-        <div>created_at: {user?.created_at.toDateString()}</div>
-      </div>
-      <div>
-        <span>全てのユーザー</span>
-        {users?.map((user) => (
-          <div key={user.id}>
-            <div>user_id: {user?.id}</div>
-            <div>nickname: {user?.nickname}</div>
-            <div>created_at: {user?.created_at.toDateString()}</div>
-          </div>
-        ))}
-      </div>
+      <div>test</div>
+      <button type="button" onClick={addHabbit}>
+        追加
+      </button>
     </>
   );
 }
