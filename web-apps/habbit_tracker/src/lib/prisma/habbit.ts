@@ -14,7 +14,7 @@ export async function getAllHabbit() {
 }
 
 export async function createHabbit(data: HabbitDto) {
-  return prisma.habbit.create({
+  return await prisma.habbit.create({
     data: {
       user_id: data.user_id,
       title: data.title,
@@ -22,8 +22,19 @@ export async function createHabbit(data: HabbitDto) {
   });
 }
 
+export async function updateHabbit(id: number, title: string) {
+  return await prisma.habbit.update({
+    where: {
+      id,
+    },
+    data: {
+      title,
+      updated_at: new Date(),
+    },
+  });
+}
+
 export async function upsertHabbit(data: HabbitDto) {
-  console.log("start upsert");
   return prisma.habbit.upsert({
     create: data,
     update: data,
