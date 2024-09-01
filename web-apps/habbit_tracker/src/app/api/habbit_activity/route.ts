@@ -1,6 +1,5 @@
-import { createHabbitActivity } from "@/lib/prisma/habbit";
+import { createHabbitActivity } from "@/lib/prisma/habbit_activity";
 import { HabbitActivityDto } from "@/models/db/habbitActivityDto";
-import { HabbitDto } from "@/models/db/habbitDto";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {

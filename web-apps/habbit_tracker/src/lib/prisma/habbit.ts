@@ -22,15 +22,6 @@ export async function createHabbit(data: HabbitDto) {
   });
 }
 
-export async function createHabbitActivity(data: HabbitActivityDto) {
-  return prisma.habbit_activity.create({
-    data: {
-      habbit_id: data.habbit_id,
-      checked: data.checked,
-    },
-  });
-}
-
 export async function upsertHabbit(data: HabbitDto) {
   console.log("start upsert");
   return prisma.habbit.upsert({
