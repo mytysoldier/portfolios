@@ -1,4 +1,5 @@
-import { createHabbit } from "@/lib/prisma/habbit";
+import { createHabbitActivity } from "@/lib/prisma/habbit";
+import { HabbitActivityDto } from "@/models/db/habbitActivityDto";
 import { HabbitDto } from "@/models/db/habbitDto";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,15 +11,18 @@ export async function POST(request: NextRequest) {
   try {
     const jsonBody = await request.json();
     // parse request body
-    const habbitDto = new HabbitDto(jsonBody.user_id, jsonBody.title, 0);
+    const habbitActivityDto = new HabbitActivityDto(
+      jsonBody.habbit_id,
+      jsonBody.checked
+    );
     // add habbit
-    createHabbit(habbitDto);
+    createHabbitActivity(habbitActivityDto);
     return NextResponse.json(
-      { message: "Success", data: habbitDto },
+      { message: "Success", data: habbitActivityDto },
       { status: 200 }
     );
   } catch (error) {
-    console.error(`[Add Habbit]unexpected error: ${error}`);
+    console.error(`[Add HabbitActivity]unexpected error: ${error}`);
     return NextResponse.json({ message: "Error" }, { status: 500 });
   }
 }

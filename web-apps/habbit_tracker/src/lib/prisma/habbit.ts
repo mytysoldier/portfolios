@@ -1,5 +1,6 @@
 import { HabbitDto } from "@/models/db/habbitDto";
 import prisma from "./prisma";
+import { HabbitActivityDto } from "@/models/db/habbitActivityDto";
 
 export async function getAllHabbit() {
   return await prisma?.habbit.findMany({
@@ -17,6 +18,15 @@ export async function createHabbit(data: HabbitDto) {
     data: {
       user_id: data.user_id,
       title: data.title,
+    },
+  });
+}
+
+export async function createHabbitActivity(data: HabbitActivityDto) {
+  return prisma.habbit_activity.create({
+    data: {
+      habbit_id: data.habbit_id,
+      checked: data.checked,
     },
   });
 }
