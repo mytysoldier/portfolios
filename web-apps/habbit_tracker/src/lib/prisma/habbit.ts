@@ -43,3 +43,11 @@ export async function upsertHabbit(data: HabbitDto) {
     },
   });
 }
+
+export async function deleteHabbit(id: number) {
+  return await prisma.habbit.delete({
+    where: {
+      id,
+    },
+  });
+}
