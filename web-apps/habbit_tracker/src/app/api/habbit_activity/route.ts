@@ -1,5 +1,6 @@
 import {
   createHabbitActivity,
+  deleteAllHabbitActivity,
   deleteHabbitActivities,
   deleteHabbitActivity,
 } from "@/lib/prisma/habbit_activity";
@@ -34,26 +35,33 @@ export async function DELETE(request: NextRequest) {
   try {
     const jsonBody = await request.json();
     const habbit_activity_ids = jsonBody.ids;
-    if (!habbit_activity_ids || habbit_activity_ids.length === 0) {
+    if (!habbit_activity_ids) {
       return NextResponse.json({ message: "No IDs provided" }, { status: 400 });
     }
 
-    if (habbit_activity_ids.length === 1) {
-      const deletedHabbitActivity = await deleteHabbitActivity(
-        habbit_activity_ids[0]
-      );
-      return NextResponse.json(
-        { message: "Success", data: deletedHabbitActivity },
-        { status: 200 }
-      );
-    } else {
-      const deletedHabbitActivities = await deleteHabbitActivities(
-        habbit_activity_ids
-      );
-      return NextResponse.json(
-        { message: "Success", data: deletedHabbitActivities },
-        { status: 200 }
-      );
+    switch (habbit_activity_ids.length) {
+      case 0:
+        const deletedHabbitAllActivity = await deleteAllHabbitActivity();
+        return NextResponse.json(
+          { message: "Success", data: deletedHabbitAllActivity },
+          { status: 200 }
+        );
+      case 1:
+        const deletedHabbitActivity = await deleteHabbitActivity(
+          habbit_activity_ids[0]
+        );
+        return NextResponse.json(
+          { message: "Success", data: deletedHabbitActivity },
+          { status: 200 }
+        );
+      default:
+        const deletedHabbitActivities = await deleteHabbitActivities(
+          habbit_activity_ids
+        );
+        return NextResponse.json(
+          { message: "Success", data: deletedHabbitActivities },
+          { status: 200 }
+        );
     }
   } catch (error) {
     console.error(`[Delete HabbitActivity]unexpected error: ${error}`);
