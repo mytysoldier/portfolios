@@ -45,9 +45,17 @@ export async function upsertHabbit(data: HabbitDto) {
 }
 
 export async function deleteHabbit(id: number) {
-  return await prisma.habbit.delete({
+  const deletedHabbitActivities = prisma.habbit_activity.deleteMany({
+    where: {
+      habbit_id: id,
+    },
+  });
+
+  const deletedHabbit = prisma.habbit.delete({
     where: {
       id,
     },
   });
+
+  return await prisma.$transaction([deletedHabbitActivities, deletedHabbit]);
 }
