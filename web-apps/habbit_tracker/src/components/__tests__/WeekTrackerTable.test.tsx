@@ -1,5 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import WeekCalendar from "../WeekCalendar";
+import WeekTrackerTable from "../WeekTrackerTable";
+import React from "react";
+import { HabbitProvider } from "../../lib/provider/HabbitContext";
 
 // @fullcalendarのインポートでエラーになるため、該当モジュールをモック
 jest.mock("@fullcalendar/react", () => {
@@ -14,7 +16,11 @@ jest.mock("@fullcalendar/daygrid", () => {
 
 describe("WeekCalendarコンポーネントテスト", () => {
   beforeEach(() => {
-    render(<WeekCalendar />);
+    render(
+      <HabbitProvider>
+        <WeekTrackerTable />
+      </HabbitProvider>
+    );
   });
 
   test("WeekCalendarコンポーネントが描画されること", () => {

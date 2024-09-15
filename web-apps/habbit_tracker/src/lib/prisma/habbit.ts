@@ -1,6 +1,5 @@
 import { HabbitDto } from "@/models/db/habbitDto";
 import prisma from "./prisma";
-import { HabbitActivityDto } from "@/models/db/habbitActivityDto";
 
 export async function getAllHabbit() {
   return await prisma?.habbit.findMany({
