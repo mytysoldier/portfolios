@@ -7,6 +7,8 @@ import { useContext } from "react";
 import { HabbitContext } from "../lib/provider/HabbitContext";
 import { EventContentArg } from "@fullcalendar/core/index.js";
 import { totalmem } from "os";
+import { Habbit } from "@/models/ui/habbit";
+import { format } from "date-fns";
 
 let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -21,6 +23,14 @@ const events = [
   { title: "ジム", start: yesterday },
 ];
 
+// FullCalendarのEventオブジェクトに変換する
+const mapHabbitsToEvents = (habbits: Habbit[]) => {
+  return habbits.map((habbit) => ({
+    title: habbit.title,
+    start: habbit.createdAt,
+  }));
+};
+
 export default function WeekTrackerTable() {
   const habbitContext = useContext(HabbitContext);
 
@@ -30,6 +40,8 @@ export default function WeekTrackerTable() {
 
   const { habbits, addHabbit } = habbitContext;
 
+  // console.log(`habbits data: ${JSON.stringify(habbits)}`);
+
   return (
     <div>
       <div>
@@ -38,12 +50,12 @@ export default function WeekTrackerTable() {
             plugins={[dayGridPlugin]}
             initialView="dayGridWeek"
             weekends={true}
-            events={events}
+            events={mapHabbitsToEvents(habbits)}
             // contentHeight={100}
             dayHeaderContent={(args) => {
               const day = args.date.getDate();
               // const dayName = args.view.calendar.options.weekdays[args.date.getDay()];
-              const dayName = "M";
+              const dayName = format(args.date, "EEEEE");
               return (
                 <div className="fc-custom-header-cell">
                   <div>{day}</div>
@@ -57,8 +69,8 @@ export default function WeekTrackerTable() {
             eventContent={(arg: EventContentArg) => {
               // return <div className="fc-custom-cell">{arg.event.title} ✔︎</div>;
               return (
-                <div className="w-full px-4 flex justify-between">
-                  <div>{arg.event.title}</div>
+                <div className="w-full px-4 flex justify-between bg-white">
+                  <div className="truncate">{arg.event.title}</div>
                   <div>✔︎</div>
                 </div>
               );

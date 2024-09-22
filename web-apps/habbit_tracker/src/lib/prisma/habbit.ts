@@ -12,6 +12,17 @@ export async function getAllHabbit() {
   });
 }
 
+export async function getAllHabbitByUserId(userId: number) {
+  return await prisma?.habbit.findMany({
+    orderBy: {
+      created_at: "asc",
+    },
+    where: {
+      user_id: userId,
+    },
+  });
+}
+
 export async function createHabbit(data: HabbitDto) {
   return await prisma.habbit.create({
     data: {
