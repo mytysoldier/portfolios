@@ -5,11 +5,11 @@ import "./css/component.css";
 import Button from "./Button";
 import { useContext, useState } from "react";
 import { HabbitContext } from "../lib/provider/HabbitContext";
-import { EventContentArg } from "@fullcalendar/core/index.js";
+import { EventClickArg, EventContentArg } from "@fullcalendar/core/index.js";
 import { totalmem } from "os";
 import { Habbit } from "@/models/ui/habbit";
 import { format } from "date-fns";
-import InputModal from "./AddHabbitModal";
+import InputTitleModal, { CustomModalActionType } from "./InputTitleModal";
 
 let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -35,6 +35,10 @@ const mapHabbitsToEvents = (habbits: Habbit[]) => {
 export default function WeekTrackerTable() {
   const habbitContext = useContext(HabbitContext);
   const [isAddTitleModalOpen, setIsAddTitleModalOpen] = useState(false);
+  const [isUpdateTitleModalOpen, setIsUpdateTitleModalOpen] = useState(false);
+  const [updateHabbit, setUpdateHabbit] = useState<Habbit | undefined>(
+    undefined
+  );
 
   if (!habbitContext) {
     throw new Error("HabbitContext must be used within a HabbitProvider");
@@ -47,6 +51,19 @@ export default function WeekTrackerTable() {
   const handleAddTitleClick = () =>
     setIsAddTitleModalOpen(!isAddTitleModalOpen);
 
+  const handleUpdateTitleClick = () =>
+    setIsUpdateTitleModalOpen(!isUpdateTitleModalOpen);
+
+  const handleEventClick = (info: EventClickArg) => {
+    const selectedHabbit = habbits.find(
+      (item) => item.title === info.event.title
+    );
+    if (selectedHabbit) {
+      setUpdateHabbit(selectedHabbit);
+      handleUpdateTitleClick();
+    }
+  };
+
   return (
     <div>
       <div>
@@ -55,10 +72,21 @@ export default function WeekTrackerTable() {
             <Button title="タスク追加" onClick={handleAddTitleClick} />
           </div>
 
+          {/* タスク追加用のモーダル */}
           {isAddTitleModalOpen && (
-            <InputModal
+            <InputTitleModal
+              actionType={CustomModalActionType.CREATE}
               modalIsOpen={isAddTitleModalOpen}
               onCancelClick={handleAddTitleClick}
+            />
+          )}
+          {/* タスク編集用のモーダル */}
+          {isUpdateTitleModalOpen && (
+            <InputTitleModal
+              actionType={CustomModalActionType.UPDATE}
+              modalIsOpen={isUpdateTitleModalOpen}
+              onCancelClick={handleUpdateTitleClick}
+              inputHabbit={updateHabbit}
             />
           )}
 
@@ -91,9 +119,7 @@ export default function WeekTrackerTable() {
                 </div>
               );
             }}
-            eventClick={(info) => {
-              console.log(`evnet click: ${info.event.title}`);
-            }}
+            eventClick={handleEventClick}
           />
         </div>
       </div>

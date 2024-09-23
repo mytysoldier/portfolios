@@ -2,27 +2,48 @@ import { HabbitContext } from "../lib/provider/HabbitContext";
 import { useContext, useState } from "react";
 import Modal from "react-modal";
 import Button from "./Button";
+import { Habbit } from "@/models/ui/habbit";
+
+export enum CustomModalActionType {
+  CREATE,
+  UPDATE,
+  DELETE,
+}
 
 type CustomModalType = {
+  actionType: CustomModalActionType;
   modalIsOpen: boolean;
+  inputHabbit?: Habbit;
   onCancelClick: VoidFunction;
 };
 
-export default function InputModal({
+export default function InputTitleModal({
+  actionType,
   modalIsOpen,
   onCancelClick,
+  inputHabbit,
 }: CustomModalType) {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(inputHabbit?.title ?? "");
   const habbitContext = useContext(HabbitContext);
 
   if (!habbitContext) {
     throw new Error("HabbitContext must be used within a HabbitProvider");
   }
 
-  const { addHabbit } = habbitContext;
+  const { addHabbit, updateHabbit } = habbitContext;
 
   const handleSubmit = async () => {
-    await addHabbit({ title });
+    switch (actionType) {
+      case CustomModalActionType.CREATE:
+        await addHabbit({ title });
+        break;
+      case CustomModalActionType.UPDATE:
+        await updateHabbit({ id: inputHabbit?.id, title });
+        break;
+      default:
+        break;
+    }
+    // モーダルを閉じる
     onCancelClick();
   };
 
