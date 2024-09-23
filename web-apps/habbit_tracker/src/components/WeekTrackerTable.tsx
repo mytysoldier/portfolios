@@ -3,12 +3,13 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./css/component.css";
 import Button from "./Button";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { HabbitContext } from "../lib/provider/HabbitContext";
 import { EventContentArg } from "@fullcalendar/core/index.js";
 import { totalmem } from "os";
 import { Habbit } from "@/models/ui/habbit";
 import { format } from "date-fns";
+import InputModal from "./AddHabbitModal";
 
 let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -33,6 +34,7 @@ const mapHabbitsToEvents = (habbits: Habbit[]) => {
 
 export default function WeekTrackerTable() {
   const habbitContext = useContext(HabbitContext);
+  const [isAddTitleModalOpen, setIsAddTitleModalOpen] = useState(false);
 
   if (!habbitContext) {
     throw new Error("HabbitContext must be used within a HabbitProvider");
@@ -42,10 +44,24 @@ export default function WeekTrackerTable() {
 
   // console.log(`habbits data: ${JSON.stringify(habbits)}`);
 
+  const handleAddTitleClick = () =>
+    setIsAddTitleModalOpen(!isAddTitleModalOpen);
+
   return (
     <div>
       <div>
         <div>
+          <div className="mb-4">
+            <Button title="タスク追加" onClick={handleAddTitleClick} />
+          </div>
+
+          {isAddTitleModalOpen && (
+            <InputModal
+              modalIsOpen={isAddTitleModalOpen}
+              onCancelClick={handleAddTitleClick}
+            />
+          )}
+
           <FullCalendar
             plugins={[dayGridPlugin]}
             initialView="dayGridWeek"
