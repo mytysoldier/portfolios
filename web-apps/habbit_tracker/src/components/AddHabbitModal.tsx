@@ -1,4 +1,4 @@
-import { HabbitContext } from "@/lib/provider/HabbitContext";
+import { HabbitContext } from "../lib/provider/HabbitContext";
 import { useContext, useState } from "react";
 import Modal from "react-modal";
 import Button from "./Button";
@@ -21,8 +21,8 @@ export default function InputModal({
 
   const { addHabbit } = habbitContext;
 
-  const handleSubmit = () => {
-    addHabbit({ title });
+  const handleSubmit = async () => {
+    await addHabbit({ title });
     onCancelClick();
   };
 

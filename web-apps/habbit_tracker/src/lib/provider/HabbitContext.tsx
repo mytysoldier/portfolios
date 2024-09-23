@@ -6,7 +6,7 @@ import { title } from "process";
 
 type HabbitContextType = {
   habbits: Habbit[];
-  addHabbit: (newHabbit: Habbit) => void;
+  addHabbit: (newHabbit: Habbit) => Promise<void>;
 };
 
 export const HabbitContext = createContext<HabbitContextType | undefined>(
@@ -44,7 +44,7 @@ export const HabbitProvider = ({ children }: { children: ReactNode }) => {
     };
 
     fetchHabbits();
-  }, [habbits]);
+  }, []);
 
   const addHabbit = async (newHabbit: Habbit) => {
     // TODO ログイン情報から取得する
@@ -64,16 +64,24 @@ export const HabbitProvider = ({ children }: { children: ReactNode }) => {
         throw new Error("Failed to add habbit data");
       }
       const jsonResponse = await response.json();
-      console.log(`response data: ${JSON.stringify(jsonResponse)}`);
-      const data: Habbit = jsonResponse.data.map((item: any) => ({
-        id: item.id,
-        userId: item.user_id,
-        title: item.title,
-        createdAt: item.created_at,
-        updatedAt: item.updated_at,
-        deletedAt: item.deleted_at,
-      }));
-      console.log(`mapped response data: ${JSON.stringify(data)}`);
+      console.log(`added response data: ${JSON.stringify(jsonResponse)}`);
+      // const data: Habbit = jsonResponse.data.map((item: any) => ({
+      //   id: item.id,
+      //   userId: item.user_id,
+      //   title: item.title,
+      //   createdAt: item.created_at,
+      //   updatedAt: item.updated_at,
+      //   deletedAt: item.deleted_at,
+      // }));
+      const data: Habbit = {
+        id: jsonResponse.data.id,
+        userId: jsonResponse.data.user_id,
+        title: jsonResponse.data.title,
+        createdAt: jsonResponse.data.created_at,
+        updatedAt: jsonResponse.data.updated_at,
+        deletedAt: jsonResponse.data.deleted_at,
+      };
+      console.log(`added mapped response data: ${JSON.stringify(data)}`);
       // TODO
       setHabbits((prevHabbits) => [...prevHabbits, data]);
     } catch (error) {

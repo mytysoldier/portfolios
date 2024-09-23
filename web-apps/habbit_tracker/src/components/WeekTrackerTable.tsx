@@ -97,9 +97,6 @@ export default function WeekTrackerTable() {
           />
         </div>
       </div>
-      <div className="mt-4 flex justify-center">
-        <Button onClick={() => {}} title="タスクを追加" />
-      </div>
       <div>
         <span>habbitsのカウント:{habbits.length}</span>
       </div>
