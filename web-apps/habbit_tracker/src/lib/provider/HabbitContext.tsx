@@ -8,6 +8,7 @@ type HabbitContextType = {
   habbits: Habbit[];
   addHabbit: (newHabbit: Habbit) => Promise<void>;
   updateHabbit: (habbit: Habbit) => Promise<void>;
+  deleteHabbit: (habbitId: number) => Promise<void>;
 };
 
 export const HabbitContext = createContext<HabbitContextType | undefined>(
@@ -117,8 +118,55 @@ export const HabbitProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const deleteHabbit = async (habbitId: number) => {
+    // TODO ログイン情報から取得する
+    const userId = 1;
+    try {
+      const response = await fetch(`/api/habbit/${userId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: habbitId,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete habbit data");
+      }
+      const jsonResponse = await response.json();
+      // jsonResponse.data の 2 番目のオブジェクトから必要なデータを抽出
+      const habbitData = jsonResponse.data[1];
+      console.log(`deleted response data: ${JSON.stringify(jsonResponse)}`);
+      // const data: Habbit = {
+      //   id: jsonResponse.data.id,
+      //   userId: jsonResponse.data.user_id,
+      //   title: jsonResponse.data.title,
+      //   createdAt: jsonResponse.data.created_at,
+      //   updatedAt: jsonResponse.data.updated_at,
+      //   deletedAt: jsonResponse.data.deleted_at,
+      // };
+      const data: Habbit = {
+        id: habbitData.id,
+        userId: habbitData.user_id,
+        title: habbitData.title,
+        createdAt: habbitData.created_at,
+        updatedAt: habbitData.updated_at,
+        deletedAt: habbitData.deleted_at,
+      };
+      console.log(`deleted mapped response data: ${JSON.stringify(data)}`);
+      setHabbits((prevHabbits) =>
+        prevHabbits.filter((item) => item.id !== data.id)
+      );
+    } catch (error) {
+      console.error("Failed to delete habbit:", error);
+    }
+  };
+
   return (
-    <HabbitContext.Provider value={{ habbits, addHabbit, updateHabbit }}>
+    <HabbitContext.Provider
+      value={{ habbits, addHabbit, updateHabbit, deleteHabbit }}
+    >
       {children}
     </HabbitContext.Provider>
   );

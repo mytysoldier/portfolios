@@ -1,5 +1,6 @@
 import {
   createHabbit,
+  deleteHabbit,
   getAllHabbitByUserId,
   updateHabbit,
 } from "@/lib/prisma/habbit";
@@ -56,6 +57,19 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ message: "Success", data }, { status: 200 });
   } catch (error) {
     console.error(`[Update Habbit]unexpected error: ${error}`);
+    return NextResponse.json({ message: "Error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const jsonBody = await request.json();
+    // delete habbit
+    const data = await deleteHabbit(jsonBody.id);
+    console.log(`delete habbit response: ${JSON.stringify(data)}`);
+    return NextResponse.json({ message: "Success", data }, { status: 200 });
+  } catch (error) {
+    console.error(`[Delete Habbit]unexpected error: ${error}`);
     return NextResponse.json({ message: "Error" }, { status: 500 });
   }
 }

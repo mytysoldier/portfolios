@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import Modal from "react-modal";
 import Button from "./Button";
 import { Habbit } from "@/models/ui/habbit";
+import { deleteHabbit } from "@/lib/prisma/habbit";
 
 export enum CustomModalActionType {
   CREATE,
@@ -30,7 +31,7 @@ export default function InputTitleModal({
     throw new Error("HabbitContext must be used within a HabbitProvider");
   }
 
-  const { addHabbit, updateHabbit } = habbitContext;
+  const { addHabbit, updateHabbit, deleteHabbit } = habbitContext;
 
   const handleSubmit = async () => {
     switch (actionType) {
@@ -43,6 +44,12 @@ export default function InputTitleModal({
       default:
         break;
     }
+    // モーダルを閉じる
+    onCancelClick();
+  };
+
+  const handleDelete = async () => {
+    await deleteHabbit(inputHabbit?.id!);
     // モーダルを閉じる
     onCancelClick();
   };
@@ -61,7 +68,14 @@ export default function InputTitleModal({
         className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <div>
-        <Button title="追加" onClick={handleSubmit} className="mr-4" />
+        <Button
+          title={actionType === CustomModalActionType.CREATE ? "追加" : "更新"}
+          onClick={handleSubmit}
+          className="mr-4"
+        />
+        {actionType === CustomModalActionType.UPDATE && (
+          <Button title="削除" onClick={handleDelete} className="mr-4" />
+        )}
         <button type="button" onClick={onCancelClick}>
           キャンセル
         </button>
