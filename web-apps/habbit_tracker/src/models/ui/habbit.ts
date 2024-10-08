@@ -1,3 +1,5 @@
+import { HabbitActivity } from "./habbit_activity";
+
 export type Habbit = {
   id?: number;
   userId?: number;
@@ -5,4 +7,5 @@ export type Habbit = {
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
+  habbitActivities?: HabbitActivity[];
 };

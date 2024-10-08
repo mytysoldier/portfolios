@@ -17,6 +17,9 @@ export async function getAllHabbitByUserId(userId: number) {
     orderBy: {
       created_at: "asc",
     },
+    include: {
+      habbit_activities: true,
+    },
     where: {
       user_id: userId,
     },

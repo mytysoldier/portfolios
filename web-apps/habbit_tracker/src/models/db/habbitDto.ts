@@ -7,6 +7,8 @@
 //   deleted_at?: Date;
 // };
 
+import { HabbitActivityDto } from "./habbitActivityDto";
+
 export class HabbitDto {
   id?: number;
   user_id: number;

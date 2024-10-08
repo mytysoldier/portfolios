@@ -8,8 +8,10 @@ import { HabbitContext } from "../lib/provider/HabbitContext";
 import { EventClickArg, EventContentArg } from "@fullcalendar/core/index.js";
 import { totalmem } from "os";
 import { Habbit } from "@/models/ui/habbit";
-import { format } from "date-fns";
+import { format, isSameDay } from "date-fns";
 import InputTitleModal, { CustomModalActionType } from "./InputTitleModal";
+import { getWeekDates } from "@/lib/util/date-util";
+import { title } from "process";
 
 let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -24,12 +26,38 @@ const events = [
   { title: "ジム", start: yesterday },
 ];
 
+const weekDates = getWeekDates();
+
 // FullCalendarのEventオブジェクトに変換する
+// const mapHabbitsToEvents = (habbits: Habbit[]) => {
+//   return habbits.map((habbit) => ({
+//     title: habbit.title,
+//     start: habbit.createdAt,
+//   }));
+// };
+
 const mapHabbitsToEvents = (habbits: Habbit[]) => {
-  return habbits.map((habbit) => ({
-    title: habbit.title,
-    start: habbit.createdAt,
-  }));
+  return habbits.flatMap((habbit) =>
+    // weekDatesごとにマッピングする
+    weekDates
+      .filter((date) => date <= new Date())
+      .map((date) => {
+        // habbitActivitiesから該当の日付のactivityを探す
+        const activity = habbit.habbitActivities?.find(
+          (activity) => isSameDay(new Date(activity.createdAt), date) // 同じ日付のアクティビティを検索
+        );
+
+        console.log(
+          `activity createdAt: ${activity?.createdAt}, date: ${date}`
+        );
+
+        return {
+          title: habbit.title,
+          start: date,
+          checked: activity ? activity.checked : false, // 該当するactivityがあればchecked、なければfalse
+        };
+      })
+  );
 };
 
 export default function WeekTrackerTable() {
@@ -63,6 +91,11 @@ export default function WeekTrackerTable() {
       handleUpdateTitleClick();
     }
   };
+
+  // TODO あとで削除
+  // console.log(
+  //   `mapHabbitsToEvents: ${JSON.stringify(mapHabbitsToEvents(habbits))}`
+  // );
 
   return (
     <div>
@@ -112,10 +145,25 @@ export default function WeekTrackerTable() {
             // }}
             eventContent={(arg: EventContentArg) => {
               // return <div className="fc-custom-cell">{arg.event.title} ✔︎</div>;
+              const isChecked = arg.event.extendedProps.checked;
+
+              // チェックボックスクリック時はeventClickイベントを発火しないようにする
+              const handleCheckboxClick = (
+                e: React.MouseEvent<HTMLInputElement>
+              ) => {
+                e.stopPropagation();
+              };
+
               return (
                 <div className="w-full px-4 flex justify-between bg-white">
                   <div className="truncate">{arg.event.title}</div>
-                  <div>✔︎</div>
+                  {/* <div>{isChecked ? "✔︎" : ""}</div> */}
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5 text-indigo-600 transition duration-150 ease-in-out"
+                    checked={isChecked}
+                    onClick={handleCheckboxClick}
+                  />
                 </div>
               );
             }}

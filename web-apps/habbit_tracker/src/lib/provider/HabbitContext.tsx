@@ -37,6 +37,12 @@ export const HabbitProvider = ({ children }: { children: ReactNode }) => {
           createdAt: item.created_at,
           updatedAt: item.updated_at,
           deletedAt: item.deleted_at,
+          habbitActivities: item.habbit_activities.map((activity: any) => ({
+            id: activity.id,
+            habbitId: activity.habbit_id,
+            checked: activity.checked,
+            createdAt: activity.created_at,
+          })),
         }));
         console.log(`mapped response data: ${JSON.stringify(data)}`);
         setHabbits(data);
