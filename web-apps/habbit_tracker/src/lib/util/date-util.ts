@@ -10,3 +10,13 @@ export const getWeekDates = () => {
 
   return weekDates;
 };
+
+export const toJST = (date: Date) => {
+  const jstOffset = 9 * 60;
+  return new Date(date.getTime() + jstOffset * 60 * 1000);
+};
+
+export const toUTC = (date: Date) => {
+  const jstOffset = 9 * 60; // JSTはUTC+9時間
+  return new Date(date.getTime() - jstOffset * 60 * 1000);
+};

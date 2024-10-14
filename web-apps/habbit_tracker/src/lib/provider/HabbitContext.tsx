@@ -3,6 +3,7 @@ import { Habbit } from "@/models/ui/habbit";
 import { createContext, ReactNode, useEffect, useId, useState } from "react";
 import { getAllHabbitByUserId } from "../prisma/habbit";
 import { title } from "process";
+import { toJST } from "../util/date-util";
 
 type HabbitContextType = {
   habbits: Habbit[];
@@ -34,9 +35,9 @@ export const HabbitProvider = ({ children }: { children: ReactNode }) => {
           id: item.id,
           userId: item.user_id,
           title: item.title,
-          createdAt: item.created_at,
-          updatedAt: item.updated_at,
-          deletedAt: item.deleted_at,
+          createdAt: toJST(new Date(item.created_at)),
+          updatedAt: item.updated_at ? new Date(item.updated_at) : null,
+          deletedAt: item.deleted_at ? new Date(item.deleted_at) : null,
           habbitActivities: item.habbit_activities.map((activity: any) => ({
             id: activity.id,
             habbitId: activity.habbit_id,

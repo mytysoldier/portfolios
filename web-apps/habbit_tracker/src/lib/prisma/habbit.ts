@@ -1,5 +1,6 @@
 import { HabbitDto } from "@/models/db/habbitDto";
 import prisma from "./prisma";
+import { getWeekDates } from "../util/date-util";
 
 export async function getAllHabbit() {
   return await prisma?.habbit.findMany({
@@ -13,6 +14,7 @@ export async function getAllHabbit() {
 }
 
 export async function getAllHabbitByUserId(userId: number) {
+  // const weekDates = getWeekDates();
   return await prisma?.habbit.findMany({
     orderBy: {
       created_at: "asc",

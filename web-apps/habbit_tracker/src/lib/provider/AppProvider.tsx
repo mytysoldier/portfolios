@@ -1,6 +1,11 @@
 import { ReactNode } from "react";
 import { HabbitProvider } from "./HabbitContext";
+import { HabbitActivityProvider } from "./HabbitActivityContext";
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  return <HabbitProvider>{children}</HabbitProvider>;
+  return (
+    <HabbitProvider>
+      <HabbitActivityProvider>{children}</HabbitActivityProvider>
+    </HabbitProvider>
+  );
 };

@@ -3,15 +3,16 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./css/component.css";
 import Button from "./Button";
-import { useContext, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useContext, useState } from "react";
 import { HabbitContext } from "../lib/provider/HabbitContext";
 import { EventClickArg, EventContentArg } from "@fullcalendar/core/index.js";
 import { totalmem } from "os";
 import { Habbit } from "@/models/ui/habbit";
 import { format, isSameDay } from "date-fns";
 import InputTitleModal, { CustomModalActionType } from "./InputTitleModal";
-import { getWeekDates } from "@/lib/util/date-util";
+import { getWeekDates, toJST, toUTC } from "@/lib/util/date-util";
 import { title } from "process";
+import { HabbitActivityContext } from "@/lib/provider/HabbitActivityContext";
 
 let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -37,6 +38,7 @@ const weekDates = getWeekDates();
 // };
 
 const mapHabbitsToEvents = (habbits: Habbit[]) => {
+  console.log(`weekDates: ${weekDates}`);
   return habbits.flatMap((habbit) =>
     // weekDatesごとにマッピングする
     weekDates
@@ -48,13 +50,15 @@ const mapHabbitsToEvents = (habbits: Habbit[]) => {
         );
 
         console.log(
-          `activity createdAt: ${activity?.createdAt}, date: ${date}`
+          `habbit: ${habbit.title}, activity createdAt: ${activity?.createdAt}, date: ${date}, checked: ${activity?.checked}`
         );
 
         return {
           title: habbit.title,
           start: date,
-          checked: activity ? activity.checked : false, // 該当するactivityがあればchecked、なければfalse
+          activity_id: activity ? activity.id : undefined,
+          activity_habbit_id: habbit.id,
+          checked: activity ? activity.checked : undefined, // 該当するactivityがあればchecked、なければfalse
         };
       })
   );
@@ -62,6 +66,7 @@ const mapHabbitsToEvents = (habbits: Habbit[]) => {
 
 export default function WeekTrackerTable() {
   const habbitContext = useContext(HabbitContext);
+  const habbitActivityContext = useContext(HabbitActivityContext);
   const [isAddTitleModalOpen, setIsAddTitleModalOpen] = useState(false);
   const [isUpdateTitleModalOpen, setIsUpdateTitleModalOpen] = useState(false);
   const [updateHabbit, setUpdateHabbit] = useState<Habbit | undefined>(
@@ -72,7 +77,14 @@ export default function WeekTrackerTable() {
     throw new Error("HabbitContext must be used within a HabbitProvider");
   }
 
+  if (!habbitActivityContext) {
+    throw new Error(
+      "HabbitActivityContext must be used within a HabbitActivityProvider"
+    );
+  }
+
   const { habbits, addHabbit } = habbitContext;
+  const { addHabbitActivity, updateHabbitActivity } = habbitActivityContext;
 
   // console.log(`habbits data: ${JSON.stringify(habbits)}`);
 
@@ -146,12 +158,38 @@ export default function WeekTrackerTable() {
             eventContent={(arg: EventContentArg) => {
               // return <div className="fc-custom-cell">{arg.event.title} ✔︎</div>;
               const isChecked = arg.event.extendedProps.checked;
+              const habbitActivityId = arg.event.extendedProps.activity_id;
+              const habbitId = arg.event.extendedProps.activity_habbit_id;
 
               // チェックボックスクリック時はeventClickイベントを発火しないようにする
-              const handleCheckboxClick = (
-                e: React.MouseEvent<HTMLInputElement>
-              ) => {
+              const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
                 e.stopPropagation();
+                if (isChecked === undefined) {
+                  console.log("activity未登録");
+                  console.log(`activity登録date: ${arg.event.start}`);
+                  addHabbitActivity({
+                    id: 0, // 新規登録時はDBのauto incrementに任せるため、ここでは適当なID値を渡す
+                    habbitId: habbitId,
+                    checked: true,
+                    createdAt: arg.event.start!,
+                  });
+                } else {
+                  // TODO isCheckedの更新をトリガーに画面を再描画する
+                  console.log(
+                    `updateHabbitActivity: ${JSON.stringify({
+                      id: habbitActivityId,
+                      habbitId: habbitId,
+                      checked: isChecked,
+                      createdAt: toUTC(arg.event.start!),
+                    })}`
+                  );
+                  updateHabbitActivity({
+                    id: habbitActivityId,
+                    habbitId: habbitId,
+                    checked: !isChecked,
+                    createdAt: toUTC(arg.event.start!),
+                  });
+                }
               };
 
               return (
@@ -162,7 +200,7 @@ export default function WeekTrackerTable() {
                     type="checkbox"
                     className="form-checkbox h-5 w-5 text-indigo-600 transition duration-150 ease-in-out"
                     checked={isChecked}
-                    onClick={handleCheckboxClick}
+                    onChange={handleChange}
                   />
                 </div>
               );

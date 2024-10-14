@@ -6,6 +6,19 @@ export async function createHabbitActivity(data: HabbitActivityDto) {
     data: {
       habbit_id: data.habbit_id,
       checked: data.checked,
+      created_at: data.createdAt,
+    },
+  });
+}
+
+export async function updateHabbitActivity(data: HabbitActivityDto) {
+  return prisma.habbit_activity.update({
+    where: {
+      id: data?.id,
+    },
+    data: {
+      checked: data.checked,
+      created_at: data.createdAt,
     },
   });
 }
