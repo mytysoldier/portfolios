@@ -1,11 +1,14 @@
 "use client";
-import Image from "next/image";
-import { SharedButton } from "shared";
+
+import { Button, ButtonType } from "@/components/Button";
+import { Text } from "@/components/Text";
 
 export default function Home() {
   return (
     <div>
-      <SharedButton label="test" onClick={() => alert("")} />
+      <Button title="test" buttonType={ButtonType.TEXT} onClick={() => {}} />
+      <Button title="test" buttonType={ButtonType.PRIMARY} onClick={() => {}} />
+      <Text text="セール" />
     </div>
   );
 }
