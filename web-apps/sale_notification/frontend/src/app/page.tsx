@@ -1,7 +1,9 @@
 "use client";
 
 import { Button, ButtonType } from "@/components/Button";
+import { SelectBox } from "@/components/SelectBox";
 import { Text } from "@/components/Text";
+import { TextArea } from "@/components/TextArea";
 
 export default function Home() {
   return (
@@ -9,6 +11,15 @@ export default function Home() {
       <Button title="test" buttonType={ButtonType.TEXT} onClick={() => {}} />
       <Button title="test" buttonType={ButtonType.PRIMARY} onClick={() => {}} />
       <Text text="セール" />
+      <TextArea value={""} onChange={() => {}} />
+      <SelectBox
+        options={[
+          { label: "aaa", value: "aaa" },
+          { label: "bbb", value: "bbb" },
+        ]}
+        value={""}
+        onChange={() => {}}
+      />
     </div>
   );
 }
