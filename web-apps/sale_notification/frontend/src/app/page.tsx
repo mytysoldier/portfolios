@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, ButtonType } from "@/components/Button";
+import { CustomDatePicker } from "@/components/CustomDatePicker";
 import { SelectBox } from "@/components/SelectBox";
 import { Text } from "@/components/Text";
 import { TextArea } from "@/components/TextArea";
@@ -20,6 +21,7 @@ export default function Home() {
         value={""}
         onChange={() => {}}
       />
+      <CustomDatePicker />
     </div>
   );
 }
