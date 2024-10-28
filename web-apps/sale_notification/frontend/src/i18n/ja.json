@@ -1,0 +1,10 @@
+{
+  "header": {
+    "title": {
+      "list": "セール一覧"
+    }
+  },
+  "button": {
+    "addSale": "セール追加"
+  }
+}

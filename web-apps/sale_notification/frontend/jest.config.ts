@@ -19,6 +19,7 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"], // 拡張子を追加
   setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
   moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1", // エイリアスをsrcディレクトリにマッピング
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
   extensionsToTreatAsEsm: [".ts", ".tsx"],
