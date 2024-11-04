@@ -4,7 +4,12 @@
       "list": "セール一覧"
     }
   },
-  "button": {
-    "addSale": "セール追加"
+  "form": {
+    "button": {
+      "addSale": "セール追加"
+    },
+    "label": {
+      "saleName": "セール名"
+    }
   }
 }

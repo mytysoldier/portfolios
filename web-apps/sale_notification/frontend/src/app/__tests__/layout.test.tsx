@@ -1,7 +1,5 @@
-// layout.test.tsx
 import { render, screen } from "@testing-library/react";
 import RootLayout from "@/app/layout";
-// import "@testing-library/jest-dom/extend-expect";
 
 // react-i18nextのモック
 jest.mock("react-i18next", () => ({
@@ -15,25 +13,30 @@ jest.mock("react-i18next", () => ({
 }));
 
 // next/font/localのモック
-jest.mock("next/font/local", () => () => ({
-  variable: "mocked-font-variable",
-}));
-
-// // Headerコンポーネントのモック
-// jest.mock("@/components/Header", () => ({
-//   Header: ({ title }: { title: string }) => <header>{title}</header>,
-// }));
-
-// // Buttonコンポーネントのモック
-// jest.mock("@/components/Button", () => ({
-//   Button: ({ title }: { title: string }) => <button>{title}</button>,
-// }));
+jest.mock("next/font/local", () => {
+  return jest.fn(() => ({
+    variable: "mocked-font-variable", // モックのフォント変数を設定
+  }));
+});
 
 describe("RootLayout", () => {
-  test("renders the header and button correctly", () => {
+  // 以下warningが出るがテストはPASSするため、console.errorをモックしてエラーメッセージを抑制
+  // Warning: validateDOMNesting(...): <html> cannot appear as a child of <div>.
+  let consoleErrorSpy: jest.SpyInstance;
+
+  beforeAll(() => {
+    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    // スパイを元に戻す
+    consoleErrorSpy.mockRestore();
+  });
+
+  test("テキストが表示されること", () => {
     render(
       <RootLayout>
-        <main>Test Content</main>
+        <div>Test Content</div>
       </RootLayout>
     );
 
@@ -41,23 +44,22 @@ describe("RootLayout", () => {
     expect(screen.getByText("header.title.list")).toBeInTheDocument();
 
     // ボタンのテキストが正しく表示されるかを確認
-    expect(screen.getByText("button.addSale")).toBeInTheDocument();
+    expect(screen.getByText("form.button.addSale")).toBeInTheDocument();
 
     // 子要素がレンダリングされているかを確認
     expect(screen.getByText("Test Content")).toBeInTheDocument();
   });
 
-  //   it("applies font classes to body element", () => {
-  //     render(
-  //       <RootLayout>
-  //         <main>Test Content</main>
-  //       </RootLayout>
-  //     );
+  test("フォントが適用されていること", () => {
+    const { container } = render(
+      <RootLayout>
+        <div>Test Content</div>
+      </RootLayout>
+    );
 
-  //     // フォントクラスがbodyに適用されているかを確認
-  //     const bodyElement = document.querySelector("body");
-  //     expect(bodyElement).toHaveClass("mocked-font-variable");
-  //     expect(bodyElement).toHaveClass("antialiased");
-  //     expect(bodyElement).toHaveClass("p-8");
-  //   });
+    const bodyElement = container.querySelector("body");
+    expect(bodyElement).toHaveClass("mocked-font-variable");
+    expect(bodyElement).toHaveClass("antialiased");
+    expect(bodyElement).toHaveClass("p-8");
+  });
 });

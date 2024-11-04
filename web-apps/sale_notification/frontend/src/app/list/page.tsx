@@ -6,7 +6,7 @@ import { SelectBox } from "@/components/SelectBox";
 import { Sales, SNTable } from "@/components/SNTable";
 import { Text } from "@/components/Text";
 import { TextArea } from "@/components/TextArea";
-import { SaleListForm } from "./SaleListForm";
+import { SaleListForm } from "../SaleListForm";
 
 const testData: Sales[] = [
   {

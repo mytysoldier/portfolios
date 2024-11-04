@@ -41,7 +41,7 @@ export default function RootLayout({
           </div>
           <div className="absolute right-0 pr-16">
             <Button
-              title={t("button.addSale")}
+              title={t("form.button.addSale")}
               buttonType={ButtonType.TEXT}
               onClick={() => {}}
             />
