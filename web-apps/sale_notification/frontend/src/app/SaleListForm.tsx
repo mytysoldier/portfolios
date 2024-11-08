@@ -8,6 +8,7 @@ const schema = yup.object({
     .string()
     .label("セール名")
     .max(5, "${label}は${max}文字以内で入力してください。"),
+  status: yup.array().label("ステータス"),
 });
 
 type SaleListFormType = {
