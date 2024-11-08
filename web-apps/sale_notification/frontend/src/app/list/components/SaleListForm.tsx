@@ -63,7 +63,7 @@ export const SaleListForm = () => {
           <label htmlFor="startDate" className="w-32">
             {t("form.label.startDate")}
           </label>
-          <div className="flex">
+          <div className="flex items-center">
             <CustomDatePickerControl<Form>
               fieldName="startDate"
               className="h-10 leading-10"

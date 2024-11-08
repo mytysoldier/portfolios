@@ -1,5 +1,6 @@
 import React from "react";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 type Props = {
   errorMessage?: string;
@@ -19,7 +20,7 @@ export const CustomDatePicker = React.forwardRef<DatePicker, Props>(
         dateFormat="yyyy/MM/dd"
         selected={selected}
         onChange={onChange}
-        className="border h-10"
+        className="border h-10 text-black"
         // {...props}
       />
       {errorMessage && <div className="text-danger">{errorMessage}</div>}

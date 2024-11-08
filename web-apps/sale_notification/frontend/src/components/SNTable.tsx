@@ -44,7 +44,7 @@ export const SNTable: React.FC<SNTableProps> = ({ data }) => {
   });
 
   return (
-    <div className="p-4">
+    <div className="p-16">
       <table className="min-w-full border border-gray-200">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -52,11 +52,11 @@ export const SNTable: React.FC<SNTableProps> = ({ data }) => {
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="px-4 py-2 text-left border-b border-gray-200"
+                  className="px-4 py-2 text-left border-b border-gray-200 border-r"
                 >
                   {flexRender(
                     header.column.columnDef.header,
-                    header.getContext()
+                    header.getContext(),
                   )}
                 </th>
               ))}
@@ -69,7 +69,7 @@ export const SNTable: React.FC<SNTableProps> = ({ data }) => {
               {row.getVisibleCells().map((cell) => (
                 <td
                   key={cell.id}
-                  className="px-4 py-2 border-b border-gray-200"
+                  className="px-4 py-2 border-b border-gray-200 border-r"
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>

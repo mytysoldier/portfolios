@@ -38,7 +38,7 @@ const testData: Sales[] = [
 export default function Home() {
   return (
     <div>
-      <div className="mb-8">
+      <div>
         <SaleListForm />
       </div>
       <SNTable data={testData} />
