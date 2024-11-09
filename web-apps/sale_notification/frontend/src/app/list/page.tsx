@@ -1,11 +1,6 @@
 "use client";
 
-import { Button, ButtonType } from "@/components/Button";
-import { CustomDatePicker } from "@/components/CustomDatePicker";
-import { SelectBox } from "@/components/SelectBox";
 import { Sales, SNTable } from "@/components/SNTable";
-import { Text } from "@/components/Text";
-import { TextArea } from "@/components/TextArea";
 import { SaleListForm } from "./components/SaleListForm";
 
 const testData: Sales[] = [

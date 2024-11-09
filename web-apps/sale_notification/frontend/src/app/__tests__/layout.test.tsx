@@ -37,7 +37,7 @@ describe("RootLayout", () => {
     render(
       <RootLayout>
         <div>Test Content</div>
-      </RootLayout>
+      </RootLayout>,
     );
 
     // ヘッダーのテキストが正しく表示されるかを確認
@@ -54,12 +54,12 @@ describe("RootLayout", () => {
     const { container } = render(
       <RootLayout>
         <div>Test Content</div>
-      </RootLayout>
+      </RootLayout>,
     );
 
     const bodyElement = container.querySelector("body");
     expect(bodyElement).toHaveClass("mocked-font-variable");
     expect(bodyElement).toHaveClass("antialiased");
-    expect(bodyElement).toHaveClass("p-8");
+    expect(bodyElement).toHaveClass("p-16");
   });
 });
