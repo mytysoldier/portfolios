@@ -1,5 +1,8 @@
 name: unit test
-on: push
+on:
+  push:
+    paths:
+      - "webapps/sale_notification/**"
 
 jobs:
   build:
