@@ -29,4 +29,10 @@ jobs:
 
       - name: Run tests
         working-directory: ./web-apps/sale_notification/frontend
-        run: npm run test
+        run: npm run test:coverage
+
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-coverage-report
+          path: coverage
