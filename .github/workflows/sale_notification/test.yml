@@ -3,8 +3,7 @@ on:
   push:
     # paths:
     #   - "webapps/sale_notification/frontend/**"
-    branches:
-      - main
+    branches: [main]
   # pull_request:
   #   paths:
   #     - "webapps/sale_notification/frontend/**"
