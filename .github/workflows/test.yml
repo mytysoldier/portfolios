@@ -1,0 +1,12 @@
+name: unit test
+on:
+  push:
+    paths:
+      - "webapps/sale_notification/**"
+
+jobs:
+  build:
+    name: Unit Testing
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello World"
