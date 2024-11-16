@@ -5,11 +5,11 @@ on:
     #   - "webapps/sale_notification/frontend/**"
     branches:
       - main
-  pull_request:
-    paths:
-      - "webapps/sale_notification/frontend/**"
-    branches:
-      - main
+  # pull_request:
+  #   paths:
+  #     - "webapps/sale_notification/frontend/**"
+  #   branches:
+  #     - main
 
 jobs:
   test:
