@@ -1,3 +1,5 @@
+"use client";
+
 import {
   createColumnHelper,
   flexRender,
@@ -5,6 +7,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 export type Sales = {
   id: number;
@@ -23,7 +26,12 @@ const columnHelper = createColumnHelper<Sales>();
 
 const columns = [
   columnHelper.accessor("id", { header: "ID" }),
-  columnHelper.accessor("saleName", { header: "Sale Name" }),
+  columnHelper.accessor("saleName", {
+    header: "Sale Name",
+    cell: (info) => (
+      <CellWithLink value={info.getValue()} id={info.row.original.id} />
+    ),
+  }),
   columnHelper.accessor("itemCategory", { header: "Item Category" }),
   columnHelper.accessor("status", { header: "Status" }),
   columnHelper.accessor("startAt", {
@@ -35,6 +43,18 @@ const columns = [
     cell: (info) => format(info.getValue(), "yyyy/MM/dd"),
   }),
 ];
+
+const CellWithLink = ({ value, id }: { value: string; id: number }) => {
+  const router = useRouter();
+  return (
+    <span
+      className="cursor-pointer text-blue-600 hover:underline"
+      onClick={() => router.push(`/detail/${id}`)}
+    >
+      {value}
+    </span>
+  );
+};
 
 export const SNTable: React.FC<SNTableProps> = ({ data }) => {
   const table = useReactTable({
