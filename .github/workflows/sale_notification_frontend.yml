@@ -2,13 +2,13 @@ name: Run Sale Notification frontend unit test
 on:
   push:
     paths:
-      - "webapps/sale_notification/frontend/**"
+      - "web-apps/sale_notification/frontend/**"
     branches: [main]
-  # pull_request:
-  #   paths:
-  #     - "webapps/sale_notification/frontend/**"
-  #   branches:
-  #     - main
+  pull_request:
+    paths:
+      - "web-apps/sale_notification/frontend/**"
+    branches:
+      - main
 
 jobs:
   sale_notification_frontend_test:

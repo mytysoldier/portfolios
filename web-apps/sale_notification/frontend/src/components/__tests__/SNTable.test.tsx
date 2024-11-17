@@ -1,7 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Sales, SNTable } from "../SNTable";
-import { useRouter } from "next/navigation";
 
 // テストデータ
 const testData: Sales[] = [
