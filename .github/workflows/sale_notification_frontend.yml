@@ -1,8 +1,8 @@
 name: Run Sale Notification frontend unit test
 on:
   push:
-    # paths:
-    #   - "webapps/sale_notification/frontend/**"
+    paths:
+      - "webapps/sale_notification/frontend/**"
     branches: [main]
   # pull_request:
   #   paths:
@@ -11,7 +11,7 @@ on:
   #     - main
 
 jobs:
-  test:
+  sale_notification_frontend_test:
     runs-on: ubuntu-latest
 
     steps:

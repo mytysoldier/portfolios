@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Sales, SNTable } from "../SNTable";
+import { useRouter } from "next/navigation";
 
 // テストデータ
 const testData: Sales[] = [
@@ -21,6 +22,12 @@ const testData: Sales[] = [
     endAt: new Date("2024-12-31"),
   },
 ];
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
 
 describe("SNTableコンポーネントのテスト", () => {
   beforeEach(() => {
