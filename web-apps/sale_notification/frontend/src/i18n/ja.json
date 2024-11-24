@@ -7,7 +7,8 @@
   "form": {
     "button": {
       "addSale": "セール追加",
-      "search": "検索"
+      "search": "検索",
+      "update": "更新"
     },
     "label": {
       "saleName": "セール名",
@@ -15,6 +16,17 @@
       "itemCategory": "商品カテゴリ",
       "startDate": "開始日",
       "endDate": "終了日"
+    },
+    "selectbox": {
+      "itemCategory": {
+        "digitalEquipment": "デジタル機器",
+        "sportsOutdoors": "スポーツ用品",
+        "books": "本",
+        "dailyNecessities": "日用品",
+        "kitchenItems": "キッチン用品",
+        "foodBeverageAlcohol": "食品・飲料・アルコール",
+        "cosmeticsAndBeautySupplies": "化粧品・美容用品"
+      }
     }
   }
 }
