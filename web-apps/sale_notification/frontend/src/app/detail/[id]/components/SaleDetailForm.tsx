@@ -1,3 +1,4 @@
+"use client";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Form, formSchema } from "./yupForm";
@@ -6,9 +7,11 @@ import { InputControl } from "@/components/form/input/InputControl";
 import { SelectBoxControl } from "@/components/form/selectbox/SelectBoxControl";
 import { CustomDatePickerControl } from "@/components/form/datepicker/CustomDatePickerControl";
 import { Button, ButtonType } from "@/components/Button";
+import { useRouter } from "next/navigation";
 
 export const SaleDetailForm = () => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   const methods = useForm<Form>({
     mode: "onBlur",
@@ -94,7 +97,14 @@ export const SaleDetailForm = () => {
           </div>
         </div>
 
-        <div className="flex justify-end pr-32">
+        <div className="flex justify-end pr-32 gap-4">
+          <Button
+            title={t("form.button.back")}
+            buttonType={ButtonType.SECONDARY}
+            onClick={() => {
+              router.back();
+            }}
+          />
           <Button
             title={t("form.button.update")}
             buttonType={ButtonType.PRIMARY}
