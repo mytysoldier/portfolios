@@ -10,7 +10,7 @@ import { Button, ButtonType } from "@/components/Button";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-export const SaleDetailForm = () => {
+export const SaleRegistForm = () => {
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -108,9 +108,9 @@ export const SaleDetailForm = () => {
           />
 
           <Button
-            title={t("form.button.update")}
+            title={t("form.button.regist")}
             buttonType={ButtonType.PRIMARY}
-            // TODO 検索処理追加
+            // TODO 登録処理追加
             onClick={() => {}}
           />
         </div>

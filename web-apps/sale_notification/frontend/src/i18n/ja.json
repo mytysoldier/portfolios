@@ -8,6 +8,7 @@
     "button": {
       "addSale": "セール追加",
       "search": "検索",
+      "regist": "登録",
       "update": "更新",
       "back": "戻る"
     },

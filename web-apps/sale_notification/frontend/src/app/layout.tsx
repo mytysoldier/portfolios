@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import "../i18n/configs";
 import { useTranslation } from "react-i18next";
 import { Button, ButtonType } from "@/components/Button";
+import { useRouter } from "next/navigation";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,6 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <html lang="en">
@@ -43,7 +45,9 @@ export default function RootLayout({
             <Button
               title={t("form.button.addSale")}
               buttonType={ButtonType.TEXT}
-              onClick={() => {}}
+              onClick={() => {
+                router.push("/regist");
+              }}
             />
           </div>
         </div>
