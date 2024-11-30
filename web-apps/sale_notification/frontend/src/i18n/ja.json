@@ -1,7 +1,9 @@
 {
   "header": {
     "title": {
-      "list": "セール一覧"
+      "list": "セール一覧",
+      "regist": "セール登録",
+      "detail": "セール詳細"
     }
   },
   "form": {

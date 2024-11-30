@@ -19,6 +19,17 @@ jest.mock("next/font/local", () => {
   }));
 });
 
+const mockUseSelectedLayoutSegment = jest.fn();
+const mockPush = jest.fn();
+
+// next/navigationのモック
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: mockPush,
+  }),
+  useSelectedLayoutSegment: () => mockUseSelectedLayoutSegment(),
+}));
+
 describe("RootLayout", () => {
   // 以下warningが出るがテストはPASSするため、console.errorをモックしてエラーメッセージを抑制
   // Warning: validateDOMNesting(...): <html> cannot appear as a child of <div>.
@@ -28,12 +39,29 @@ describe("RootLayout", () => {
     consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
   });
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   afterAll(() => {
     // スパイを元に戻す
     consoleErrorSpy.mockRestore();
   });
 
-  test("テキストが表示されること", () => {
+  test("子要素がレンダリングされること", () => {
+    render(
+      <RootLayout>
+        <div>Test Content</div>
+      </RootLayout>,
+    );
+
+    // 子要素がレンダリングされているかを確認
+    expect(screen.getByText("Test Content")).toBeInTheDocument();
+  });
+
+  test("listパスの場合、一覧画面用の表示がされること", () => {
+    mockUseSelectedLayoutSegment.mockReturnValue("list");
+
     render(
       <RootLayout>
         <div>Test Content</div>
@@ -45,12 +73,37 @@ describe("RootLayout", () => {
 
     // ボタンのテキストが正しく表示されるかを確認
     expect(screen.getByText("form.button.addSale")).toBeInTheDocument();
+  });
 
-    // 子要素がレンダリングされているかを確認
-    expect(screen.getByText("Test Content")).toBeInTheDocument();
+  test("detailパスの場合、詳細画面用の表示がされること", () => {
+    mockUseSelectedLayoutSegment.mockReturnValue("detail");
+
+    render(
+      <RootLayout>
+        <div>Test Content</div>
+      </RootLayout>,
+    );
+
+    // ヘッダーのテキストが正しく表示されるかを確認
+    expect(screen.getByText("header.title.detail")).toBeInTheDocument();
+  });
+
+  test("resgistパスの場合、登録画面用の表示がされること", () => {
+    mockUseSelectedLayoutSegment.mockReturnValue("regist");
+
+    render(
+      <RootLayout>
+        <div>Test Content</div>
+      </RootLayout>,
+    );
+
+    // ヘッダーのテキストが正しく表示されるかを確認
+    expect(screen.getByText("header.title.regist")).toBeInTheDocument();
   });
 
   test("フォントが適用されていること", () => {
+    mockUseSelectedLayoutSegment.mockReturnValue("list");
+
     const { container } = render(
       <RootLayout>
         <div>Test Content</div>
