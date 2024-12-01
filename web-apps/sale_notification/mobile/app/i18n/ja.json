@@ -1,0 +1,36 @@
+{
+  "header": {
+    "title": {
+      "list": "セール一覧",
+      "regist": "セール登録",
+      "detail": "セール詳細"
+    }
+  },
+  "form": {
+    "button": {
+      "addSale": "セール追加",
+      "search": "検索",
+      "regist": "登録",
+      "update": "更新",
+      "back": "戻る"
+    },
+    "label": {
+      "saleName": "セール名",
+      "saleStatus": "ステータス",
+      "itemCategory": "商品カテゴリ",
+      "startDate": "開始日",
+      "endDate": "終了日"
+    },
+    "selectbox": {
+      "itemCategory": {
+        "digitalEquipment": "デジタル機器",
+        "sportsOutdoors": "スポーツ用品",
+        "books": "本",
+        "dailyNecessities": "日用品",
+        "kitchenItems": "キッチン用品",
+        "foodBeverageAlcohol": "食品・飲料・アルコール",
+        "cosmeticsAndBeautySupplies": "化粧品・美容用品"
+      }
+    }
+  }
+}
