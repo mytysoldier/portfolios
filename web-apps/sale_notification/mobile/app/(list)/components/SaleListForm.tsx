@@ -1,9 +1,16 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Form, formSchema } from "./yupForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputControl } from "@/components/form/input/InputControl";
+import { SelectBoxControl } from "@/components/form/selectbox/SelectBoxControl ";
 
 export const SaleListForm = () => {
   const { t } = useTranslation();
@@ -18,6 +25,8 @@ export const SaleListForm = () => {
 
   const onSubmit = (data: Form) => console.log(JSON.stringify(data));
 
+  const handleSubmit = methods.handleSubmit(onSubmit);
+
   return (
     <FormProvider {...methods}>
       <View>
@@ -26,7 +35,43 @@ export const SaleListForm = () => {
             <Text style={styles.label}>{t("form.label.saleName")}</Text>
             <InputControl<Form> fieldName="saleName" style={styles.input} />
           </View>
+
+          <View style={styles.row}>
+            <Text style={styles.label}>{t("form.label.saleStatus")}</Text>
+            {/* <InputControl<Form> fieldName="saleName" style={styles.input} /> */}
+            <SelectBoxControl<Form>
+              fieldName="saleStatus"
+              items={[
+                {
+                  label: "未選択",
+                  value: "",
+                },
+                {
+                  label: "未開始",
+                  value: "todo",
+                },
+                {
+                  label: "開催中",
+                  value: "doing",
+                },
+                {
+                  label: "終了",
+                  value: "done",
+                },
+              ]}
+            />
+          </View>
         </View>
+
+        <View style={styles.row}>
+          <Text style={styles.label}>{t("form.label.startDate")}</Text>
+          <InputControl<Form> fieldName="saleName" style={styles.input} />
+          <Text style={styles.label}>{t("form.label.endDate")}</Text>
+        </View>
+
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.submitButtonText}>{t("form.button.search")}</Text>
+        </TouchableOpacity>
       </View>
     </FormProvider>
   );
@@ -56,5 +101,16 @@ const styles = StyleSheet.create({
     // flex: 1,
     width: width / 2,
     height: 40,
+  },
+  submitButton: {
+    backgroundColor: "#007AFF",
+    padding: 15,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  submitButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
