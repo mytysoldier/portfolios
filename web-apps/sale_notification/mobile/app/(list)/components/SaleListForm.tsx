@@ -11,6 +11,7 @@ import { Form, formSchema } from "./yupForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputControl } from "@/components/form/input/InputControl";
 import { SelectBoxControl } from "@/components/form/selectbox/SelectBoxControl ";
+import { CustomDatePickerControl } from "@/components/form/datepicker/CustomDatePickerControl";
 
 export const SaleListForm = () => {
   const { t } = useTranslation();
@@ -65,7 +66,7 @@ export const SaleListForm = () => {
 
         <View style={styles.row}>
           <Text style={styles.label}>{t("form.label.startDate")}</Text>
-          <InputControl<Form> fieldName="saleName" style={styles.input} />
+          <CustomDatePickerControl<Form> fieldName="startDate" mode="single" />
           <Text style={styles.label}>{t("form.label.endDate")}</Text>
         </View>
 
