@@ -68,6 +68,7 @@ export const SaleListForm = () => {
           <Text style={styles.label}>{t("form.label.startDate")}</Text>
           <CustomDatePickerControl<Form> fieldName="startDate" mode="single" />
           <Text style={styles.label}>{t("form.label.endDate")}</Text>
+          <CustomDatePickerControl<Form> fieldName="endDate" mode="single" />
         </View>
 
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
