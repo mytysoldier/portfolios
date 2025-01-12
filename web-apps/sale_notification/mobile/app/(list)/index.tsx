@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SaleListForm } from "./components/SaleListForm";
-import { SNTable } from "@/components/SNTable";
+import { Sales, SNTable } from "@/components/SNTable";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const testData: Sales[] = [
   {
@@ -31,11 +32,17 @@ const testData: Sales[] = [
 
 export default function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>List Page</Text>
-      <SaleListForm />
-      <SNTable data={testData} />
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView>
+        <ScrollView>
+          <View style={styles.container}>
+            <Text style={styles.text}>List Page</Text>
+            <SaleListForm />
+            <SNTable data={testData} />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 

@@ -7,7 +7,7 @@ import {
   Col,
   Cols,
   Cell,
-} from "react-native-table-component";
+} from "react-native-reanimated-table";
 
 const TableHead = [
   "ID",
@@ -36,7 +36,7 @@ export const SNTable: React.FC<SNTableProps> = ({ data }) => {
     <View style={styles.container}>
       <Table borderStyle={{ borderWidth: 1 }}>
         <Row data={TableHead} style={styles.head} />
-        {/* <Rows
+        <Rows
           data={data.map((item) => [
             item.id,
             item.saleName,
@@ -60,7 +60,7 @@ export const SNTable: React.FC<SNTableProps> = ({ data }) => {
             ]}
             textStyle={styles.text}
           />
-        ))} */}
+        ))}
       </Table>
     </View>
   );
