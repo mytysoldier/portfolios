@@ -12,9 +12,39 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { InputControl } from "@/components/form/input/InputControl";
 import { SelectBoxControl } from "@/components/form/selectbox/SelectBoxControl ";
 import { CustomDatePickerControl } from "@/components/form/datepicker/CustomDatePickerControl";
+import { Sales, SNTable } from "@/components/SNTable";
+import { useState } from "react";
+
+const testData: Sales[] = [
+  {
+    id: 1,
+    saleName: "Summer Sale",
+    itemCategory: "Clothing",
+    status: "Active",
+    startAt: new Date("2024-06-01"),
+    endAt: new Date("2024-06-30"),
+  },
+  {
+    id: 2,
+    saleName: "Winter Clearance",
+    itemCategory: "Footwear",
+    status: "Completed",
+    startAt: new Date("2024-12-01"),
+    endAt: new Date("2024-12-31"),
+  },
+  {
+    id: 3,
+    saleName: "Back to School",
+    itemCategory: "Stationery",
+    status: "Active",
+    startAt: new Date("2024-08-01"),
+    endAt: new Date("2024-08-31"),
+  },
+];
 
 export const SaleListForm = () => {
   const { t } = useTranslation();
+  const [data, setData] = useState<Sales[]>([]);
 
   const methods = useForm<Form>({
     mode: "onBlur",
@@ -24,7 +54,10 @@ export const SaleListForm = () => {
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit = (data: Form) => console.log(JSON.stringify(data));
+  const onSubmit = (data: Form) => {
+    setData(testData);
+    console.log(JSON.stringify(data));
+  };
 
   const handleSubmit = methods.handleSubmit(onSubmit);
 
@@ -74,6 +107,9 @@ export const SaleListForm = () => {
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
           <Text style={styles.submitButtonText}>{t("form.button.search")}</Text>
         </TouchableOpacity>
+
+        {data && data.length > 0 && <SNTable data={data} />}
+        {/* <SNTable data={data} /> */}
       </View>
     </FormProvider>
   );
