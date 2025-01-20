@@ -14,6 +14,7 @@ import { SelectBoxControl } from "@/components/form/selectbox/SelectBoxControl "
 import { CustomDatePickerControl } from "@/components/form/datepicker/CustomDatePickerControl";
 import { Sales, SNTable } from "@/components/SNTable";
 import { useState } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const testData: Sales[] = [
   {
@@ -50,6 +51,7 @@ export const SaleListForm = () => {
     mode: "onBlur",
     defaultValues: {
       saleName: "",
+      saleStatus: "",
     },
     resolver: yupResolver(formSchema),
   });
@@ -63,32 +65,40 @@ export const SaleListForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <View>
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <View>
           <View style={styles.row}>
-            <Text style={styles.label}>{t("form.label.saleName")}</Text>
+            {/* <Text style={styles.label}>{t("form.label.saleName")}</Text> */}
+            {/* <Text>{width}</Text> */}
             <InputControl<Form> fieldName="saleName" style={styles.input} />
           </View>
 
-          <View style={styles.row}>
-            <Text style={styles.label}>{t("form.label.saleStatus")}</Text>
+          <View>
+            <Text style={{ marginBottom: 10 }}>
+              {t("form.label.saleStatus")}
+            </Text>
             {/* <InputControl<Form> fieldName="saleName" style={styles.input} /> */}
             <SelectBoxControl<Form>
               fieldName="saleStatus"
+              data={[]}
               items={[
                 {
+                  key: 1,
                   label: "未選択",
                   value: "",
                 },
                 {
+                  key: 2,
                   label: "未開始",
                   value: "todo",
                 },
                 {
+                  key: 3,
                   label: "開催中",
                   value: "doing",
                 },
                 {
+                  key: 4,
                   label: "終了",
                   value: "done",
                 },
@@ -97,18 +107,32 @@ export const SaleListForm = () => {
           </View>
         </View>
 
-        <View style={styles.row}>
+        <View>
+          <Text style={{ marginBottom: 10 }}>{t("form.label.startDate")}</Text>
+          <CustomDatePickerControl<Form> fieldName="startDate" mode="single" />
+        </View>
+
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ marginBottom: 10 }}>{t("form.label.endDate")}</Text>
+          <CustomDatePickerControl<Form> fieldName="endDate" mode="single" />
+        </View>
+
+        {/* <View style={styles.row}>
           <Text style={styles.label}>{t("form.label.startDate")}</Text>
           <CustomDatePickerControl<Form> fieldName="startDate" mode="single" />
           <Text style={styles.label}>{t("form.label.endDate")}</Text>
           <CustomDatePickerControl<Form> fieldName="endDate" mode="single" />
-        </View>
+        </View> */}
 
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
           <Text style={styles.submitButtonText}>{t("form.button.search")}</Text>
         </TouchableOpacity>
 
-        {data && data.length > 0 && <SNTable data={data} />}
+        {data && data.length > 0 ? (
+          <SNTable data={data} />
+        ) : (
+          <View style={{ flex: 1, backgroundColor: "white" }} />
+        )}
         {/* <SNTable data={data} /> */}
       </View>
     </FormProvider>
@@ -116,16 +140,19 @@ export const SaleListForm = () => {
 };
 
 // 端末横幅
+// const insets = useSafeAreaInsets();
 const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
     padding: 16,
+    height: Dimensions.get("window").height,
   },
   row: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 10,
     // paddingHorizontal: 60,
     // paddingRight: 100,
@@ -137,7 +164,8 @@ const styles = StyleSheet.create({
   input: {
     // alignSelf: "stretch",
     // flex: 1,
-    width: width / 2,
+    // width: width / 2,
+    width: width * 0.8,
     height: 40,
   },
   submitButton: {

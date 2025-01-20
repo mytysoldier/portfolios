@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   textInput: {
-    height: 140,
+    // height: 140,
     backgroundColor: "red",
     borderBottomWidth: 1,
     borderColor: "#ccc",

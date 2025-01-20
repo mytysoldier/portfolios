@@ -12,13 +12,15 @@ export const Input = React.forwardRef<TextInput, Props>(
       <TextInput
         ref={ref}
         style={[styles.input, errorMessage && styles.inputError, style]}
+        placeholder="セール名を入力"
+        placeholderTextColor="gray"
         {...props}
       />
       {errorMessage ? (
         <Text style={styles.errorText}>{errorMessage}</Text>
       ) : null}
     </View>
-  ),
+  )
 );
 
 Input.displayName = "Input";
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: "#fff",
     marginBottom: 5,
+    textAlign: "center",
   },
   inputError: {
     borderColor: "red",
