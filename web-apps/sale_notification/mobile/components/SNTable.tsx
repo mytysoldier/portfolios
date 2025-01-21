@@ -1,4 +1,6 @@
-import { StyleSheet, View } from "react-native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { Link, useRouter } from "expo-router";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import {
   Table,
   TableWrapper,
@@ -32,6 +34,9 @@ type SNTableProps = {
 };
 
 export const SNTable: React.FC<SNTableProps> = ({ data }) => {
+  const router = useRouter();
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <Table borderStyle={{ borderWidth: 1 }}>
@@ -48,18 +53,25 @@ export const SNTable: React.FC<SNTableProps> = ({ data }) => {
           textStyle={styles.text}
         />
         {data.map((item, index) => (
-          <Row
+          <Link
             key={index}
-            data={[
-              item.id,
-              item.saleName,
-              item.itemCategory,
-              item.status,
-              item.startAt.toDateString(),
-              item.endAt.toDateString(),
-            ]}
-            textStyle={styles.text}
-          />
+            href={{
+              pathname: "/(detail)",
+            }}
+          >
+            <Row
+              key={index}
+              data={[
+                item.id,
+                item.saleName,
+                item.itemCategory,
+                item.status,
+                item.startAt.toDateString(),
+                item.endAt.toDateString(),
+              ]}
+              textStyle={styles.text}
+            />
+          </Link>
         ))}
       </Table>
     </View>

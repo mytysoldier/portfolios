@@ -1,6 +1,8 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SaleListForm } from "./components/SaleListForm";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { ThemedText } from "@/components/ThemedText";
+import { Link } from "expo-router";
 
 export default function HomeScreen() {
   return (
@@ -9,6 +11,14 @@ export default function HomeScreen() {
         <ScrollView>
           <View style={styles.container}>
             <Text style={styles.text}>List Page</Text>
+            <Link
+              href={{
+                pathname: "/(regist)",
+              }}
+            >
+              <ThemedText type="link">セール追加</ThemedText>
+            </Link>
+
             <SaleListForm />
           </View>
         </ScrollView>
