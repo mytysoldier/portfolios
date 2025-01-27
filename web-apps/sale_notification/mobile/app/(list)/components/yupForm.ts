@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { FormModel, SaleStatus } from "./types";
+import { FormModel, SaleItemCategory, SaleStatus } from "./types";
 
 export const formSchema: yup.ObjectSchema<FormModel> = yup.object().shape({
   saleName: yup
@@ -7,6 +7,7 @@ export const formSchema: yup.ObjectSchema<FormModel> = yup.object().shape({
     .label("セール名")
     .max(5, "${label}は${max}文字以内で入力してください。"),
   saleStatus: yup.string().oneOf(SaleStatus.concat([])),
+  saleItemCategory: yup.string().label("商品カテゴリ"),
   startDate: yup.string().label("開始日"),
   endDate: yup.string().label("終了日"),
 });

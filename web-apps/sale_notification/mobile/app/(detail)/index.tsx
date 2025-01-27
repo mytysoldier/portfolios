@@ -1,10 +1,23 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SaleDetailForm } from "./components/SaleDetailForm";
 
 export default function HomeScreen() {
+  const router = useRouter();
+  const params = useLocalSearchParams();
+  const { id } = params;
   return (
     <View style={styles.container}>
       <Text>Detail Page</Text>
+      <Text>{id}</Text>
+      <TouchableOpacity onPress={() => router.back()}>
+        <Text>texttexttext</Text>
+      </TouchableOpacity>
+      <SaleDetailForm />
+      <TouchableOpacity onPress={() => router.back()}>
+        <Text>texttexttext</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -17,6 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff", // 背景色を設定
     height: "100%",
     padding: 16,
+    paddingTop: 100,
   },
   text: {
     fontSize: 20,

@@ -57,6 +57,7 @@ export const SNTable: React.FC<SNTableProps> = ({ data }) => {
             key={index}
             href={{
               pathname: "/(detail)",
+              params: { id: item.id },
             }}
           >
             <Row
