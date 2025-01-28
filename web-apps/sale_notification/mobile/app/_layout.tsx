@@ -46,7 +46,10 @@ export default function RootLayout() {
         />
         <Stack.Screen
           name="(regist)/index"
-          options={{ headerShown: true, title: "Regist" }}
+          options={{
+            headerShown: true,
+            title: "Regist",
+          }}
         />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />

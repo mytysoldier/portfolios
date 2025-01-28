@@ -1,4 +1,10 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SaleListForm } from "./components/SaleListForm";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { ThemedText } from "@/components/ThemedText";
@@ -10,14 +16,16 @@ export default function HomeScreen() {
       <SafeAreaView>
         <ScrollView>
           <View style={styles.container}>
-            <Text style={styles.text}>List Page</Text>
-            <Link
-              href={{
-                pathname: "/(regist)",
-              }}
-            >
-              <ThemedText type="link">セール追加</ThemedText>
-            </Link>
+            <View style={styles.row}>
+              <Text style={styles.text}>List Page</Text>
+              <Link
+                href={{
+                  pathname: "/(regist)",
+                }}
+              >
+                <ThemedText type="link">セール追加</ThemedText>
+              </Link>
+            </View>
 
             <SaleListForm />
           </View>
@@ -39,5 +47,25 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     color: "#000", // テキストの色を設定
+  },
+  row: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+    // paddingHorizontal: 60,
+    // paddingRight: 100,
+  },
+  submitButton: {
+    backgroundColor: "#007AFF",
+    padding: 15,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  submitButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
