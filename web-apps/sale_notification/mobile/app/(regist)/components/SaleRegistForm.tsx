@@ -112,7 +112,7 @@ export const SaleRegistForm = () => {
             onPress={handleSubmit}
           >
             <Text style={styles.submitButtonText}>
-              {t("form.button.update")}
+              {t("form.button.regist")}
             </Text>
           </TouchableOpacity>
         </View>

@@ -12,9 +12,19 @@ import "react-native-reanimated";
 import "./i18n/configs";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { HeaderBackButton } from "@react-navigation/elements";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+const HeaderText = () => {
+  return (
+    <View>
+      <Text>aaa</Text>
+    </View>
+  );
+};
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -49,6 +59,38 @@ export default function RootLayout() {
           options={{
             headerShown: true,
             title: "Regist",
+            header: ({ navigation, route, options, back }) => {
+              return (
+                <SafeAreaView>
+                  <View
+                    style={{
+                      height: 100,
+                      backgroundColor: "lightblue",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    {back && (
+                      <HeaderBackButton
+                        label="Back"
+                        onPress={navigation.goBack}
+                        style={{ position: "absolute", left: 0 }}
+                      />
+                    )}
+                    <View
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <Text style={{}}>Regist</Text>
+                    </View>
+                  </View>
+                </SafeAreaView>
+              );
+            },
           }}
         />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
