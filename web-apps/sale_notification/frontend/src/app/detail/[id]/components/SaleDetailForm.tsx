@@ -17,7 +17,8 @@ export const SaleDetailForm = () => {
   const methods = useForm<Form>({
     mode: "onBlur",
     defaultValues: {
-      saleName: "",
+      saleName: "sss",
+      itemCategory: "books",
     },
     resolver: yupResolver(formSchema),
   });
@@ -71,7 +72,7 @@ export const SaleDetailForm = () => {
               },
               {
                 label: t(
-                  "form.selectbox.itemCategory.cosmeticsAndBeautySupplies",
+                  "form.selectbox.itemCategory.cosmeticsAndBeautySupplies"
                 ),
                 value: "cosmeticsAndBeautySupplies",
               },

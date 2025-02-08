@@ -12,7 +12,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
         <div className="text-danger">{errorMessage}</div>
       ) : null}{" "}
     </>
-  ),
+  )
 );
 
 Input.displayName = "Input";

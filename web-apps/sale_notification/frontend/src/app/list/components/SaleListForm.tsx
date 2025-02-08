@@ -13,7 +13,7 @@ export const SaleListForm = () => {
   const methods = useForm<Form>({
     mode: "onBlur",
     defaultValues: {
-      saleName: "",
+      saleName: "sss",
     },
     resolver: yupResolver(formSchema),
   });
