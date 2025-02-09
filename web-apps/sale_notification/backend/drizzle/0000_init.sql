@@ -1,0 +1,25 @@
+-- CREATE TABLE "item_category" (
+-- 	"id" serial PRIMARY KEY NOT NULL,
+-- 	"name" varchar(255) NOT NULL,
+-- 	"created_at" date DEFAULT 'now()' NOT NULL
+-- );
+-- --> statement-breakpoint
+-- CREATE TABLE "sale_item" (
+-- 	"id" serial PRIMARY KEY NOT NULL,
+-- 	"name" varchar(255) NOT NULL,
+-- 	"start_at" date NOT NULL,
+-- 	"end_at" date NOT NULL,
+-- 	"item_category_id" integer NOT NULL,
+-- 	"created_user_id" integer NOT NULL,
+-- 	"created_at" date DEFAULT 'now()' NOT NULL
+-- );
+-- --> statement-breakpoint
+-- CREATE TABLE "users" (
+-- 	"id" serial PRIMARY KEY NOT NULL,
+-- 	"name" varchar(255) NOT NULL,
+-- 	"created_at" date DEFAULT 'now()' NOT NULL,
+-- 	"deleted_at" date
+-- );
+-- --> statement-breakpoint
+-- ALTER TABLE "sale_item" ADD CONSTRAINT "sale_item_item_category_id_item_category_id_fk" FOREIGN KEY ("item_category_id") REFERENCES "public"."item_category"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+-- ALTER TABLE "sale_item" ADD CONSTRAINT "sale_item_created_user_id_users_id_fk" FOREIGN KEY ("created_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;

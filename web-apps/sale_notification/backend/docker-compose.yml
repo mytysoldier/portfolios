@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_sales_notification
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sales_notification
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-store:/var/lib/postgresql/data
