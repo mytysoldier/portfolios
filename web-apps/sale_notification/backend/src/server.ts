@@ -5,9 +5,14 @@ import { tsyringe } from "@hono/tsyringe";
 import { GetSaleListUseCase } from "./usecases/getSaleList/interactor.js";
 import { container } from "tsyringe";
 import { SaleListRepositoryImpl } from "./infrastructure/repositories/sale_list_repository.js";
+import { DbClientImpl } from "./infrastructure/persistence/db_client.js";
 
 export function startServer() {
   const app = new Hono();
+
+  container.register("DbClientImpl", {
+    useClass: DbClientImpl,
+  });
 
   container.register("SaleListRepositoryImpl", {
     useClass: SaleListRepositoryImpl,
