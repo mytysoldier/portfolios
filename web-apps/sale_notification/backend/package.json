@@ -6,11 +6,13 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",
+    "@hono/tsyringe": "^1.0.1",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.39.2",
     "hono": "^4.6.20",
     "http": "^0.0.1-security",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",

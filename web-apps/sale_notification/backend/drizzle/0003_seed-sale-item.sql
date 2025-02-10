@@ -1,0 +1,2 @@
+-- Custom SQL migration file, put your code below! --
+INSERT INTO "sale_item" ("name", "start_at", "end_at", "item_category_id", "created_user_id") VALUES ('テストセール', now(), now() + '3 days'::interval, 1, 1);
