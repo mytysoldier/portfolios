@@ -1,11 +1,15 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { getSaleListHandler } from "./presentation/handlers/sale_list_handler.js";
+import {
+  getSaleDetailHandler,
+  getSaleListHandler,
+} from "./presentation/handlers/sale_list_handler.js";
 import { tsyringe } from "@hono/tsyringe";
 import { GetSaleListUseCase } from "./usecases/getSaleList/interactor.js";
 import { container } from "tsyringe";
 import { SaleListRepositoryImpl } from "./infrastructure/repositories/sale_list_repository.js";
 import { DbClientImpl } from "./infrastructure/persistence/db_client.js";
+import { GetSaleDetailUseCase } from "./usecases/getSaleDetail/interactor.js";
 
 export function startServer() {
   const app = new Hono();
@@ -22,6 +26,10 @@ export function startServer() {
     useClass: GetSaleListUseCase,
   });
 
+  container.register("GetSaleDetailUseCase", {
+    useClass: GetSaleDetailUseCase,
+  });
+
   app.get("/", (c) => {
     return c.text("Hello Hono!");
   });
@@ -31,6 +39,8 @@ export function startServer() {
   });
 
   app.get("/saleList", getSaleListHandler);
+
+  app.get("/saleDetail", getSaleDetailHandler);
 
   const port = 3000;
   console.log(`Server is running on http://localhost:${port}`);
