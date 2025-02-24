@@ -13,8 +13,9 @@ import { InputControl } from "@/components/form/input/InputControl";
 import { SelectBoxControl } from "@/components/form/selectbox/SelectBoxControl ";
 import { CustomDatePickerControl } from "@/components/form/datepicker/CustomDatePickerControl";
 import { Sales, SNTable } from "@/components/SNTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { getSaleList } from "../actions/actions";
 
 const testData: Sales[] = [
   {
@@ -47,6 +48,8 @@ export const SaleListForm = () => {
   const { t } = useTranslation();
   const [data, setData] = useState<Sales[]>([]);
 
+  const [saleItems, setSaleItems] = useState<Sales[]>([]);
+
   const methods = useForm<Form>({
     mode: "onBlur",
     defaultValues: {
@@ -62,6 +65,39 @@ export const SaleListForm = () => {
   };
 
   const handleSubmit = methods.handleSubmit(onSubmit);
+
+  useEffect(() => {
+    (async () => {
+      const result = await getSaleList();
+      const saleList: Sales[] = result.map((item) => {
+        let status = "";
+        const now = new Date();
+        const startAt = new Date(item.start_at);
+        const endAt = new Date(item.end_at);
+        console.log(`now : ${now}`);
+        console.log(`startAt : ${startAt}`);
+        console.log(`endAt : ${endAt}`);
+        if (startAt > now) {
+          status = "未開始";
+        } else if (endAt < now) {
+          status = "終了";
+        } else {
+          status = "開催中";
+        }
+
+        return {
+          id: item.id,
+          saleName: item.name,
+          itemCategory: item.item_category,
+          status,
+          startAt: item.start_at,
+          endAt: item.end_at,
+        };
+      });
+      setSaleItems(saleList);
+      console.log(JSON.stringify(saleItems));
+    })();
+  }, []);
 
   return (
     <FormProvider {...methods}>
@@ -128,8 +164,8 @@ export const SaleListForm = () => {
           <Text style={styles.submitButtonText}>{t("form.button.search")}</Text>
         </TouchableOpacity>
 
-        {data && data.length > 0 ? (
-          <SNTable data={data} />
+        {saleItems && saleItems.length > 0 ? (
+          <SNTable data={saleItems} />
         ) : (
           <View style={{ flex: 1, backgroundColor: "white" }} />
         )}

@@ -37,21 +37,23 @@ export const SNTable: React.FC<SNTableProps> = ({ data }) => {
   const router = useRouter();
   const navigation = useNavigation();
 
+  console.log(`SNTable data: ${JSON.stringify(data)}`);
+
   return (
     <View style={styles.container}>
       <Table borderStyle={{ borderWidth: 1 }}>
         <Row data={TableHead} style={styles.head} />
-        <Rows
+        {/* <Rows
           data={data.map((item) => [
             item.id,
             item.saleName,
             item.itemCategory,
             item.status,
-            item.startAt.toDateString(),
-            item.endAt.toDateString(),
+            item.startAt,
+            item.endAt,
           ])}
           textStyle={styles.text}
-        />
+        /> */}
         {data.map((item, index) => (
           <Link
             key={index}
@@ -67,8 +69,8 @@ export const SNTable: React.FC<SNTableProps> = ({ data }) => {
                 item.saleName,
                 item.itemCategory,
                 item.status,
-                item.startAt.toDateString(),
-                item.endAt.toDateString(),
+                item.startAt,
+                item.endAt,
               ]}
               textStyle={styles.text}
             />

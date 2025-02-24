@@ -9,6 +9,7 @@ import { SaleListForm } from "./components/SaleListForm";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { ThemedText } from "@/components/ThemedText";
 import { Link } from "expo-router";
+import { useState } from "react";
 
 export default function HomeScreen() {
   return (
