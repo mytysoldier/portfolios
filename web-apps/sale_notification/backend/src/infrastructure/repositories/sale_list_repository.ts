@@ -8,6 +8,9 @@ import postgres from "postgres";
 import * as schema from "../../db/schema.js";
 import { eq } from "drizzle-orm";
 
+type SaleItemType = typeof schema.saleItem.$inferSelect;
+type ItemCategoryType = typeof schema.itemCategory.$inferSelect;
+
 @injectable()
 export class SaleListRepositoryImpl implements SaleListRepository {
   constructor(
@@ -19,6 +22,10 @@ export class SaleListRepositoryImpl implements SaleListRepository {
       .getDb()
       .select()
       .from(schema.saleItem)
+      .innerJoin(
+        schema.itemCategory,
+        eq(schema.saleItem.item_category_id, schema.itemCategory.id)
+      )
       .where(eq(schema.saleItem.id, id));
 
     if (result.length === 0) {
@@ -26,22 +33,35 @@ export class SaleListRepositoryImpl implements SaleListRepository {
     }
 
     const saleItem: SaleItem = {
-      id: result[0].id,
-      name: result[0].name,
-      start_at: new Date(result[0].start_at),
-      end_at: new Date(result[0].end_at),
+      id: result[0].sale_item.id,
+      name: result[0].sale_item.name,
+      item_category: result[0].item_category.name,
+      start_at: new Date(result[0].sale_item.start_at),
+      end_at: new Date(result[0].sale_item.end_at),
     };
+    console.log(`saleItem: ${JSON.stringify(saleItem)}`);
 
     return saleItem;
   }
 
   async findAll(): Promise<SaleItem[]> {
-    const result = await this.dbClient.getDb().select().from(schema.saleItem);
-    const saleItems: SaleItem[] = result.map((item) => ({
-      id: item.id,
-      name: item.name,
-      start_at: new Date(item.start_at),
-      end_at: new Date(item.end_at),
+    const results = await this.dbClient
+      .getDb()
+      .select({
+        saleItem: schema.saleItem,
+        itemCategory: schema.itemCategory,
+      })
+      .from(schema.saleItem)
+      .innerJoin(
+        schema.itemCategory,
+        eq(schema.saleItem.item_category_id, schema.itemCategory.id)
+      );
+    const saleItems: SaleItem[] = results.map((item) => ({
+      id: item.saleItem.id,
+      name: item.saleItem.name,
+      item_category: item.itemCategory.name,
+      start_at: new Date(item.saleItem.start_at),
+      end_at: new Date(item.saleItem.end_at),
     }));
     console.log(`saleItems: ${JSON.stringify(saleItems)}`);
     return saleItems;

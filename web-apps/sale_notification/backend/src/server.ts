@@ -10,6 +10,7 @@ import { container } from "tsyringe";
 import { SaleListRepositoryImpl } from "./infrastructure/repositories/sale_list_repository.js";
 import { DbClientImpl } from "./infrastructure/persistence/db_client.js";
 import { GetSaleDetailUseCase } from "./usecases/getSaleDetail/interactor.js";
+import { cors } from "hono/cors";
 
 export function startServer() {
   const app = new Hono();
@@ -30,6 +31,8 @@ export function startServer() {
     useClass: GetSaleDetailUseCase,
   });
 
+  app.use("*", cors());
+
   app.get("/", (c) => {
     return c.text("Hello Hono!");
   });
@@ -42,7 +45,7 @@ export function startServer() {
 
   app.get("/saleDetail", getSaleDetailHandler);
 
-  const port = 3000;
+  const port = 3001;
   console.log(`Server is running on http://localhost:${port}`);
 
   serve({
