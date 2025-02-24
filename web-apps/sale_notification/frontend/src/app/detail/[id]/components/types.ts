@@ -1,8 +1,8 @@
 export type FormModel = {
   saleName?: string;
   itemCategory?: (typeof ItemCategory)[number];
-  startDate?: string;
-  endDate?: string;
+  startDate?: Date;
+  endDate?: Date;
 };
 
 export const ItemCategory = [

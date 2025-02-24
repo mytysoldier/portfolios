@@ -9,16 +9,23 @@ import { CustomDatePickerControl } from "@/components/form/datepicker/CustomDate
 import { Button, ButtonType } from "@/components/Button";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { Sales } from "@/components/SNTable";
 
-export const SaleDetailForm = () => {
+type Props = {
+  item: Sales;
+};
+
+export const SaleDetailForm: React.FC<Props> = ({ item }) => {
   const { t } = useTranslation();
   const router = useRouter();
 
   const methods = useForm<Form>({
     mode: "onBlur",
     defaultValues: {
-      saleName: "sss",
-      itemCategory: "books",
+      saleName: item.saleName,
+      itemCategory: item.itemCategory,
+      startDate: item.startAt,
+      endDate: item.endAt,
     },
     resolver: yupResolver(formSchema),
   });
@@ -111,7 +118,7 @@ export const SaleDetailForm = () => {
           <Button
             title={t("form.button.update")}
             buttonType={ButtonType.PRIMARY}
-            // TODO 検索処理追加
+            // TODO 更新処理追加
             onClick={() => {}}
           />
         </div>
