@@ -14,7 +14,7 @@ export default function HomeScreen() {
       <TouchableOpacity onPress={() => router.back()}>
         <Text>texttexttext</Text>
       </TouchableOpacity>
-      <SaleDetailForm />
+      <SaleDetailForm id={Number(id)} />
       <TouchableOpacity onPress={() => router.back()}>
         <Text>texttexttext</Text>
       </TouchableOpacity>

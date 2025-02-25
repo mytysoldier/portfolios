@@ -12,10 +12,11 @@ import {
   DateType,
   SingleChange,
 } from "react-native-ui-datepicker/lib/typescript/src/types";
+import { string } from "yup";
 
 type Props = {
   errorMessage?: string;
-  selected?: Date | null;
+  selected?: string | null;
 } & Omit<React.ComponentProps<typeof DatePicker>, "onDateChange" | "date"> & {
     onChange: (date: Date | null) => void;
   };
@@ -23,6 +24,9 @@ type Props = {
 export const CustomDatePicker = React.forwardRef<typeof DatePicker, Props>(
   ({ errorMessage, selected, onChange, ...props }, ref) => {
     const [isPickerVisible, setPickerVisible] = useState(false);
+
+    console.log(`CustomDatePicker selected: ${selected}`);
+    console.log(`CustomDatePicker selected type: ${typeof selected}`);
 
     const handleConfirm = (date: Date) => {
       setPickerVisible(false);
@@ -38,7 +42,8 @@ export const CustomDatePicker = React.forwardRef<typeof DatePicker, Props>(
           style={styles.touchable}
         >
           <Text style={styles.textInput}>
-            {selected ? selected.toDateString() : "Select date"}
+            {/* {selected ? selected.toDateString() : "Select date"} */}
+            {selected ? new Date(selected).toDateString() : "Select date"}
           </Text>
         </TouchableOpacity>
 

@@ -12,21 +12,58 @@ import { InputControl } from "@/components/form/input/InputControl";
 import { SelectBoxControl } from "@/components/form/selectbox/SelectBoxControl ";
 import { CustomDatePickerControl } from "@/components/form/datepicker/CustomDatePickerControl";
 import { Sales, SNTable } from "@/components/SNTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Form, formSchema } from "@/app/(list)/components/yupForm";
 import { router, useRouter } from "expo-router";
+import { getSaleDetail } from "../actions/actions";
 
-export const SaleDetailForm = () => {
+type Props = {
+  id: number;
+};
+
+export const SaleDetailForm: React.FC<Props> = ({ id }) => {
   const { t } = useTranslation();
   const [data, setData] = useState<Sales[]>([]);
+  const [saleItem, setSaleItem] = useState<Sales | null>(null);
   const router = useRouter();
+
+  console.log(`id: ${id}`);
+
+  useEffect(() => {
+    (async () => {
+      const result = await getSaleDetail(id);
+      if (result != null) {
+        const item: Sales = {
+          id: result.id,
+          saleName: result.name,
+          itemCategory: result.item_category,
+          // TODO statusの判定
+          status: "",
+          startAt: result.start_at,
+          endAt: result.end_at,
+        };
+        setSaleItem(item);
+        console.log(`detail item: ${JSON.stringify(item)}`);
+        methods.reset({
+          saleName: item.saleName,
+          saleStatus: "",
+          // saleItemCategory: item.itemCategory,
+          startDate: item.startAt,
+          endDate: item.endAt,
+        });
+      }
+    })();
+  }, []);
 
   const methods = useForm<Form>({
     mode: "onBlur",
     defaultValues: {
-      saleName: "",
+      saleName: saleItem?.saleName,
       saleStatus: "",
+      saleItemCategory: saleItem?.itemCategory,
+      // startDate: saleItem?.startAt,
+      // endDate: saleItem?.endAt,
     },
     resolver: yupResolver(formSchema),
   });
