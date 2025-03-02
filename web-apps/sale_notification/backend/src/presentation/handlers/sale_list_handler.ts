@@ -9,9 +9,14 @@ import { InvalidRequestError } from "../model/response/error.js";
 //     container.resolve<GetSaleListUseCase>("GetSaleListUseCase");
 
 export const getSaleListHandler = async (c: Context) => {
+  const a = c.req.queries();
+  console.log(`queries: ${JSON.stringify(a)}`);
+  if (Object.keys(a).length === 0) {
+    console.log("no queries");
+  }
   const getSaleListUseCase =
     container.resolve<GetSaleListUseCase>("GetSaleListUseCase");
-  const saleItems = await getSaleListUseCase.execute();
+  const saleItems = await getSaleListUseCase.execute(c.req.queries());
   return c.json(saleItems);
 };
 

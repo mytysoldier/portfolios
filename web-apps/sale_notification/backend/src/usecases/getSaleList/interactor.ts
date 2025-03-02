@@ -11,8 +11,15 @@ export class GetSaleListUseCase {
     private readonly saleListRepository: SaleListRepository
   ) {}
 
-  async execute() {
-    const saleItems = await this.saleListRepository.findAll();
+  async execute(queries: Record<string, string[]>): Promise<SaleItem[]> {
+    if (Object.keys(queries).length === 0) {
+      // 全件検索
+      const saleItems = await this.saleListRepository.findAll();
+      return saleItems;
+    }
+
+    // クエリによる検索
+    const saleItems = await this.saleListRepository.findByQuery(queries);
     return saleItems;
   }
 }
