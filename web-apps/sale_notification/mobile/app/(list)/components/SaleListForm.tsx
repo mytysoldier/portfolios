@@ -16,6 +16,7 @@ import { Sales, SNTable } from "@/components/SNTable";
 import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getSaleList } from "../actions/actions";
+import { SaleListReq } from "../models/request";
 
 const testData: Sales[] = [
   {
@@ -59,8 +60,41 @@ export const SaleListForm = () => {
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit = (data: Form) => {
-    setData(testData);
+  const onSubmit = async (data: Form) => {
+    // setData(testData);
+    const request: SaleListReq = {
+      name: data.saleName,
+      startAt: data.startDate,
+      endAt: data.endDate,
+    };
+    const result = await getSaleList(request);
+    console.log(`sale list search result : ${JSON.stringify(result)}`);
+    const saleList: Sales[] = result.map((item) => {
+      let status = "";
+      const now = new Date();
+      const startAt = new Date(item.start_at);
+      const endAt = new Date(item.end_at);
+      console.log(`now : ${now}`);
+      console.log(`startAt : ${startAt}`);
+      console.log(`endAt : ${endAt}`);
+      if (startAt > now) {
+        status = "未開始";
+      } else if (endAt < now) {
+        status = "終了";
+      } else {
+        status = "開催中";
+      }
+
+      return {
+        id: item.id,
+        saleName: item.name,
+        itemCategory: item.item_category,
+        status,
+        startAt: item.start_at,
+        endAt: item.end_at,
+      };
+    });
+    setSaleItems(saleList);
     console.log(JSON.stringify(data));
   };
 
