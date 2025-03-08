@@ -6,8 +6,15 @@ import { InputControl } from "@/components/form/input/InputControl";
 import { SelectBoxControl } from "@/components/form/selectbox/SelectBoxControl";
 import { CustomDatePickerControl } from "@/components/form/datepicker/CustomDatePickerControl";
 import { Button, ButtonType } from "@/components/Button";
+import { Sales } from "@/components/SNTable";
+import { SaleListReq } from "../models/request";
+import { getSaleList } from "../actions/actions";
 
-export const SaleListForm = () => {
+type Props = {
+  updateSales: React.Dispatch<React.SetStateAction<Sales[]>>;
+};
+
+export const SaleListForm: React.FC<Props> = ({ updateSales }) => {
   const { t } = useTranslation();
 
   const methods = useForm<Form>({
@@ -18,7 +25,42 @@ export const SaleListForm = () => {
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit = (data: Form) => console.log(JSON.stringify(data));
+  const onSubmit = async (data: Form) => {
+    console.log(JSON.stringify(data));
+    const request: SaleListReq = {
+      name: data.saleName,
+      startAt: data.startDate,
+      endAt: data.endDate,
+    };
+    const result = await getSaleList(request);
+    console.log(`sale list search result : ${JSON.stringify(result)}`);
+    const saleList: Sales[] = result.map((item) => {
+      let status = "";
+      const now = new Date();
+      const startAt = new Date(item.start_at);
+      const endAt = new Date(item.end_at);
+      console.log(`now : ${now}`);
+      console.log(`startAt : ${startAt}`);
+      console.log(`endAt : ${endAt}`);
+      if (startAt > now) {
+        status = "未開始";
+      } else if (endAt < now) {
+        status = "終了";
+      } else {
+        status = "開催中";
+      }
+
+      return {
+        id: item.id,
+        saleName: item.name,
+        itemCategory: item.item_category,
+        status,
+        startAt: item.start_at,
+        endAt: item.end_at,
+      };
+    });
+    updateSales(saleList);
+  };
 
   return (
     <FormProvider {...methods}>

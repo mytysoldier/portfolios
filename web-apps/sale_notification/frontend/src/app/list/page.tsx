@@ -75,7 +75,7 @@ export default function Home() {
   return (
     <div>
       <div>
-        <SaleListForm />
+        <SaleListForm updateSales={setSaleItems} />
       </div>
       {/* <SNTable data={testData} /> */}
       <SNTable data={saleItems} />

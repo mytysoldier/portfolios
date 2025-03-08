@@ -7,8 +7,8 @@ export const formSchema: yup.ObjectSchema<FormModel> = yup.object().shape({
     .label("セール名")
     .max(5, "${label}は${max}文字以内で入力してください。"),
   saleStatus: yup.string().oneOf(SaleStatus.concat([])),
-  startDate: yup.string().label("開始日"),
-  endDate: yup.string().label("終了日"),
+  startDate: yup.date().label("開始日"),
+  endDate: yup.date().label("終了日"),
 });
 
 export type Form = yup.InferType<typeof formSchema>;
