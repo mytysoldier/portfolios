@@ -4,6 +4,7 @@ import { GetSaleListUseCase } from "../../usecases/getSaleList/interactor.js";
 import { container } from "tsyringe";
 import type { GetSaleDetailUseCase } from "../../usecases/getSaleDetail/interactor.js";
 import { InvalidRequestError } from "../model/response/error.js";
+import type { SaleItemRequest } from "../../domain/models/sale_list_model.js";
 
 // const getSaleListUseCase =
 //     container.resolve<GetSaleListUseCase>("GetSaleListUseCase");
