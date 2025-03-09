@@ -10,9 +10,13 @@ import { SaleListRepositoryImpl } from "./infrastructure/repositories/sale_list_
 import { DbClientImpl } from "./infrastructure/persistence/db_client.js";
 import { GetSaleDetailUseCase } from "./usecases/getSaleDetail/interactor.js";
 import { cors } from "hono/cors";
-import { createSaleItemHandler } from "./presentation/handlers/sale_item_handler.js";
+import {
+  createSaleItemHandler,
+  upsertSaleItemHandler,
+} from "./presentation/handlers/sale_item_handler.js";
 import { CreateSaleItemUseCase } from "./usecases/createSaleItem/interactor.js";
 import { SaleItemRepositoryImpl } from "./infrastructure/repositories/sale_item_repository.js";
+import { UpsertSaleItemUseCase } from "./usecases/upsertSaleItem/interactor.js";
 
 export function startServer() {
   const app = new Hono();
@@ -41,6 +45,10 @@ export function startServer() {
     useClass: CreateSaleItemUseCase,
   });
 
+  container.register("UpsertSaleItemUseCase", {
+    useClass: UpsertSaleItemUseCase,
+  });
+
   app.use("*", cors());
 
   app.get("/", (c) => {
@@ -56,6 +64,8 @@ export function startServer() {
   app.get("/saleDetail", getSaleDetailHandler);
 
   app.post("/saleItem", createSaleItemHandler);
+
+  app.put("/saleItem", upsertSaleItemHandler);
 
   const port = 3001;
   console.log(`Server is running on http://localhost:${port}`);

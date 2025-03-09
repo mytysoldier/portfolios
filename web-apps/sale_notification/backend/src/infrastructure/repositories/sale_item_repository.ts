@@ -7,6 +7,7 @@ import type { SaleItemRepository } from "../../domain/repositories/sale_item_rep
 import { inject, injectable } from "tsyringe";
 import * as schema from "../../db/schema.js";
 import type { SaleListRepository } from "../../domain/repositories/sale_list_repository.js";
+import type { SaleItemUpsertRequest } from "../../domain/models/sale_item_model.js";
 
 @injectable()
 export class SaleItemRepositoryImpl implements SaleItemRepository {
@@ -34,5 +35,40 @@ export class SaleItemRepositoryImpl implements SaleItemRepository {
       insertedItems[0].id
     );
     return insertedItem!;
+  }
+
+  async upsertSaleItem(
+    saleItemRequest: SaleItemUpsertRequest
+  ): Promise<SaleItem> {
+    console.log(`saleItem: ${JSON.stringify(saleItemRequest)}`);
+    // let upsertedItems;
+    // if (saleItemRequest.id) {
+
+    // } else
+    const upsertedItems = await this.dbClient
+      .getDb()
+      .insert(schema.saleItem)
+      .values({
+        id: saleItemRequest.id,
+        name: saleItemRequest.name,
+        start_at: new Date(saleItemRequest.start_at).toDateString(),
+        end_at: new Date(saleItemRequest.end_at).toDateString(),
+        item_category_id: saleItemRequest.item_category_id,
+        created_user_id: saleItemRequest.user_id,
+      })
+      .onConflictDoUpdate({
+        target: schema.saleItem.id,
+        set: {
+          name: saleItemRequest.name,
+          start_at: new Date(saleItemRequest.start_at).toDateString(),
+          end_at: new Date(saleItemRequest.end_at).toDateString(),
+          item_category_id: saleItemRequest.item_category_id,
+        },
+      })
+      .returning();
+    const upsertedItem = await this.saleListRepository.findById(
+      upsertedItems[0].id
+    );
+    return upsertedItem!;
   }
 }
