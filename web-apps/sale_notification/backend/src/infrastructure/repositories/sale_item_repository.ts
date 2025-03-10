@@ -8,6 +8,7 @@ import { inject, injectable } from "tsyringe";
 import * as schema from "../../db/schema.js";
 import type { SaleListRepository } from "../../domain/repositories/sale_list_repository.js";
 import type { SaleItemUpsertRequest } from "../../domain/models/sale_item_model.js";
+import { eq } from "drizzle-orm";
 
 @injectable()
 export class SaleItemRepositoryImpl implements SaleItemRepository {
@@ -70,5 +71,13 @@ export class SaleItemRepositoryImpl implements SaleItemRepository {
       upsertedItems[0].id
     );
     return upsertedItem!;
+  }
+
+  async deleteSaleItem(saleItemId: number): Promise<void> {
+    console.log(`Delete saleItemId: ${saleItemId}`);
+    await this.dbClient
+      .getDb()
+      .delete(schema.saleItem)
+      .where(eq(schema.saleItem.id, saleItemId));
   }
 }

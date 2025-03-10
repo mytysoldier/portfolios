@@ -5,6 +5,7 @@ import { container } from "tsyringe";
 import type { CreateSaleItemUseCase } from "../../usecases/createSaleItem/interactor.js";
 import type { UpsertSaleItemUseCase } from "../../usecases/upsertSaleItem/interactor.js";
 import type { SaleItemUpsertRequest } from "../../domain/models/sale_item_model.js";
+import type { DeleteSaleItemUseCase } from "../../usecases/deleteSaleItem/interactor.js";
 
 export const createSaleItemHandler = async (c: Context) => {
   try {
@@ -31,6 +32,26 @@ export const upsertSaleItemHandler = async (c: Context) => {
     );
     const saleItem = await upsertSaleItemUseCase.execute(request);
     return c.json(saleItem);
+  } catch (e) {
+    console.error(e);
+    c.status(400);
+    return c.json(new InvalidRequestError());
+  }
+};
+
+export const deleteSaleItemHandler = async (c: Context) => {
+  try {
+    const id = c.req.query("id");
+    if (!id || isNaN(Number(id))) {
+      c.status(400);
+      return c.json(new InvalidRequestError());
+    }
+    const deleteSaleDetailUseCase = container.resolve<DeleteSaleItemUseCase>(
+      "DeleteSaleItemUseCase"
+    );
+    await deleteSaleDetailUseCase.execute(Number(id));
+    c.status(200);
+    return c.json({});
   } catch (e) {
     console.error(e);
     c.status(400);

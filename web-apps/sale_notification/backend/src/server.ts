@@ -12,11 +12,13 @@ import { GetSaleDetailUseCase } from "./usecases/getSaleDetail/interactor.js";
 import { cors } from "hono/cors";
 import {
   createSaleItemHandler,
+  deleteSaleItemHandler,
   upsertSaleItemHandler,
 } from "./presentation/handlers/sale_item_handler.js";
 import { CreateSaleItemUseCase } from "./usecases/createSaleItem/interactor.js";
 import { SaleItemRepositoryImpl } from "./infrastructure/repositories/sale_item_repository.js";
 import { UpsertSaleItemUseCase } from "./usecases/upsertSaleItem/interactor.js";
+import { DeleteSaleItemUseCase } from "./usecases/deleteSaleItem/interactor.js";
 
 export function startServer() {
   const app = new Hono();
@@ -49,6 +51,10 @@ export function startServer() {
     useClass: UpsertSaleItemUseCase,
   });
 
+  container.register("DeleteSaleItemUseCase", {
+    useClass: DeleteSaleItemUseCase,
+  });
+
   app.use("*", cors());
 
   app.get("/", (c) => {
@@ -66,6 +72,8 @@ export function startServer() {
   app.post("/saleItem", createSaleItemHandler);
 
   app.put("/saleItem", upsertSaleItemHandler);
+
+  app.delete("/saleItem", deleteSaleItemHandler);
 
   const port = 3001;
   console.log(`Server is running on http://localhost:${port}`);
