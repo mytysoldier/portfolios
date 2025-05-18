@@ -1,0 +1,21 @@
+-- トリガー関数の作成
+CREATE OR REPLACE FUNCTION archive_user_on_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO ArchivedUser (username, email, password, created_at, updated_at)
+    VALUES (
+        OLD.username,
+        OLD.email,
+        OLD.password,
+        OLD.created_at,
+        OLD.updated_at
+    );
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+-- トリガーの作成
+CREATE TRIGGER trigger_archive_user
+AFTER DELETE ON "User"
+FOR EACH ROW
+EXECUTE FUNCTION archive_user_on_delete();
