@@ -1,11 +1,11 @@
 <mxfile host="65bd71144e">
     <diagram id="jEZdE_Ny1NBWqmWWwVwP" name="一覧画面（Web）">
-        <mxGraphModel dx="583" dy="388" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="583" dy="429" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="3" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
-                    <mxGeometry x="30" y="40" width="630" height="630" as="geometry"/>
+                    <mxGeometry x="30" y="40" width="632" height="630" as="geometry"/>
                 </mxCell>
                 <mxCell id="4" value="" style="shape=table;html=1;whiteSpace=wrap;startSize=0;container=1;collapsible=0;childLayout=tableLayout;" parent="1" vertex="1">
                     <mxGeometry x="50" y="440" width="600" height="200" as="geometry"/>
@@ -468,70 +468,70 @@
         </mxGraphModel>
     </diagram>
     <diagram name="詳細画面(mobile)" id="JdAOK3bg6X68EBdh1GK5">
-        <mxGraphModel dx="583" dy="388" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="583" dy="429" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="GmrtpeDxFoJdsiq7Fidd-0"/>
                 <mxCell id="GmrtpeDxFoJdsiq7Fidd-1" parent="GmrtpeDxFoJdsiq7Fidd-0"/>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-2" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-2" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="30" y="40" width="400" height="400" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-3" value="セール名" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-3" value="セール名" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="70" y="90" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-4" value="セール詳細" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-4" value="セール詳細" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="180" y="60" width="120" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-5" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-5" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="80" y="120" width="310" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-6" value="更新" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#0085FC;strokeColor=none;align=center;spacing=15;fontSize=14;fontColor=#ffffff;sketch=0;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-6" value="更新" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#0085FC;strokeColor=none;align=center;spacing=15;fontSize=14;fontColor=#ffffff;sketch=0;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="250" y="380" width="130" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-7" value="開始日" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-7" value="開始日" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="60" y="230" width="70" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-8" value="2024/10/1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-8" value="2024/10/1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="80" y="260" width="300" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-9" value="商品カテゴリ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-9" value="商品カテゴリ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="70" y="160" width="80" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-10" value="デジタル機器" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#ffffff;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-10" value="デジタル機器" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#ffffff;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="80" y="190" width="300" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-11" value="" style="shape=triangle;direction=south;fillColor=#343A40;strokeColor=none;perimeter=none;sketch=0;fontSize=20;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-10">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-11" value="" style="shape=triangle;direction=south;fillColor=#343A40;strokeColor=none;perimeter=none;sketch=0;fontSize=20;" parent="GmrtpeDxFoJdsiq7Fidd-10" vertex="1">
                     <mxGeometry x="1" y="0.5" width="7" height="3" relative="1" as="geometry">
                         <mxPoint x="-17" y="1" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-12" value="" style="shape=triangle;direction=north;fillColor=#343A40;strokeColor=none;perimeter=none;sketch=0;fontSize=20;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-10">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-12" value="" style="shape=triangle;direction=north;fillColor=#343A40;strokeColor=none;perimeter=none;sketch=0;fontSize=20;" parent="GmrtpeDxFoJdsiq7Fidd-10" vertex="1">
                     <mxGeometry x="1" y="0.5" width="7" height="3" relative="1" as="geometry">
                         <mxPoint x="-17" y="-4" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-13" value="終了日" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-13" value="終了日" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="65" y="300" width="70" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-14" value="2024/10/31" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-14" value="2024/10/31" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="80" y="330" width="300" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-15" value="仕様メモ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-15" value="仕様メモ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="30" y="720" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-16" value="&lt;ul&gt;&lt;li&gt;セール名は上限５０文字&lt;/li&gt;&lt;li&gt;セール名は全角半角いずれも１文字としてカウント&lt;/li&gt;&lt;li&gt;カテゴリはプルダウンから選択&lt;/li&gt;&lt;li&gt;開始日、終了日はDate Pickerで選択&lt;/li&gt;&lt;li&gt;開始日は当日日付よりも３ヶ月前まで指定可&lt;/li&gt;&lt;li&gt;更新を押したら更新処理が走り、成功したら一覧画面に戻る&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-16" value="&lt;ul&gt;&lt;li&gt;セール名は上限５０文字&lt;/li&gt;&lt;li&gt;セール名は全角半角いずれも１文字としてカウント&lt;/li&gt;&lt;li&gt;カテゴリはプルダウンから選択&lt;/li&gt;&lt;li&gt;開始日、終了日はDate Pickerで選択&lt;/li&gt;&lt;li&gt;開始日は当日日付よりも３ヶ月前まで指定可&lt;/li&gt;&lt;li&gt;更新を押したら更新処理が走り、成功したら一覧画面に戻る&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="50" y="770" width="590" height="170" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-17" value="&lt;div&gt;商品カテゴリーの参考サイト&lt;/div&gt;&lt;div&gt;https://force-r.co.jp/column/column-11551/&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%26lt%3Bul%26gt%3B%26lt%3Bli%26gt%3B%E3%82%BB%E3%83%BC%E3%83%AB%E5%90%8D%E3%81%AF%E4%B8%8A%E9%99%90%EF%BC%95%EF%BC%90%E6%96%87%E5%AD%97%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E3%82%BB%E3%83%BC%E3%83%AB%E5%90%8D%E3%81%AF%E5%85%A8%E8%A7%92%E5%8D%8A%E8%A7%92%E3%81%84%E3%81%9A%E3%82%8C%E3%82%82%EF%BC%91%E6%96%87%E5%AD%97%E3%81%A8%E3%81%97%E3%81%A6%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E3%81%AF%E3%83%97%E3%83%AB%E3%83%80%E3%82%A6%E3%83%B3%E3%81%8B%E3%82%89%E9%81%B8%E6%8A%9E%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E9%96%8B%E5%A7%8B%E6%97%A5%E3%80%81%E7%B5%82%E4%BA%86%E6%97%A5%E3%81%AFDate%20Picker%E3%81%A7%E9%81%B8%E6%8A%9E%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E9%96%8B%E5%A7%8B%E6%97%A5%E3%81%AF%E5%BD%93%E6%97%A5%E6%97%A5%E4%BB%98%E3%82%88%E3%82%8A%E3%82%82%EF%BC%93%E3%83%B6%E6%9C%88%E5%89%8D%E3%81%BE%E3%81%A7%E6%8C%87%E5%AE%9A%E5%8F%AF%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E6%9B%B4%E6%96%B0%E3%82%92%E6%8A%BC%E3%81%97%E3%81%9F%E3%82%89%E6%9B%B4%E6%96%B0%E5%87%A6%E7%90%86%E3%81%8C%E8%B5%B0%E3%82%8A%E3%80%81%E6%88%90%E5%8A%9F%E3%81%97%E3%81%9F%E3%82%89%E4%B8%80%E8%A6%A7%E7%94%BB%E9%9D%A2%E3%81%AB%E6%88%BB%E3%82%8B%26lt%3B%2Fli%26gt%3B%26lt%3B%2Ful%26gt%3B%22%20style%3D%22text%3BstrokeColor%3Dnone%3BfillColor%3Dnone%3Bhtml%3D1%3BwhiteSpace%3Dwrap%3BverticalAlign%3Dtop%3Boverflow%3Dhidden%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%2250%22%20y%3D%22770%22%20width%3D%22590%22%20height%3D%22170%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-17" value="&lt;div&gt;商品カテゴリーの参考サイト&lt;/div&gt;&lt;div&gt;https://force-r.co.jp/column/column-11551/&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%26lt%3Bul%26gt%3B%26lt%3Bli%26gt%3B%E3%82%BB%E3%83%BC%E3%83%AB%E5%90%8D%E3%81%AF%E4%B8%8A%E9%99%90%EF%BC%95%EF%BC%90%E6%96%87%E5%AD%97%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E3%82%BB%E3%83%BC%E3%83%AB%E5%90%8D%E3%81%AF%E5%85%A8%E8%A7%92%E5%8D%8A%E8%A7%92%E3%81%84%E3%81%9A%E3%82%8C%E3%82%82%EF%BC%91%E6%96%87%E5%AD%97%E3%81%A8%E3%81%97%E3%81%A6%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E3%81%AF%E3%83%97%E3%83%AB%E3%83%80%E3%82%A6%E3%83%B3%E3%81%8B%E3%82%89%E9%81%B8%E6%8A%9E%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E9%96%8B%E5%A7%8B%E6%97%A5%E3%80%81%E7%B5%82%E4%BA%86%E6%97%A5%E3%81%AFDate%20Picker%E3%81%A7%E9%81%B8%E6%8A%9E%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E9%96%8B%E5%A7%8B%E6%97%A5%E3%81%AF%E5%BD%93%E6%97%A5%E6%97%A5%E4%BB%98%E3%82%88%E3%82%8A%E3%82%82%EF%BC%93%E3%83%B6%E6%9C%88%E5%89%8D%E3%81%BE%E3%81%A7%E6%8C%87%E5%AE%9A%E5%8F%AF%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E6%9B%B4%E6%96%B0%E3%82%92%E6%8A%BC%E3%81%97%E3%81%9F%E3%82%89%E6%9B%B4%E6%96%B0%E5%87%A6%E7%90%86%E3%81%8C%E8%B5%B0%E3%82%8A%E3%80%81%E6%88%90%E5%8A%9F%E3%81%97%E3%81%9F%E3%82%89%E4%B8%80%E8%A6%A7%E7%94%BB%E9%9D%A2%E3%81%AB%E6%88%BB%E3%82%8B%26lt%3B%2Fli%26gt%3B%26lt%3B%2Ful%26gt%3B%22%20style%3D%22text%3BstrokeColor%3Dnone%3BfillColor%3Dnone%3Bhtml%3D1%3BwhiteSpace%3Dwrap%3BverticalAlign%3Dtop%3Boverflow%3Dhidden%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%2250%22%20y%3D%22770%22%20width%3D%22590%22%20height%3D%22170%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="50" y="980" width="590" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="GmrtpeDxFoJdsiq7Fidd-18" value="戻る" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#999999;strokeColor=none;align=center;spacing=15;fontSize=14;fontColor=#ffffff;sketch=0;" vertex="1" parent="GmrtpeDxFoJdsiq7Fidd-1">
+                <mxCell id="GmrtpeDxFoJdsiq7Fidd-18" value="戻る" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#999999;strokeColor=none;align=center;spacing=15;fontSize=14;fontColor=#ffffff;sketch=0;" parent="GmrtpeDxFoJdsiq7Fidd-1" vertex="1">
                     <mxGeometry x="90" y="380" width="130" height="30" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
     <diagram name="追加画面" id="p0fePlfyi2jMZMEFFr_0">
-        <mxGraphModel dx="583" dy="388" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="583" dy="429" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="Bkwyw915YPcSd-kPeXAf-0"/>
                 <mxCell id="Bkwyw915YPcSd-kPeXAf-1" parent="Bkwyw915YPcSd-kPeXAf-0"/>
@@ -588,63 +588,63 @@
         </mxGraphModel>
     </diagram>
     <diagram name="追加画面(mobile)" id="BtwQeVRiBDeI8FsNN4iD">
-        <mxGraphModel dx="583" dy="388" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="583" dy="429" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="oKVB--7WSyvAlI6gZEUc-0"/>
                 <mxCell id="oKVB--7WSyvAlI6gZEUc-1" parent="oKVB--7WSyvAlI6gZEUc-0"/>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-2" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-2" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="30" y="40" width="400" height="400" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-3" value="セール名" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-3" value="セール名" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="70" y="90" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-4" value="セール追加" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-4" value="セール追加" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="180" y="60" width="120" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-5" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-5" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="80" y="120" width="310" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-7" value="開始日" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-7" value="開始日" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="60" y="230" width="70" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-8" value="2024/10/1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-8" value="2024/10/1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="80" y="260" width="300" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-9" value="商品カテゴリ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-9" value="商品カテゴリ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="70" y="160" width="80" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-10" value="デジタル機器" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#ffffff;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-10" value="デジタル機器" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#ffffff;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="80" y="190" width="300" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-11" value="" style="shape=triangle;direction=south;fillColor=#343A40;strokeColor=none;perimeter=none;sketch=0;fontSize=20;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-10">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-11" value="" style="shape=triangle;direction=south;fillColor=#343A40;strokeColor=none;perimeter=none;sketch=0;fontSize=20;" parent="oKVB--7WSyvAlI6gZEUc-10" vertex="1">
                     <mxGeometry x="1" y="0.5" width="7" height="3" relative="1" as="geometry">
                         <mxPoint x="-17" y="1" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-12" value="" style="shape=triangle;direction=north;fillColor=#343A40;strokeColor=none;perimeter=none;sketch=0;fontSize=20;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-10">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-12" value="" style="shape=triangle;direction=north;fillColor=#343A40;strokeColor=none;perimeter=none;sketch=0;fontSize=20;" parent="oKVB--7WSyvAlI6gZEUc-10" vertex="1">
                     <mxGeometry x="1" y="0.5" width="7" height="3" relative="1" as="geometry">
                         <mxPoint x="-17" y="-4" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-13" value="終了日" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-13" value="終了日" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="65" y="300" width="70" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-14" value="2024/10/31" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-14" value="2024/10/31" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="80" y="330" width="300" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-15" value="仕様メモ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-15" value="仕様メモ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="30" y="720" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-16" value="&lt;ul&gt;&lt;li&gt;セール名は上限５０文字&lt;/li&gt;&lt;li&gt;セール名は全角半角いずれも１文字としてカウント&lt;/li&gt;&lt;li&gt;カテゴリはプルダウンから選択&lt;/li&gt;&lt;li&gt;開始日、終了日はDate Pickerで選択&lt;/li&gt;&lt;li&gt;開始日は当日日付よりも３ヶ月前まで指定可&lt;/li&gt;&lt;li&gt;更新を押したら更新処理が走り、成功したら一覧画面に戻る&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-16" value="&lt;ul&gt;&lt;li&gt;セール名は上限５０文字&lt;/li&gt;&lt;li&gt;セール名は全角半角いずれも１文字としてカウント&lt;/li&gt;&lt;li&gt;カテゴリはプルダウンから選択&lt;/li&gt;&lt;li&gt;開始日、終了日はDate Pickerで選択&lt;/li&gt;&lt;li&gt;開始日は当日日付よりも３ヶ月前まで指定可&lt;/li&gt;&lt;li&gt;更新を押したら更新処理が走り、成功したら一覧画面に戻る&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="50" y="770" width="590" height="170" as="geometry"/>
                 </mxCell>
-                <mxCell id="oKVB--7WSyvAlI6gZEUc-17" value="&lt;div&gt;商品カテゴリーの参考サイト&lt;/div&gt;&lt;div&gt;https://force-r.co.jp/column/column-11551/&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%26lt%3Bul%26gt%3B%26lt%3Bli%26gt%3B%E3%82%BB%E3%83%BC%E3%83%AB%E5%90%8D%E3%81%AF%E4%B8%8A%E9%99%90%EF%BC%95%EF%BC%90%E6%96%87%E5%AD%97%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E3%82%BB%E3%83%BC%E3%83%AB%E5%90%8D%E3%81%AF%E5%85%A8%E8%A7%92%E5%8D%8A%E8%A7%92%E3%81%84%E3%81%9A%E3%82%8C%E3%82%82%EF%BC%91%E6%96%87%E5%AD%97%E3%81%A8%E3%81%97%E3%81%A6%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E3%81%AF%E3%83%97%E3%83%AB%E3%83%80%E3%82%A6%E3%83%B3%E3%81%8B%E3%82%89%E9%81%B8%E6%8A%9E%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E9%96%8B%E5%A7%8B%E6%97%A5%E3%80%81%E7%B5%82%E4%BA%86%E6%97%A5%E3%81%AFDate%20Picker%E3%81%A7%E9%81%B8%E6%8A%9E%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E9%96%8B%E5%A7%8B%E6%97%A5%E3%81%AF%E5%BD%93%E6%97%A5%E6%97%A5%E4%BB%98%E3%82%88%E3%82%8A%E3%82%82%EF%BC%93%E3%83%B6%E6%9C%88%E5%89%8D%E3%81%BE%E3%81%A7%E6%8C%87%E5%AE%9A%E5%8F%AF%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E6%9B%B4%E6%96%B0%E3%82%92%E6%8A%BC%E3%81%97%E3%81%9F%E3%82%89%E6%9B%B4%E6%96%B0%E5%87%A6%E7%90%86%E3%81%8C%E8%B5%B0%E3%82%8A%E3%80%81%E6%88%90%E5%8A%9F%E3%81%97%E3%81%9F%E3%82%89%E4%B8%80%E8%A6%A7%E7%94%BB%E9%9D%A2%E3%81%AB%E6%88%BB%E3%82%8B%26lt%3B%2Fli%26gt%3B%26lt%3B%2Ful%26gt%3B%22%20style%3D%22text%3BstrokeColor%3Dnone%3BfillColor%3Dnone%3Bhtml%3D1%3BwhiteSpace%3Dwrap%3BverticalAlign%3Dtop%3Boverflow%3Dhidden%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%2250%22%20y%3D%22770%22%20width%3D%22590%22%20height%3D%22170%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="oKVB--7WSyvAlI6gZEUc-17" value="&lt;div&gt;商品カテゴリーの参考サイト&lt;/div&gt;&lt;div&gt;https://force-r.co.jp/column/column-11551/&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%26lt%3Bul%26gt%3B%26lt%3Bli%26gt%3B%E3%82%BB%E3%83%BC%E3%83%AB%E5%90%8D%E3%81%AF%E4%B8%8A%E9%99%90%EF%BC%95%EF%BC%90%E6%96%87%E5%AD%97%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E3%82%BB%E3%83%BC%E3%83%AB%E5%90%8D%E3%81%AF%E5%85%A8%E8%A7%92%E5%8D%8A%E8%A7%92%E3%81%84%E3%81%9A%E3%82%8C%E3%82%82%EF%BC%91%E6%96%87%E5%AD%97%E3%81%A8%E3%81%97%E3%81%A6%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E3%81%AF%E3%83%97%E3%83%AB%E3%83%80%E3%82%A6%E3%83%B3%E3%81%8B%E3%82%89%E9%81%B8%E6%8A%9E%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E9%96%8B%E5%A7%8B%E6%97%A5%E3%80%81%E7%B5%82%E4%BA%86%E6%97%A5%E3%81%AFDate%20Picker%E3%81%A7%E9%81%B8%E6%8A%9E%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E9%96%8B%E5%A7%8B%E6%97%A5%E3%81%AF%E5%BD%93%E6%97%A5%E6%97%A5%E4%BB%98%E3%82%88%E3%82%8A%E3%82%82%EF%BC%93%E3%83%B6%E6%9C%88%E5%89%8D%E3%81%BE%E3%81%A7%E6%8C%87%E5%AE%9A%E5%8F%AF%26lt%3B%2Fli%26gt%3B%26lt%3Bli%26gt%3B%E6%9B%B4%E6%96%B0%E3%82%92%E6%8A%BC%E3%81%97%E3%81%9F%E3%82%89%E6%9B%B4%E6%96%B0%E5%87%A6%E7%90%86%E3%81%8C%E8%B5%B0%E3%82%8A%E3%80%81%E6%88%90%E5%8A%9F%E3%81%97%E3%81%9F%E3%82%89%E4%B8%80%E8%A6%A7%E7%94%BB%E9%9D%A2%E3%81%AB%E6%88%BB%E3%82%8B%26lt%3B%2Fli%26gt%3B%26lt%3B%2Ful%26gt%3B%22%20style%3D%22text%3BstrokeColor%3Dnone%3BfillColor%3Dnone%3Bhtml%3D1%3BwhiteSpace%3Dwrap%3BverticalAlign%3Dtop%3Boverflow%3Dhidden%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%2250%22%20y%3D%22770%22%20width%3D%22590%22%20height%3D%22170%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="50" y="980" width="590" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="qUZDwZJPahvee_McV53J-0" value="登録" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#0085FC;strokeColor=none;align=center;spacing=15;fontSize=14;fontColor=#ffffff;sketch=0;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="qUZDwZJPahvee_McV53J-0" value="登録" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#0085FC;strokeColor=none;align=center;spacing=15;fontSize=14;fontColor=#ffffff;sketch=0;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="250" y="380" width="130" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="qUZDwZJPahvee_McV53J-1" value="戻る" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#999999;strokeColor=none;align=center;spacing=15;fontSize=14;fontColor=#ffffff;sketch=0;" vertex="1" parent="oKVB--7WSyvAlI6gZEUc-1">
+                <mxCell id="qUZDwZJPahvee_McV53J-1" value="戻る" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=#999999;strokeColor=none;align=center;spacing=15;fontSize=14;fontColor=#ffffff;sketch=0;" parent="oKVB--7WSyvAlI6gZEUc-1" vertex="1">
                     <mxGeometry x="90" y="380" width="130" height="30" as="geometry"/>
                 </mxCell>
             </root>
