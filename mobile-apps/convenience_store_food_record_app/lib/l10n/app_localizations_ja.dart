@@ -19,4 +19,7 @@ class L10nJa extends L10n {
 
   @override
   String get statistic_screen_title => '統計情報';
+
+  @override
+  String get history_search_input_hint_text => '商品名やメモで検索...';
 }

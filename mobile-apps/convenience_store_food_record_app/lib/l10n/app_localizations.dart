@@ -116,6 +116,12 @@ abstract class L10n {
   /// In ja, this message translates to:
   /// **'統計情報'**
   String get statistic_screen_title;
+
+  /// No description provided for @history_search_input_hint_text.
+  ///
+  /// In ja, this message translates to:
+  /// **'商品名やメモで検索...'**
+  String get history_search_input_hint_text;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {

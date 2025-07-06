@@ -9,6 +9,7 @@ class HistoryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = L10n.of(context);
+    final textController = TextEditingController();
 
     return Container(
       decoration: BoxDecoration(
@@ -19,6 +20,7 @@ class HistoryScreen extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 16,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -30,6 +32,52 @@ class HistoryScreen extends ConsumerWidget {
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          // フリーテキストで検索
+          TextField(
+            controller: textController,
+            decoration: InputDecoration(
+              labelText: l10n.history_search_input_hint_text,
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.search),
+            ),
+          ),
+          // プルダウンで検索
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // コンビニ名
+              Expanded(
+                child: DropdownButtonFormField<String>(
+                  value: null,
+                  items: const [
+                    DropdownMenuItem(value: 'option1', child: Text('プルダウン1')),
+                    DropdownMenuItem(value: 'option2', child: Text('プルダウン2')),
+                  ],
+                  onChanged: (value) {},
+                  decoration: const InputDecoration(
+                    labelText: 'カテゴリ',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              // 商品名
+              Expanded(
+                child: DropdownButtonFormField<String>(
+                  value: null,
+                  items: const [
+                    DropdownMenuItem(value: 'optionA', child: Text('プルダウンA')),
+                    DropdownMenuItem(value: 'optionB', child: Text('プルダウンB')),
+                  ],
+                  onChanged: (value) {},
+                  decoration: const InputDecoration(
+                    labelText: '並び順',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
             ],

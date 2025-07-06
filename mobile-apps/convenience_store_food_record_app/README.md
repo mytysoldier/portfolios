@@ -10,8 +10,10 @@
 - 統計画面:記録したデータから、コンビニごとの購入回数や、ジャンル別の支出などをグラフで表示
 
 ## 使用技術、FW、LB
-- Flutter & Dart
-- TBD
+- Flutter & Dart: メイン言語
+- flutter_localization: メッセージ管理
+- go_router: 画面遷移
+- Riverpod: 状態管理
 
 
 ## 起動方法
