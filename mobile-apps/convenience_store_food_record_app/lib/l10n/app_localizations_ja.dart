@@ -10,4 +10,10 @@ class L10nJa extends L10n {
 
   @override
   String get history_screen_title => '購入履歴';
+
+  @override
+  String get record_screen_title => '新しい記録';
+
+  @override
+  String get statistic_screen_title => '統計情報';
 }

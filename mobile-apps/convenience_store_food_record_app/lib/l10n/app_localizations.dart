@@ -98,6 +98,18 @@ abstract class L10n {
   /// In ja, this message translates to:
   /// **'購入履歴'**
   String get history_screen_title;
+
+  /// No description provided for @record_screen_title.
+  ///
+  /// In ja, this message translates to:
+  /// **'新しい記録'**
+  String get record_screen_title;
+
+  /// No description provided for @statistic_screen_title.
+  ///
+  /// In ja, this message translates to:
+  /// **'統計情報'**
+  String get statistic_screen_title;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {
