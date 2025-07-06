@@ -9,6 +9,9 @@ class L10nJa extends L10n {
   L10nJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get screen_title => 'コンビニ飯記録';
+
+  @override
   String get history_screen_title => '購入履歴';
 
   @override

@@ -93,6 +93,12 @@ abstract class L10n {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('ja')];
 
+  /// No description provided for @screen_title.
+  ///
+  /// In ja, this message translates to:
+  /// **'コンビニ飯記録'**
+  String get screen_title;
+
   /// No description provided for @history_screen_title.
   ///
   /// In ja, this message translates to:

@@ -9,9 +9,6 @@ class StatisticScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = L10n.of(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.statistic_screen_title)),
-      body: Center(child: Text('Statistic Screen')),
-    );
+    return Center(child: Text('Statistic Screen'));
   }
 }

@@ -9,9 +9,6 @@ class RecordScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = L10n.of(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.record_screen_title)),
-      body: Center(child: Text('Record Screen')),
-    );
+    return Center(child: Text('Record Screen'));
   }
 }
