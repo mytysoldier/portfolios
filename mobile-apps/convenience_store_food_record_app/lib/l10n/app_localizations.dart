@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_en.dart';
 import 'app_localizations_ja.dart';
 
 // ignore_for_file: type=lint
@@ -91,7 +92,10 @@ abstract class L10n {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('ja')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('ja'),
+  ];
 
   /// No description provided for @screen_title.
   ///
@@ -122,6 +126,78 @@ abstract class L10n {
   /// In ja, this message translates to:
   /// **'商品名やメモで検索...'**
   String get history_search_input_hint_text;
+
+  /// No description provided for @item_name_record_input_hint_text.
+  ///
+  /// In ja, this message translates to:
+  /// **'例: ツナマヨおにぎり'**
+  String get item_name_record_input_hint_text;
+
+  /// No description provided for @convenience_store_record_input_hint_text.
+  ///
+  /// In ja, this message translates to:
+  /// **'コンビニを選択'**
+  String get convenience_store_record_input_hint_text;
+
+  /// No description provided for @category_record_input_hint_text.
+  ///
+  /// In ja, this message translates to:
+  /// **'カテゴリを選択'**
+  String get category_record_input_hint_text;
+
+  /// No description provided for @price_record_input_hint_text.
+  ///
+  /// In ja, this message translates to:
+  /// **'例: 120'**
+  String get price_record_input_hint_text;
+
+  /// No description provided for @memo_record_input_hint_text.
+  ///
+  /// In ja, this message translates to:
+  /// **'味の感想や評価など...'**
+  String get memo_record_input_hint_text;
+
+  /// No description provided for @item_photo_name.
+  ///
+  /// In ja, this message translates to:
+  /// **'商品写真'**
+  String get item_photo_name;
+
+  /// No description provided for @item_name.
+  ///
+  /// In ja, this message translates to:
+  /// **'商品名'**
+  String get item_name;
+
+  /// No description provided for @item_convenience_store_name.
+  ///
+  /// In ja, this message translates to:
+  /// **'コンビニ'**
+  String get item_convenience_store_name;
+
+  /// No description provided for @category_name.
+  ///
+  /// In ja, this message translates to:
+  /// **'カテゴリ'**
+  String get category_name;
+
+  /// No description provided for @price_name.
+  ///
+  /// In ja, this message translates to:
+  /// **'金額'**
+  String get price_name;
+
+  /// No description provided for @memo_name.
+  ///
+  /// In ja, this message translates to:
+  /// **'メモ'**
+  String get memo_name;
+
+  /// No description provided for @description_upload_or_take_a_photo.
+  ///
+  /// In ja, this message translates to:
+  /// **'写真を撮影またはアップロード'**
+  String get description_upload_or_take_a_photo;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {
@@ -134,7 +210,7 @@ class _L10nDelegate extends LocalizationsDelegate<L10n> {
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['ja'].contains(locale.languageCode);
+      <String>['en', 'ja'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_L10nDelegate old) => false;
@@ -143,6 +219,8 @@ class _L10nDelegate extends LocalizationsDelegate<L10n> {
 L10n lookupL10n(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'en':
+      return L10nEn();
     case 'ja':
       return L10nJa();
   }
