@@ -198,6 +198,12 @@ abstract class L10n {
   /// In ja, this message translates to:
   /// **'写真を撮影またはアップロード'**
   String get description_upload_or_take_a_photo;
+
+  /// No description provided for @record_button_text.
+  ///
+  /// In ja, this message translates to:
+  /// **'記録する'**
+  String get record_button_text;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {

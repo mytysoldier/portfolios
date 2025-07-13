@@ -58,4 +58,7 @@ class L10nJa extends L10n {
 
   @override
   String get description_upload_or_take_a_photo => '写真を撮影またはアップロード';
+
+  @override
+  String get record_button_text => '記録する';
 }

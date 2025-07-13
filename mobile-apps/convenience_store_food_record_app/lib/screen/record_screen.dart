@@ -54,6 +54,7 @@ class RecordScreen extends ConsumerWidget {
     final imagePath = ref.watch(imagePickerProvider);
     final itemNameTextEditingController = TextEditingController();
     final priceTextEditingController = TextEditingController();
+    final memoTextEditingController = TextEditingController();
 
     return SingleChildScrollView(
       child: Container(
@@ -147,7 +148,7 @@ class RecordScreen extends ConsumerWidget {
                 TextField(
                   controller: itemNameTextEditingController,
                   decoration: InputDecoration(
-                    labelText: l10n.item_name_record_input_hint_text,
+                    hintText: l10n.item_name_record_input_hint_text,
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
@@ -243,13 +244,54 @@ class RecordScreen extends ConsumerWidget {
                 TextField(
                   controller: priceTextEditingController,
                   decoration: InputDecoration(
-                    labelText: l10n.price_record_input_hint_text,
+                    hintText: l10n.price_record_input_hint_text,
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
                   ),
                 ),
               ],
+            ),
+            // メモ
+            Column(
+              spacing: 8,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    l10n.memo_name,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyLarge!.copyWith(color: Colors.black),
+                  ),
+                ),
+                TextField(
+                  controller: memoTextEditingController,
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                    hintText: l10n.memo_record_input_hint_text,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            // 保存ボタン
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                onPressed: () {},
+                child: Text(l10n.record_button_text),
+              ),
             ),
           ],
         ),
