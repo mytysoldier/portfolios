@@ -16,5 +16,15 @@
     "price_name": "金額",
     "memo_name": "メモ",
     "description_upload_or_take_a_photo": "写真を撮影またはアップロード",
-    "record_button_text": "記録する"
+    "record_button_text": "記録する",
+    "pulldown_convenience_store_all": "すべて",
+    "pulldown_convenience_store_seven": "セブンイレブン",
+    "pulldown_convenience_store_rowson": "ローソン",
+    "pulldown_convenience_store_family_mart": "ファミリーマート",
+    "pulldown_convenience_store_other": "その他",
+    "pulldown_item_all": "すべて",
+    "pulldown_item_onigiri": "おにぎり",
+    "pulldown_item_bread": "パン",
+    "pulldown_item_lunch_box": "弁当",
+    "pulldown_item_dessert": "デザート"
 }

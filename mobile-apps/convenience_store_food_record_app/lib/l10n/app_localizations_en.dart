@@ -61,4 +61,34 @@ class L10nEn extends L10n {
 
   @override
   String get record_button_text => '記録する';
+
+  @override
+  String get pulldown_convenience_store_all => 'すべて';
+
+  @override
+  String get pulldown_convenience_store_seven => 'セブンイレブン';
+
+  @override
+  String get pulldown_convenience_store_rowson => 'ローソン';
+
+  @override
+  String get pulldown_convenience_store_family_mart => 'ファミリーマート';
+
+  @override
+  String get pulldown_convenience_store_other => 'その他';
+
+  @override
+  String get pulldown_item_all => 'すべて';
+
+  @override
+  String get pulldown_item_onigiri => 'おにぎり';
+
+  @override
+  String get pulldown_item_bread => 'パン';
+
+  @override
+  String get pulldown_item_lunch_box => '弁当';
+
+  @override
+  String get pulldown_item_dessert => 'デザート';
 }

@@ -204,6 +204,66 @@ abstract class L10n {
   /// In ja, this message translates to:
   /// **'記録する'**
   String get record_button_text;
+
+  /// No description provided for @pulldown_convenience_store_all.
+  ///
+  /// In ja, this message translates to:
+  /// **'すべて'**
+  String get pulldown_convenience_store_all;
+
+  /// No description provided for @pulldown_convenience_store_seven.
+  ///
+  /// In ja, this message translates to:
+  /// **'セブンイレブン'**
+  String get pulldown_convenience_store_seven;
+
+  /// No description provided for @pulldown_convenience_store_rowson.
+  ///
+  /// In ja, this message translates to:
+  /// **'ローソン'**
+  String get pulldown_convenience_store_rowson;
+
+  /// No description provided for @pulldown_convenience_store_family_mart.
+  ///
+  /// In ja, this message translates to:
+  /// **'ファミリーマート'**
+  String get pulldown_convenience_store_family_mart;
+
+  /// No description provided for @pulldown_convenience_store_other.
+  ///
+  /// In ja, this message translates to:
+  /// **'その他'**
+  String get pulldown_convenience_store_other;
+
+  /// No description provided for @pulldown_item_all.
+  ///
+  /// In ja, this message translates to:
+  /// **'すべて'**
+  String get pulldown_item_all;
+
+  /// No description provided for @pulldown_item_onigiri.
+  ///
+  /// In ja, this message translates to:
+  /// **'おにぎり'**
+  String get pulldown_item_onigiri;
+
+  /// No description provided for @pulldown_item_bread.
+  ///
+  /// In ja, this message translates to:
+  /// **'パン'**
+  String get pulldown_item_bread;
+
+  /// No description provided for @pulldown_item_lunch_box.
+  ///
+  /// In ja, this message translates to:
+  /// **'弁当'**
+  String get pulldown_item_lunch_box;
+
+  /// No description provided for @pulldown_item_dessert.
+  ///
+  /// In ja, this message translates to:
+  /// **'デザート'**
+  String get pulldown_item_dessert;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {
