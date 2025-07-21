@@ -2,6 +2,7 @@ import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 import 'package:convenience_store_food_record_app/screen/history_screen.dart';
 import 'package:convenience_store_food_record_app/screen/record_screen.dart';
 import 'package:convenience_store_food_record_app/screen/statistic_screen.dart';
+import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: _router,
+      theme: mainThemeData, // main_theme.dartのテーマを適用
       localizationsDelegates: L10n.localizationsDelegates,
       supportedLocales: L10n.supportedLocales,
     );

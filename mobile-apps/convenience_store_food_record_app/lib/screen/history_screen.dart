@@ -1,3 +1,4 @@
+import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
@@ -102,10 +103,11 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                 const SizedBox(width: 16),
                 Text(
                   l10n.history_screen_title,
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  // style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                  //   color: Colors.black,
+                  //   fontWeight: FontWeight.bold,
+                  // ),
+                  style: Theme.of(context).textTheme.sampleTextStyle,
                 ),
               ],
             ),

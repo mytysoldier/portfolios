@@ -264,6 +264,90 @@ abstract class L10n {
   /// In ja, this message translates to:
   /// **'デザート'**
   String get pulldown_item_dessert;
+
+  /// No description provided for @statistic_screen_all_expenditure.
+  ///
+  /// In ja, this message translates to:
+  /// **'総支出額'**
+  String get statistic_screen_all_expenditure;
+
+  /// No description provided for @statistic_screen_number_of_purchase_by_convenience_store.
+  ///
+  /// In ja, this message translates to:
+  /// **'コンビニ別購入回数'**
+  String get statistic_screen_number_of_purchase_by_convenience_store;
+
+  /// No description provided for @statistic_screen_expenditure_by_category.
+  ///
+  /// In ja, this message translates to:
+  /// **'カテゴリ別支出'**
+  String get statistic_screen_expenditure_by_category;
+
+  /// No description provided for @statistic_screen_recent_trends.
+  ///
+  /// In ja, this message translates to:
+  /// **'最近の傾向'**
+  String get statistic_screen_recent_trends;
+
+  /// No description provided for @statistic_screen_total_number_of_records.
+  ///
+  /// In ja, this message translates to:
+  /// **'総記録数'**
+  String get statistic_screen_total_number_of_records;
+
+  /// No description provided for @statistic_screen_average_unit_price.
+  ///
+  /// In ja, this message translates to:
+  /// **'平均単価'**
+  String get statistic_screen_average_unit_price;
+
+  /// No description provided for @seven_eleven.
+  ///
+  /// In ja, this message translates to:
+  /// **'セブンイレブン'**
+  String get seven_eleven;
+
+  /// No description provided for @rowson.
+  ///
+  /// In ja, this message translates to:
+  /// **'ローソン'**
+  String get rowson;
+
+  /// No description provided for @family_mart.
+  ///
+  /// In ja, this message translates to:
+  /// **'ファミリーマート'**
+  String get family_mart;
+
+  /// No description provided for @other_store.
+  ///
+  /// In ja, this message translates to:
+  /// **'その他'**
+  String get other_store;
+
+  /// No description provided for @onigiri.
+  ///
+  /// In ja, this message translates to:
+  /// **'おにぎり'**
+  String get onigiri;
+
+  /// No description provided for @bread.
+  ///
+  /// In ja, this message translates to:
+  /// **'パン'**
+  String get bread;
+
+  /// No description provided for @dessert.
+  ///
+  /// In ja, this message translates to:
+  /// **'デザート'**
+  String get dessert;
+
+  /// No description provided for @lunch_box.
+  ///
+  /// In ja, this message translates to:
+  /// **'弁当'**
+  String get lunch_box;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {

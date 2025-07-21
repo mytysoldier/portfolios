@@ -91,4 +91,47 @@ class L10nEn extends L10n {
 
   @override
   String get pulldown_item_dessert => 'デザート';
+
+  @override
+  String get statistic_screen_all_expenditure => '総支出額';
+
+  @override
+  String get statistic_screen_number_of_purchase_by_convenience_store =>
+      'コンビニ別購入回数';
+
+  @override
+  String get statistic_screen_expenditure_by_category => 'カテゴリ別支出';
+
+  @override
+  String get statistic_screen_recent_trends => '最近の傾向';
+
+  @override
+  String get statistic_screen_total_number_of_records => '総記録数';
+
+  @override
+  String get statistic_screen_average_unit_price => '平均単価';
+
+  @override
+  String get seven_eleven => 'セブンイレブン';
+
+  @override
+  String get rowson => 'ローソン';
+
+  @override
+  String get family_mart => 'ファミリーマート';
+
+  @override
+  String get other_store => 'その他';
+
+  @override
+  String get onigiri => 'おにぎり';
+
+  @override
+  String get bread => 'パン';
+
+  @override
+  String get dessert => 'デザート';
+
+  @override
+  String get lunch_box => '弁当';
 }

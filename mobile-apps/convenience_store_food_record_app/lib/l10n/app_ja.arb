@@ -26,5 +26,19 @@
     "pulldown_item_onigiri": "おにぎり",
     "pulldown_item_bread": "パン",
     "pulldown_item_lunch_box": "弁当",
-    "pulldown_item_dessert": "デザート"
+    "pulldown_item_dessert": "デザート",
+    "statistic_screen_all_expenditure": "総支出額",
+    "statistic_screen_number_of_purchase_by_convenience_store": "コンビニ別購入回数",
+    "statistic_screen_expenditure_by_category": "カテゴリ別支出",
+    "statistic_screen_recent_trends": "最近の傾向",
+    "statistic_screen_total_number_of_records": "総記録数",
+    "statistic_screen_average_unit_price": "平均単価",
+    "seven_eleven": "セブンイレブン",
+    "rowson": "ローソン",
+    "family_mart": "ファミリーマート",
+    "other_store": "その他",
+    "onigiri": "おにぎり",
+    "bread": "パン",
+    "dessert": "デザート",
+    "lunch_box": "弁当"
 }
