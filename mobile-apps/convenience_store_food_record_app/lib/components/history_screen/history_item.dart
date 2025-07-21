@@ -34,31 +34,112 @@ class HistoryItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    item.productName,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    item.storeName,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(item.memo, style: Theme.of(context).textTheme.bodySmall),
-                  const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '￥${item.price}',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        item.productName,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        '${item.purchaseDate.year}/${item.purchaseDate.month}/${item.purchaseDate.day}',
-                        style: Theme.of(context).textTheme.bodySmall,
+                        '￥${item.price}',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 4),
+                  // 2行目：storeName, category, purchaseDateを縦並びで表示
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.store,
+                                  size: 16,
+                                  color: Colors.grey[700],
+                                ),
+                                const SizedBox(width: 4),
+                                Flexible(
+                                  child: Text(
+                                    item.storeName,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall,
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.category,
+                                  size: 16,
+                                  color: Colors.grey[700],
+                                ),
+                                const SizedBox(width: 4),
+                                Flexible(
+                                  child: Text(
+                                    item.category,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall,
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_today,
+                                  size: 16,
+                                  color: Colors.grey[700],
+                                ),
+                                const SizedBox(width: 4),
+                                Flexible(
+                                  child: Text(
+                                    '${item.purchaseDate.year}/${item.purchaseDate.month}/${item.purchaseDate.day}',
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall,
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(item.memo, style: Theme.of(context).textTheme.bodySmall),
                 ],
               ),
             ),

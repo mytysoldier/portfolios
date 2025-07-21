@@ -21,46 +21,58 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     // サンプルデータを初回のみ追加
     Future.microtask(() {
       if (!_initialized && ref.read(historyItemListProvider).isEmpty) {
-        ref.read(historyItemListProvider.notifier).addItem(
-          HistoryItemModel(
-            imageUrl: 'https://via.placeholder.com/64',
-            productName: 'サンプル商品A',
-            storeName: 'セブンイレブン',
-            memo: 'おいしかった！',
-            price: 150,
-            purchaseDate: DateTime.now(),
-          ),
-        );
-        ref.read(historyItemListProvider.notifier).addItem(
-          HistoryItemModel(
-            imageUrl: 'https://via.placeholder.com/64',
-            productName: 'サンプル商品B',
-            storeName: 'ローソン',
-            memo: '新商品です',
-            price: 220,
-            purchaseDate: DateTime.now().subtract(const Duration(days: 1)),
-          ),
-        );
-        ref.read(historyItemListProvider.notifier).addItem(
-          HistoryItemModel(
-            imageUrl: 'https://via.placeholder.com/64',
-            productName: 'サンプル商品C',
-            storeName: 'ファミリーマート',
-            memo: 'リピートしたい',
-            price: 180,
-            purchaseDate: DateTime.now().subtract(const Duration(days: 2)),
-          ),
-        );
-        ref.read(historyItemListProvider.notifier).addItem(
-          HistoryItemModel(
-            imageUrl: 'https://via.placeholder.com/64',
-            productName: 'サンプル商品D',
-            storeName: 'ミニストップ',
-            memo: '値段が安い',
-            price: 120,
-            purchaseDate: DateTime.now().subtract(const Duration(days: 3)),
-          ),
-        );
+        ref
+            .read(historyItemListProvider.notifier)
+            .addItem(
+              HistoryItemModel(
+                imageUrl: 'https://via.placeholder.com/64',
+                productName: 'サンプル商品A',
+                storeName: 'セブンイレブン',
+                category: 'おにぎり',
+                memo: 'おいしかった！',
+                price: 150,
+                purchaseDate: DateTime.now(),
+              ),
+            );
+        ref
+            .read(historyItemListProvider.notifier)
+            .addItem(
+              HistoryItemModel(
+                imageUrl: 'https://via.placeholder.com/64',
+                productName: 'サンプル商品B',
+                storeName: 'ローソン',
+                category: 'パン',
+                memo: '新商品です',
+                price: 220,
+                purchaseDate: DateTime.now().subtract(const Duration(days: 1)),
+              ),
+            );
+        ref
+            .read(historyItemListProvider.notifier)
+            .addItem(
+              HistoryItemModel(
+                imageUrl: 'https://via.placeholder.com/64',
+                productName: 'サンプル商品C',
+                storeName: 'ファミリーマート',
+                category: '弁当',
+                memo: 'リピートしたい',
+                price: 180,
+                purchaseDate: DateTime.now().subtract(const Duration(days: 2)),
+              ),
+            );
+        ref
+            .read(historyItemListProvider.notifier)
+            .addItem(
+              HistoryItemModel(
+                imageUrl: 'https://via.placeholder.com/64',
+                productName: 'サンプル商品D',
+                storeName: 'ミニストップ',
+                category: 'デザート',
+                memo: '値段が安い',
+                price: 120,
+                purchaseDate: DateTime.now().subtract(const Duration(days: 3)),
+              ),
+            );
         _initialized = true;
       }
     });
@@ -120,7 +132,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                     ],
                     onChanged: (value) {},
                     decoration: const InputDecoration(
-                      labelText: 'カテゴリ',
+                      labelText: 'コンビニ',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -136,7 +148,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                     ],
                     onChanged: (value) {},
                     decoration: const InputDecoration(
-                      labelText: '並び順',
+                      labelText: 'カテゴリ',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -144,7 +156,6 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               ],
             ),
             // 履歴リスト表示
-            const SizedBox(height: 24),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
