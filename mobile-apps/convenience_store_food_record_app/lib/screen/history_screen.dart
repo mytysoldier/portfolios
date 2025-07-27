@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 import 'package:convenience_store_food_record_app/providers/history_item_provider.dart';
 import 'package:convenience_store_food_record_app/components/history_screen/history_item.dart';
-import 'package:convenience_store_food_record_app/models/history_item_model.dart';
 
 class HistoryScreen extends ConsumerStatefulWidget {
   const HistoryScreen({super.key});
@@ -14,68 +13,12 @@ class HistoryScreen extends ConsumerStatefulWidget {
 }
 
 class _HistoryScreenState extends ConsumerState<HistoryScreen> {
-  bool _initialized = false;
-
   @override
   void initState() {
     super.initState();
-    // サンプルデータを初回のみ追加
-    Future.microtask(() {
-      if (!_initialized && ref.read(historyItemListProvider).isEmpty) {
-        ref
-            .read(historyItemListProvider.notifier)
-            .addItem(
-              HistoryItemModel(
-                imageUrl: 'https://via.placeholder.com/64',
-                productName: 'サンプル商品A',
-                storeName: 'セブンイレブン',
-                category: 'おにぎり',
-                memo: 'おいしかった！',
-                price: 150,
-                purchaseDate: DateTime.now(),
-              ),
-            );
-        ref
-            .read(historyItemListProvider.notifier)
-            .addItem(
-              HistoryItemModel(
-                imageUrl: 'https://via.placeholder.com/64',
-                productName: 'サンプル商品B',
-                storeName: 'ローソン',
-                category: 'パン',
-                memo: '新商品です',
-                price: 220,
-                purchaseDate: DateTime.now().subtract(const Duration(days: 1)),
-              ),
-            );
-        ref
-            .read(historyItemListProvider.notifier)
-            .addItem(
-              HistoryItemModel(
-                imageUrl: 'https://via.placeholder.com/64',
-                productName: 'サンプル商品C',
-                storeName: 'ファミリーマート',
-                category: '弁当',
-                memo: 'リピートしたい',
-                price: 180,
-                purchaseDate: DateTime.now().subtract(const Duration(days: 2)),
-              ),
-            );
-        ref
-            .read(historyItemListProvider.notifier)
-            .addItem(
-              HistoryItemModel(
-                imageUrl: 'https://via.placeholder.com/64',
-                productName: 'サンプル商品D',
-                storeName: 'ミニストップ',
-                category: 'デザート',
-                memo: '値段が安い',
-                price: 120,
-                purchaseDate: DateTime.now().subtract(const Duration(days: 3)),
-              ),
-            );
-        _initialized = true;
-      }
+    // 購入履歴を取得
+    Future.microtask(() async {
+      await ref.read(historyItemListProvider.notifier).fetchPurchasedItems(ref);
     });
   }
 

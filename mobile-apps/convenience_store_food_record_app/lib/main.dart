@@ -15,6 +15,9 @@ void main() async {
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    postgrestOptions: PostgrestClientOptions(
+      schema: 'conv_food_record_app', // デフォルトスキーマを指定
+    ),
   );
   runApp(const ProviderScope(child: MyApp()));
 }
