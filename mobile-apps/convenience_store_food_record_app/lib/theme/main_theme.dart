@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 class AppTextStyles {
   static const sampleTextStyle = TextStyle(fontSize: 14, color: Colors.black54);
+  static const bodyHeadTextStyle = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    color: Colors.black,
+  );
   static const bodyLarge = TextStyle(fontSize: 16, color: Colors.black);
   static const bodySmall = TextStyle(fontSize: 12, color: Colors.grey);
   static const titleMedium = TextStyle(
@@ -14,6 +19,7 @@ class AppTextStyles {
 
 extension CustomTextTheme on TextTheme {
   TextStyle get sampleTextStyle => AppTextStyles.sampleTextStyle;
+  TextStyle get bodyHeadTextStyle => AppTextStyles.bodyHeadTextStyle;
 }
 
 final mainThemeData = ThemeData(
