@@ -19,18 +19,10 @@ class StatisticScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = L10n.of(context);
     final statistic = ref.watch(statisticDataProvider);
-    final storeMasterAsync = ref.watch(storeMasterProvider);
-    final categoryMasterAsync = ref.watch(categoryMasterProvider);
+    final storeMaster = ref.watch(storeMasterProvider);
+    final categoryMaster = ref.watch(categoryMasterProvider);
 
-    if (storeMasterAsync.isLoading || categoryMasterAsync.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    if (storeMasterAsync.hasError || categoryMasterAsync.hasError) {
-      return const Center(child: Text('マスタの取得に失敗しました'));
-    }
-
-    final storeMaster = storeMasterAsync.value ?? {};
-    final categoryMaster = categoryMasterAsync.value ?? {};
+    // ローディングやエラー表示は必要に応じて追加してください
 
     final storeStats = statistic.storeStatistics;
     final categoryStats = statistic.categoryStatistics;

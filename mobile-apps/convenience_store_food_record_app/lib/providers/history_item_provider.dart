@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/history_item_model.dart';
-import 'store_master_provider.dart';
-import 'category_master_provider.dart';
+import '../providers/store_master_provider.dart';
+import '../providers/category_master_provider.dart';
 
 class HistoryItemListNotifier extends StateNotifier<List<HistoryItemModel>> {
   HistoryItemListNotifier() : super([]);
@@ -21,8 +21,10 @@ class HistoryItemListNotifier extends StateNotifier<List<HistoryItemModel>> {
 
   Future<void> fetchPurchasedItems(WidgetRef ref) async {
     final supabase = Supabase.instance.client;
-    final storeMap = await ref.read(storeMasterProvider.future);
-    final categoryMap = await ref.read(categoryMasterProvider.future);
+    await ref.read(storeMasterProvider.notifier).fetch();
+    await ref.read(categoryMasterProvider.notifier).fetch();
+    final storeMap = ref.read(storeMasterProvider);
+    final categoryMap = ref.read(categoryMasterProvider);
 
     final response = await supabase.from('purchase_history').select();
     state = response
