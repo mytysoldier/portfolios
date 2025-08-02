@@ -4,7 +4,8 @@ import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../providers/image_picker_provider.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../providers/record_item_provider.dart';
+import '../models/record_item_model.dart';
 
 class RecordScreen extends ConsumerWidget {
   const RecordScreen({super.key});
@@ -308,8 +309,44 @@ class RecordScreen extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () {
-                  _uploadImageToR2(context, ref);
+                onPressed: () async {
+                  // 画像アップロード
+                  final imagePath = ref.read(imagePickerProvider);
+                  String? imageUrl;
+                  if (imagePath != null) {
+                    final fileName = imagePath.split('/').last;
+                    // await ref
+                    //     .read(imagePickerProvider.notifier)
+                    //     .uploadToR2(filePath: imagePath, fileName: fileName);
+                  }
+                  // 入力値取得
+                  final productName = itemNameTextEditingController.text;
+                  final price =
+                      int.tryParse(priceTextEditingController.text) ?? 0;
+                  final memo = memoTextEditingController.text;
+                  // storeId, categoryIdは仮で1,1
+                  final storeId = 1;
+                  final categoryId = 1;
+                  final purchaseDate = DateTime.now();
+                  // RecordItemProviderにセット
+                  ref
+                      .read(recordItemProvider.notifier)
+                      .setItem(
+                        RecordItemModel(
+                          imageUrl: imagePath ?? '',
+                          productName: productName,
+                          storeId: storeId,
+                          categoryId: categoryId,
+                          memo: memo,
+                          price: price,
+                          purchaseDate: purchaseDate,
+                        ),
+                      );
+                  // Supabase登録
+                  await ref.read(recordItemProvider.notifier).register();
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('登録完了')));
                 },
                 child: Text(l10n.record_button_text),
               ),
