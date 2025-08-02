@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'dart:typed_data';
 import '../../models/history_item_model.dart';
 
 class HistoryItem extends StatelessWidget {
   final HistoryItemModel item;
-  const HistoryItem({super.key, required this.item});
+  final Uint8List? imageBytes;
+  final bool isLoading;
+  const HistoryItem({
+    super.key,
+    required this.item,
+    this.imageBytes,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +24,28 @@ class HistoryItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                item.imageUrl,
-                width: 64,
-                height: 64,
-                fit: BoxFit.cover,
-                errorBuilder: (c, e, s) => Container(
-                  width: 64,
-                  height: 64,
-                  color: Colors.grey[300],
-                  child: const Icon(Icons.image_not_supported),
-                ),
-              ),
+              child: isLoading
+                  ? Container(
+                      width: 64,
+                      height: 64,
+                      color: Colors.grey[300],
+                      child: const Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    )
+                  : (imageBytes == null
+                        ? Container(
+                            width: 64,
+                            height: 64,
+                            color: Colors.grey[300],
+                            child: const Icon(Icons.image_not_supported),
+                          )
+                        : Image.memory(
+                            imageBytes!,
+                            width: 64,
+                            height: 64,
+                            fit: BoxFit.cover,
+                          )),
             ),
             const SizedBox(width: 16),
             Expanded(

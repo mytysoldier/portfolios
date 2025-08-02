@@ -4,6 +4,7 @@ import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../providers/image_picker_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RecordScreen extends ConsumerWidget {
   const RecordScreen({super.key});
@@ -46,6 +47,24 @@ class RecordScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _uploadImageToR2(BuildContext context, WidgetRef ref) async {
+    final imagePath = ref.read(imagePickerProvider);
+    if (imagePath == null) return;
+    final fileName = imagePath.split('/').last;
+    final url = await ref
+        .read(imagePickerProvider.notifier)
+        .uploadToR2(filePath: imagePath, fileName: fileName);
+    if (url != null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('画像アップロード成功: $url')));
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('画像アップロード失敗')));
+    }
   }
 
   @override
@@ -289,7 +308,9 @@ class RecordScreen extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  _uploadImageToR2(context, ref);
+                },
                 child: Text(l10n.record_button_text),
               ),
             ),

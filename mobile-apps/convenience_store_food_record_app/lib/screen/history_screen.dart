@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:convenience_store_food_record_app/providers/image_picker_provider.dart';
 import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -106,7 +109,33 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               physics: NeverScrollableScrollPhysics(),
               itemCount: items.length,
               itemBuilder: (context, index) {
-                return HistoryItem(item: items[index]);
+                final item = items[index];
+                return FutureBuilder<List<int>?>(
+                  future: ref
+                      .read(imagePickerProvider.notifier)
+                      .fetchImageFromR2(item.imageUrl),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return HistoryItem(
+                        item: item,
+                        imageBytes: null,
+                        isLoading: true,
+                      );
+                    }
+                    if (snapshot.hasError || snapshot.data == null) {
+                      return HistoryItem(
+                        item: item,
+                        imageBytes: null,
+                        isLoading: false,
+                      );
+                    }
+                    return HistoryItem(
+                      item: item,
+                      imageBytes: Uint8List.fromList(snapshot.data!),
+                      isLoading: false,
+                    );
+                  },
+                );
               },
             ),
           ],
