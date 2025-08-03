@@ -1,5 +1,4 @@
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
-import 'package:convenience_store_food_record_app/models/record_item_model.dart';
 import 'package:convenience_store_food_record_app/providers/category_master_provider.dart';
 import 'package:convenience_store_food_record_app/providers/image_picker_provider.dart';
 import 'package:convenience_store_food_record_app/providers/record_item_provider.dart';
