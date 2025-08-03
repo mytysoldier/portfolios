@@ -1,3 +1,5 @@
+import 'package:convenience_store_food_record_app/components/network/loading_indicator.dart';
+import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'dart:typed_data';
 import '../../models/history_item_model.dart';
@@ -16,9 +18,12 @@ class HistoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+      margin: const EdgeInsets.symmetric(
+        vertical: AppSizes.spacingS,
+        horizontal: 0,
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(AppSizes.spacingS + AppSizes.spacingXS),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -34,12 +39,7 @@ class HistoryItem extends StatelessWidget {
                       ),
                     )
                   : (imageBytes == null
-                        ? Container(
-                            width: 64,
-                            height: 64,
-                            color: Colors.grey[300],
-                            child: const Icon(Icons.image_not_supported),
-                          )
+                        ? LoadingIndicator()
                         : Image.memory(
                             imageBytes!,
                             width: 64,
@@ -47,7 +47,7 @@ class HistoryItem extends StatelessWidget {
                             fit: BoxFit.cover,
                           )),
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: AppSizes.spacingM),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +69,7 @@ class HistoryItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: AppSizes.spacingXS),
                   // 2行目：storeName, category, purchaseDateを縦並びで表示
                   Row(
                     children: [
@@ -81,7 +81,7 @@ class HistoryItem extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.store,
-                                  size: 16,
+                                  size: AppSizes.iconSize,
                                   color: Colors.grey[700],
                                 ),
                                 const SizedBox(width: 4),
@@ -108,7 +108,7 @@ class HistoryItem extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.category,
-                                  size: 16,
+                                  size: AppSizes.iconSize,
                                   color: Colors.grey[700],
                                 ),
                                 const SizedBox(width: 4),
@@ -135,10 +135,10 @@ class HistoryItem extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.calendar_today,
-                                  size: 16,
+                                  size: AppSizes.iconSize,
                                   color: Colors.grey[700],
                                 ),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: AppSizes.spacingXS),
                                 Flexible(
                                   child: Text(
                                     '${item.purchaseDate.year}/${item.purchaseDate.month}/${item.purchaseDate.day}',
@@ -156,7 +156,7 @@ class HistoryItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: AppSizes.spacingXS),
                   Text(item.memo, style: Theme.of(context).textTheme.bodySmall),
                 ],
               ),

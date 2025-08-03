@@ -1,3 +1,4 @@
+import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
@@ -50,24 +51,6 @@ class RecordScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _uploadImageToR2(BuildContext context, WidgetRef ref) async {
-    final imagePath = ref.read(imagePickerProvider);
-    if (imagePath == null) return;
-    final fileName = imagePath.split('/').last;
-    final url = await ref
-        .read(imagePickerProvider.notifier)
-        .uploadToR2(filePath: imagePath, fileName: fileName);
-    if (url != null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('画像アップロード成功: $url')));
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('画像アップロード失敗')));
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = L10n.of(context);
@@ -81,17 +64,17 @@ class RecordScreen extends ConsumerWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey, width: 1),
+          border: Border.all(color: Colors.grey, width: AppSizes.spacingXxxs),
         ),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSizes.spacingM),
         child: Column(
-          spacing: 16,
+          spacing: AppSizes.spacingM,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Icon(Icons.add, size: 30),
-                const SizedBox(width: 4),
+                const SizedBox(width: AppSizes.spacingS),
                 Text(
                   l10n.record_screen_title,
                   style: Theme.of(context).textTheme.headlineSmall!.copyWith(
@@ -312,12 +295,11 @@ class RecordScreen extends ConsumerWidget {
                 onPressed: () async {
                   // 画像アップロード
                   final imagePath = ref.read(imagePickerProvider);
-                  String? imageUrl;
                   if (imagePath != null) {
                     final fileName = imagePath.split('/').last;
-                    // await ref
-                    //     .read(imagePickerProvider.notifier)
-                    //     .uploadToR2(filePath: imagePath, fileName: fileName);
+                    await ref
+                        .read(imagePickerProvider.notifier)
+                        .uploadToR2(filePath: imagePath, fileName: fileName);
                   }
                   // 入力値取得
                   final productName = itemNameTextEditingController.text;

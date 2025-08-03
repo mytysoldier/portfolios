@@ -30,7 +30,9 @@ class StatisticScreen extends ConsumerWidget {
         ? storeStats.map((s) => s.count).reduce((a, b) => a > b ? a : b)
         : 0;
     final maxCategoryAmount = categoryStats.isNotEmpty
-        ? categoryStats.map((c) => c.totalAmount).reduce((a, b) => a > b ? a : b)
+        ? categoryStats
+              .map((c) => c.totalAmount)
+              .reduce((a, b) => a > b ? a : b)
         : 0;
 
     // 全てのコンビニ・カテゴリを表示するためのリスト生成
@@ -40,15 +42,15 @@ class StatisticScreen extends ConsumerWidget {
     return SingleChildScrollView(
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppSizes.spacingM),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 16,
+            spacing: AppSizes.spacingM,
             children: [
               Row(
                 children: [
                   Icon(Icons.bar_chart, size: 28, color: Colors.black),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSizes.spacingS),
                   Text(
                     l10n.statistic_screen_title,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -62,7 +64,7 @@ class StatisticScreen extends ConsumerWidget {
                 child: Card(
                   color: Colors.lightBlue[50],
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(AppSizes.spacingM),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,7 +89,7 @@ class StatisticScreen extends ConsumerWidget {
               ),
               // コンビニ別
               Column(
-                spacing: 8,
+                spacing: AppSizes.spacingS,
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
@@ -99,7 +101,11 @@ class StatisticScreen extends ConsumerWidget {
                   ...allStoreNames.map((storeName) {
                     final stat = storeStats.firstWhere(
                       (s) => s.storeName == storeName,
-                      orElse: () => StoreStatistic(storeName: storeName, count: 0, totalAmount: 0),
+                      orElse: () => StoreStatistic(
+                        storeName: storeName,
+                        count: 0,
+                        totalAmount: 0,
+                      ),
                     );
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -147,7 +153,11 @@ class StatisticScreen extends ConsumerWidget {
                   ...allCategoryNames.map((categoryName) {
                     final stat = categoryStats.firstWhere(
                       (c) => c.categoryName == categoryName,
-                      orElse: () => CategoryStatistic(categoryName: categoryName, count: 0, totalAmount: 0),
+                      orElse: () => CategoryStatistic(
+                        categoryName: categoryName,
+                        count: 0,
+                        totalAmount: 0,
+                      ),
                     );
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

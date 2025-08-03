@@ -22,6 +22,22 @@ extension CustomTextTheme on TextTheme {
   TextStyle get bodyHeadTextStyle => AppTextStyles.bodyHeadTextStyle;
 }
 
+class AppSizes {
+  static const double cardRadius = 12.0;
+  static const double buttonRadius = 8.0;
+  static const double imageRadius = 8.0;
+  static const double iconSize = 16.0;
+  static const double avatarSize = 40.0;
+  static const double spacingXxxs = 1.0;
+  static const double spacingXxs = 2.0;
+  static const double spacingXS = 4.0;
+  static const double spacingS = 8.0;
+  static const double spacingM = 16.0;
+  static const double spacingL = 24.0;
+  static const double spacingXL = 32.0;
+  // 他にも必要に応じて追加可能
+}
+
 final mainThemeData = ThemeData(
   primaryColor: Colors.deepPurple,
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -43,11 +59,11 @@ final mainThemeData = ThemeData(
       textStyle: WidgetStatePropertyAll(TextStyle(fontWeight: FontWeight.bold)),
     ),
   ),
-  cardTheme: const CardThemeData(
+  cardTheme: CardThemeData(
     color: Colors.white,
     elevation: 2,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(12)),
+      borderRadius: BorderRadius.all(Radius.circular(AppSizes.cardRadius)),
     ),
   ),
 );

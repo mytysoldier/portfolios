@@ -35,25 +35,21 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey, width: 1), // グレーの枠線を追加
+          borderRadius: BorderRadius.circular(AppSizes.cardRadius),
+          border: Border.all(color: Colors.grey, width: AppSizes.spacingXxxs),
         ),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSizes.spacingM),
         child: Column(
-          spacing: 16,
+          spacing: AppSizes.cardRadius,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(Icons.history, size: 30),
-                const SizedBox(width: 16),
+                Icon(Icons.history, size: AppSizes.iconSize),
+                SizedBox(width: AppSizes.cardRadius),
                 Text(
                   l10n.history_screen_title,
-                  // style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  //   color: Colors.black,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  style: Theme.of(context).textTheme.sampleTextStyle,
+                  style: Theme.of(context).textTheme.bodyHeadTextStyle,
                 ),
               ],
             ),
@@ -85,7 +81,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: AppSizes.spacingM),
                 // 商品名
                 Expanded(
                   child: DropdownButtonFormField<String>(
