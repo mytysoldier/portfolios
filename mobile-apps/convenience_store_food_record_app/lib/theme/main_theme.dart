@@ -35,12 +35,25 @@ class AppSizes {
   static const double spacingM = 16.0;
   static const double spacingL = 24.0;
   static const double spacingXL = 32.0;
+  static const double loadingSize = 64.0;
   // 他にも必要に応じて追加可能
 }
 
 final mainThemeData = ThemeData(
   primaryColor: Colors.deepPurple,
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+  colorScheme: const ColorScheme(
+    brightness: Brightness.light,
+    primary: Colors.deepPurple,
+    onPrimary: Colors.white,
+    secondary: Colors.amber,
+    onSecondary: Colors.black,
+    error: Colors.red,
+    onError: Colors.white,
+    background: Colors.white,
+    onBackground: Colors.black,
+    surface: Colors.white,
+    onSurface: Colors.black,
+  ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Colors.deepPurple,
     foregroundColor: Colors.white,

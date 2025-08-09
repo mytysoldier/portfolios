@@ -7,7 +7,7 @@ import 'package:convenience_store_food_record_app/providers/image_picker_provide
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:convenience_store_food_record_app/screen/history_screen.dart';
+import 'package:convenience_store_food_record_app/screen/history/history_screen.dart';
 import 'dart:typed_data';
 
 // 1. HistoryItemListNotifierをモックするためのクラスを定義

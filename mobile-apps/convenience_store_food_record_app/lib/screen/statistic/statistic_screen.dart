@@ -22,8 +22,6 @@ class StatisticScreen extends ConsumerWidget {
     final storeMaster = ref.watch(storeMasterProvider);
     final categoryMaster = ref.watch(categoryMasterProvider);
 
-    // ローディングやエラー表示は必要に応じて追加してください
-
     final storeStats = statistic.storeStatistics;
     final categoryStats = statistic.categoryStatistics;
     final maxStoreCount = storeStats.isNotEmpty

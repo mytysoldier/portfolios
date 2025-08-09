@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import '../providers/image_picker_provider.dart';
-import '../providers/record_item_provider.dart';
-import '../models/record_item_model.dart';
+import '../../providers/image_picker_provider.dart';
+import '../../providers/record_item_provider.dart';
+import '../../models/record_item_model.dart';
 import 'package:convenience_store_food_record_app/providers/history_item_provider.dart';
 
 class RecordScreen extends ConsumerWidget {

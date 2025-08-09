@@ -1,7 +1,7 @@
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
-import 'package:convenience_store_food_record_app/screen/history_screen.dart';
-import 'package:convenience_store_food_record_app/screen/record_screen.dart';
-import 'package:convenience_store_food_record_app/screen/statistic_screen.dart';
+import 'package:convenience_store_food_record_app/screen/history/history_screen.dart';
+import 'package:convenience_store_food_record_app/screen/record/record_screen.dart';
+import 'package:convenience_store_food_record_app/screen/statistic/statistic_screen.dart';
 import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

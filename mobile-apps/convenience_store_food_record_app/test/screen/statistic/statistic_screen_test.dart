@@ -6,7 +6,7 @@ import 'package:convenience_store_food_record_app/providers/store_master_provide
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:convenience_store_food_record_app/screen/statistic_screen.dart';
+import 'package:convenience_store_food_record_app/screen/statistic/statistic_screen.dart';
 
 // 1. ダミーデータを作成
 final dummyStatisticData = StatisticData(
@@ -23,15 +23,9 @@ final dummyStatisticData = StatisticData(
   ],
 );
 
-final dummyStoreMaster = {
-  1: 'テストコンビニA',
-  2: 'テストコンビニB',
-};
+final dummyStoreMaster = {1: 'テストコンビニA', 2: 'テストコンビニB'};
 
-final dummyCategoryMaster = {
-  1: 'テストカテゴリX',
-  2: 'テストカテゴリY',
-};
+final dummyCategoryMaster = {1: 'テストカテゴリX', 2: 'テストカテゴリY'};
 
 // 2. Providerを上書きするためのリストを作成
 final providerOverrides = [

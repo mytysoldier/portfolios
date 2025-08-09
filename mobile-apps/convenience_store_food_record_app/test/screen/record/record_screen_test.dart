@@ -3,7 +3,7 @@ import 'package:convenience_store_food_record_app/providers/category_master_prov
 import 'package:convenience_store_food_record_app/providers/image_picker_provider.dart';
 import 'package:convenience_store_food_record_app/providers/record_item_provider.dart';
 import 'package:convenience_store_food_record_app/providers/store_master_provider.dart';
-import 'package:convenience_store_food_record_app/screen/record_screen.dart';
+import 'package:convenience_store_food_record_app/screen/record/record_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

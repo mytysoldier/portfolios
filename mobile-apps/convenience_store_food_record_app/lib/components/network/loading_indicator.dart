@@ -1,3 +1,5 @@
+import 'package:convenience_store_food_record_app/theme/custom_colortheme.dart';
+import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 
 class LoadingIndicator extends StatelessWidget {
@@ -6,9 +8,9 @@ class LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 64,
-      height: 64,
-      color: Colors.grey[300],
+      width: AppSizes.loadingSize,
+      height: AppSizes.loadingSize,
+      color: Theme.of(context).colorScheme.loading,
       child: const Icon(Icons.image_not_supported),
     );
   }
