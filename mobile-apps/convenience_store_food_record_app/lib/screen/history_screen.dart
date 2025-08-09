@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 import 'package:convenience_store_food_record_app/providers/history_item_provider.dart';
+import 'package:convenience_store_food_record_app/providers/store_master_provider.dart';
 import 'package:convenience_store_food_record_app/components/history_screen/history_item.dart';
+import 'package:convenience_store_food_record_app/providers/category_master_provider.dart';
 
 class HistoryScreen extends ConsumerStatefulWidget {
   const HistoryScreen({super.key});
@@ -68,33 +70,59 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               children: [
                 // コンビニ名
                 Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: null,
-                    items: const [
-                      DropdownMenuItem(value: 'option1', child: Text('プルダウン1')),
-                      DropdownMenuItem(value: 'option2', child: Text('プルダウン2')),
-                    ],
-                    onChanged: (value) {},
-                    decoration: const InputDecoration(
-                      labelText: 'コンビニ',
-                      border: OutlineInputBorder(),
-                    ),
+                  child: Builder(
+                    builder: (context) {
+                      final storeMaster = ref.watch(storeMasterProvider);
+                      return DropdownButtonFormField<String>(
+                        isExpanded: true,
+                        value: null,
+                        items: storeMaster.entries
+                            .map(
+                              (e) => DropdownMenuItem(
+                                value: e.key.toString(),
+                                child: Text(
+                                  e.value,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {},
+                        decoration: const InputDecoration(
+                          labelText: 'コンビニ',
+                          border: OutlineInputBorder(),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(width: AppSizes.spacingM),
-                // 商品名
+                // カテゴリ
                 Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: null,
-                    items: const [
-                      DropdownMenuItem(value: 'optionA', child: Text('プルダウンA')),
-                      DropdownMenuItem(value: 'optionB', child: Text('プルダウンB')),
-                    ],
-                    onChanged: (value) {},
-                    decoration: const InputDecoration(
-                      labelText: 'カテゴリ',
-                      border: OutlineInputBorder(),
-                    ),
+                  child: Builder(
+                    builder: (context) {
+                      final categoryMaster = ref.watch(categoryMasterProvider);
+                      return DropdownButtonFormField<String>(
+                        isExpanded: true,
+                        value: null,
+                        items: categoryMaster.entries
+                            .map(
+                              (e) => DropdownMenuItem(
+                                value: e.key.toString(),
+                                child: Text(
+                                  e.value,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {},
+                        decoration: const InputDecoration(
+                          labelText: 'カテゴリ',
+                          border: OutlineInputBorder(),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

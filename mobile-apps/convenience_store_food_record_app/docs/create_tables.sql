@@ -9,15 +9,17 @@ CREATE TABLE IF NOT EXISTS conv_food_record_app.user (
     deleted_at TIMESTAMP
 );
 
+
 CREATE TABLE IF NOT EXISTS conv_food_record_app.store_master (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     store_name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+
 CREATE TABLE IF NOT EXISTS conv_food_record_app.category_master (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     category_name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
@@ -30,9 +32,9 @@ CREATE TABLE IF NOT EXISTS conv_food_record_app.purchase_history (
     item_img VARCHAR(1024) NULL,
     memo TEXT NULL,
     purchase_date TIMESTAMP NOT NULL,
-    store_id INTEGER REFERENCES conv_food_record_app.store_master(id),
-    category_id INTEGER REFERENCES conv_food_record_app.category_master(id),
+    store_id INTEGER REFERENCES conv_food_record_app.store_master(id) ON DELETE CASCADE,
+    category_id INTEGER REFERENCES conv_food_record_app.category_master(id) ON DELETE CASCADE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    user_id INTEGER REFERENCES conv_food_record_app.user(id)
+    user_id INTEGER REFERENCES conv_food_record_app.user(id) ON DELETE CASCADE
 );
