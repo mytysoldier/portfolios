@@ -7,6 +7,7 @@ import 'dart:io';
 import '../providers/image_picker_provider.dart';
 import '../providers/record_item_provider.dart';
 import '../models/record_item_model.dart';
+import 'package:convenience_store_food_record_app/providers/history_item_provider.dart';
 
 class RecordScreen extends ConsumerWidget {
   const RecordScreen({super.key});
@@ -326,6 +327,10 @@ class RecordScreen extends ConsumerWidget {
                       );
                   // Supabase登録
                   await ref.read(recordItemProvider.notifier).register();
+                  // 履歴リストを再取得
+                  await ref
+                      .read(historyItemListProvider.notifier)
+                      .fetchPurchasedItems(ref);
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(const SnackBar(content: Text('登録完了')));
