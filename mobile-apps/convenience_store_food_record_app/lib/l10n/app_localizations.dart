@@ -319,6 +319,30 @@ abstract class L10n {
   /// **'ファミリーマート'**
   String get family_mart;
 
+  /// No description provided for @seicomart.
+  ///
+  /// In ja, this message translates to:
+  /// **'セイコーマート'**
+  String get seicomart;
+
+  /// No description provided for @ministop.
+  ///
+  /// In ja, this message translates to:
+  /// **'ミニストップ'**
+  String get ministop;
+
+  /// No description provided for @daily_yamazaki.
+  ///
+  /// In ja, this message translates to:
+  /// **'デイリーヤマザキ'**
+  String get daily_yamazaki;
+
+  /// No description provided for @poplar.
+  ///
+  /// In ja, this message translates to:
+  /// **'ポプラ'**
+  String get poplar;
+
   /// No description provided for @other_store.
   ///
   /// In ja, this message translates to:
@@ -337,17 +361,71 @@ abstract class L10n {
   /// **'パン'**
   String get bread;
 
-  /// No description provided for @dessert.
+  /// No description provided for @soft_drink.
   ///
   /// In ja, this message translates to:
-  /// **'デザート'**
-  String get dessert;
+  /// **'ソフトドリンク'**
+  String get soft_drink;
 
   /// No description provided for @lunch_box.
   ///
   /// In ja, this message translates to:
   /// **'弁当'**
   String get lunch_box;
+
+  /// No description provided for @dessert.
+  ///
+  /// In ja, this message translates to:
+  /// **'デザート'**
+  String get dessert;
+
+  /// No description provided for @noodle.
+  ///
+  /// In ja, this message translates to:
+  /// **'麺類'**
+  String get noodle;
+
+  /// No description provided for @salad.
+  ///
+  /// In ja, this message translates to:
+  /// **'サラダ'**
+  String get salad;
+
+  /// No description provided for @side_dish.
+  ///
+  /// In ja, this message translates to:
+  /// **'おかず・惣菜'**
+  String get side_dish;
+
+  /// No description provided for @snack.
+  ///
+  /// In ja, this message translates to:
+  /// **'スナック'**
+  String get snack;
+
+  /// No description provided for @ice_cream.
+  ///
+  /// In ja, this message translates to:
+  /// **'アイスクリーム'**
+  String get ice_cream;
+
+  /// No description provided for @hot_snack.
+  ///
+  /// In ja, this message translates to:
+  /// **'ホットスナック'**
+  String get hot_snack;
+
+  /// No description provided for @alcohol.
+  ///
+  /// In ja, this message translates to:
+  /// **'アルコール'**
+  String get alcohol;
+
+  /// No description provided for @other_category.
+  ///
+  /// In ja, this message translates to:
+  /// **'その他'**
+  String get other_category;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {

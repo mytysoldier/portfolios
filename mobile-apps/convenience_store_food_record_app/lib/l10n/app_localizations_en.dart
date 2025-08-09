@@ -121,6 +121,18 @@ class L10nEn extends L10n {
   String get family_mart => 'ファミリーマート';
 
   @override
+  String get seicomart => 'セイコーマート';
+
+  @override
+  String get ministop => 'ミニストップ';
+
+  @override
+  String get daily_yamazaki => 'デイリーヤマザキ';
+
+  @override
+  String get poplar => 'ポプラ';
+
+  @override
   String get other_store => 'その他';
 
   @override
@@ -130,8 +142,35 @@ class L10nEn extends L10n {
   String get bread => 'パン';
 
   @override
-  String get dessert => 'デザート';
+  String get soft_drink => 'ソフトドリンク';
 
   @override
   String get lunch_box => '弁当';
+
+  @override
+  String get dessert => 'デザート';
+
+  @override
+  String get noodle => '麺類';
+
+  @override
+  String get salad => 'サラダ';
+
+  @override
+  String get side_dish => 'おかず・惣菜';
+
+  @override
+  String get snack => 'スナック';
+
+  @override
+  String get ice_cream => 'アイスクリーム';
+
+  @override
+  String get hot_snack => 'ホットスナック';
+
+  @override
+  String get alcohol => 'アルコール';
+
+  @override
+  String get other_category => 'その他';
 }

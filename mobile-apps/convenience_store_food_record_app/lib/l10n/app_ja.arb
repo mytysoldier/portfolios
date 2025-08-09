@@ -36,9 +36,22 @@
     "seven_eleven": "セブンイレブン",
     "rowson": "ローソン",
     "family_mart": "ファミリーマート",
+    "seicomart": "セイコーマート",
+    "ministop": "ミニストップ",
+    "daily_yamazaki": "デイリーヤマザキ",
+    "poplar": "ポプラ",
     "other_store": "その他",
     "onigiri": "おにぎり",
     "bread": "パン",
+    "soft_drink": "ソフトドリンク",
+    "lunch_box": "弁当",
     "dessert": "デザート",
-    "lunch_box": "弁当"
+    "noodle": "麺類",
+    "salad": "サラダ",
+    "side_dish": "おかず・惣菜",
+    "snack": "スナック",
+    "ice_cream": "アイスクリーム",
+    "hot_snack": "ホットスナック",
+    "alcohol": "アルコール",
+    "other_category": "その他"
 }
