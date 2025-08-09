@@ -1,0 +1,38 @@
+name: Run Convenience Store Food Record App Flutter Test
+on:
+  push:
+    paths:
+      - "mobile-apps/convenience_store_food_record_app/**"
+    branches: [main]
+  pull_request:
+    paths:
+      - "mobile-apps/convenience_store_food_record_app/**"
+    branches:
+      - main
+
+jobs:
+  convenience_store_food_record_flutter_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.1'
+
+      - name: Install dependencies
+        working-directory: ./mobile-apps/convenience_store_food_record_app
+        run: flutter pub get
+
+      - name: Run tests
+        working-directory: ./mobile-apps/convenience_store_food_record_app
+        run: flutter test --coverage
+
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-coverage-report
+          path: ./mobile-apps/convenience_store_food_record_app/coverage
