@@ -7,14 +7,20 @@ import 'package:convenience_store_food_record_app/providers/category_master_prov
 
 class SearchHistoryBar extends ConsumerWidget {
   final TextEditingController textController;
+  final String? selectedStoreId;
+  final String? selectedCategoryId;
   final void Function(String?)? onStoreChanged;
   final void Function(String?)? onCategoryChanged;
+  final void Function(String)? onTextChanged;
 
   const SearchHistoryBar({
     super.key,
     required this.textController,
+    required this.selectedStoreId,
+    required this.selectedCategoryId,
     this.onStoreChanged,
     this.onCategoryChanged,
+    this.onTextChanged,
   });
 
   @override
@@ -29,6 +35,7 @@ class SearchHistoryBar extends ConsumerWidget {
         // フリーテキストで検索
         TextField(
           controller: textController,
+          onChanged: onTextChanged,
           decoration: InputDecoration(
             labelText: l10n.history_search_input_hint_text,
             border: const OutlineInputBorder(),
@@ -43,21 +50,50 @@ class SearchHistoryBar extends ConsumerWidget {
             Expanded(
               child: DropdownButtonFormField<String>(
                 isExpanded: true,
-                value: null,
-                items: storeMaster.entries
-                    .map(
-                      (e) => DropdownMenuItem(
-                        value: e.key.toString(),
-                        child: Text(
-                          e.value,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
+                value: selectedStoreId,
+                items: [
+                  DropdownMenuItem(
+                    value: null,
+                    child: Text(
+                      l10n.pulldown_convenience_store_all,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.black),
+                    ),
+                  ),
+                  ...storeMaster.entries.map(
+                    (e) => DropdownMenuItem(
+                      value: e.key.toString(),
+                      child: Text(
+                        e.value,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.black),
                       ),
-                    )
-                    .toList(),
+                    ),
+                  ),
+                ],
+                selectedItemBuilder: (context) {
+                  return [
+                    Text(
+                      l10n.pulldown_convenience_store_all,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.black),
+                    ),
+                    ...storeMaster.entries.map(
+                      (e) => Text(
+                        e.value,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.black),
+                      ),
+                    ),
+                  ];
+                },
                 onChanged: onStoreChanged,
-                decoration: const InputDecoration(
-                  labelText: 'コンビニ',
+                decoration: InputDecoration(
+                  labelText: l10n.item_convenience_store_name,
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -67,21 +103,50 @@ class SearchHistoryBar extends ConsumerWidget {
             Expanded(
               child: DropdownButtonFormField<String>(
                 isExpanded: true,
-                value: null,
-                items: categoryMaster.entries
-                    .map(
-                      (e) => DropdownMenuItem(
-                        value: e.key.toString(),
-                        child: Text(
-                          e.value,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
+                value: selectedCategoryId,
+                items: [
+                  DropdownMenuItem(
+                    value: null,
+                    child: Text(
+                      l10n.pulldown_item_all,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.black),
+                    ),
+                  ),
+                  ...categoryMaster.entries.map(
+                    (e) => DropdownMenuItem(
+                      value: e.key.toString(),
+                      child: Text(
+                        e.value,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.black),
                       ),
-                    )
-                    .toList(),
+                    ),
+                  ),
+                ],
+                selectedItemBuilder: (context) {
+                  return [
+                    Text(
+                      l10n.pulldown_item_all,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.black),
+                    ),
+                    ...categoryMaster.entries.map(
+                      (e) => Text(
+                        e.value,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.black),
+                      ),
+                    ),
+                  ];
+                },
                 onChanged: onCategoryChanged,
-                decoration: const InputDecoration(
-                  labelText: 'カテゴリ',
+                decoration: InputDecoration(
+                  labelText: l10n.category_name,
                   border: OutlineInputBorder(),
                 ),
               ),
