@@ -1,9 +1,16 @@
+import 'package:convenience_store_food_record_app/screen/record/memo_input.dart';
+import 'package:convenience_store_food_record_app/screen/record/category_dropdown.dart';
+import 'package:convenience_store_food_record_app/screen/record/price_input.dart';
+import 'package:convenience_store_food_record_app/screen/record/store_dropdown.dart';
+import 'package:convenience_store_food_record_app/screen/record/item_name_input.dart';
+import 'package:convenience_store_food_record_app/screen/record/item_photo_input.dart';
+import 'package:convenience_store_food_record_app/components/screen/screen_title.dart';
+import 'package:convenience_store_food_record_app/components/button/custom_button.dart';
 import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 import '../../providers/image_picker_provider.dart';
 import '../../providers/record_item_provider.dart';
 import '../../models/record_item_model.dart';
@@ -71,272 +78,69 @@ class RecordScreen extends ConsumerWidget {
         child: Column(
           spacing: AppSizes.spacingM,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(Icons.add, size: 30),
-                const SizedBox(width: AppSizes.spacingS),
-                Text(
-                  l10n.record_screen_title,
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+            ScreenTitle(icon: Icons.add, title: l10n.record_screen_title),
             // 商品写真
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    l10n.item_photo_name,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge!.copyWith(color: Colors.black),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                GestureDetector(
-                  onTap: () => _showImageSourceActionSheet(context, ref),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.all(32),
-                    child: imagePath == null
-                        ? Column(
-                            children: [
-                              Icon(
-                                Icons.add_a_photo,
-                                size: 48,
-                                color: Colors.grey,
-                              ),
-                              Text(
-                                l10n.description_upload_or_take_a_photo,
-                                style: Theme.of(context).textTheme.bodyLarge!
-                                    .copyWith(color: Colors.black),
-                              ),
-                            ],
-                          )
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.file(
-                              File(imagePath),
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: 160,
-                            ),
-                          ),
-                  ),
-                ),
-              ],
+            ItemPhotoInput(
+              imagePath: imagePath,
+              onTap: () => _showImageSourceActionSheet(context, ref),
             ),
             // 商品名
-            Column(
-              spacing: 8,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "${l10n.item_name} *",
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge!.copyWith(color: Colors.black),
-                  ),
-                ),
-                TextField(
-                  controller: itemNameTextEditingController,
-                  decoration: InputDecoration(
-                    hintText: l10n.item_name_record_input_hint_text,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            ItemNameInput(controller: itemNameTextEditingController),
             // コンビニ
-            Column(
-              spacing: 8,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "${l10n.item_convenience_store_name} *",
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge!.copyWith(color: Colors.black),
-                  ),
-                ),
-                DropdownButtonFormField<String>(
-                  value: null,
-                  items: const [
-                    DropdownMenuItem(value: 'seven', child: Text('セブンイレブン')),
-                    DropdownMenuItem(value: 'lawson', child: Text('ローソン')),
-                    DropdownMenuItem(
-                      value: 'familymart',
-                      child: Text('ファミリーマート'),
-                    ),
-                    DropdownMenuItem(value: 'ministop', child: Text('ミニストップ')),
-                    DropdownMenuItem(value: 'other', child: Text('その他')),
-                  ],
-                  onChanged: (value) {
-                    // 必要に応じて状態管理を追加
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                  hint: Text(l10n.convenience_store_record_input_hint_text),
-                ),
-              ],
-            ),
+            StoreDropdown(value: null, onChanged: (value) {}),
             // カテゴリ
-            Column(
-              spacing: 8,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "${l10n.category_name} *",
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge!.copyWith(color: Colors.black),
-                  ),
-                ),
-                DropdownButtonFormField<String>(
-                  value: null,
-                  items: const [
-                    DropdownMenuItem(value: 'seven', child: Text('おにぎり')),
-                    DropdownMenuItem(value: 'lawson', child: Text('パン')),
-                    DropdownMenuItem(value: 'familymart', child: Text('弁当')),
-                    DropdownMenuItem(value: 'ministop', child: Text('デザート')),
-                    DropdownMenuItem(value: 'ministop', child: Text('飲み物')),
-                    DropdownMenuItem(value: 'other', child: Text('その他')),
-                  ],
-                  onChanged: (value) {
-                    // 必要に応じて状態管理を追加
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                  hint: Text(l10n.category_record_input_hint_text),
-                ),
-              ],
-            ),
+            CategoryDropdown(value: null, onChanged: (value) {}),
             // 金額
-            Column(
-              spacing: 8,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "${l10n.price_name} *",
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge!.copyWith(color: Colors.black),
-                  ),
-                ),
-                TextField(
-                  controller: priceTextEditingController,
-                  decoration: InputDecoration(
-                    hintText: l10n.price_record_input_hint_text,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            PriceInput(controller: priceTextEditingController),
             // メモ
-            Column(
-              spacing: 8,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    l10n.memo_name,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge!.copyWith(color: Colors.black),
-                  ),
-                ),
-                TextField(
-                  controller: memoTextEditingController,
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                    hintText: l10n.memo_record_input_hint_text,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            MemoInput(controller: memoTextEditingController),
             // 保存ボタン
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                onPressed: () async {
-                  // 画像アップロード
-                  final imagePath = ref.read(imagePickerProvider);
-                  if (imagePath != null) {
-                    final fileName = imagePath.split('/').last;
-                    await ref
-                        .read(imagePickerProvider.notifier)
-                        .uploadToR2(filePath: imagePath, fileName: fileName);
-                  }
-                  // 入力値取得
-                  final productName = itemNameTextEditingController.text;
-                  final price =
-                      int.tryParse(priceTextEditingController.text) ?? 0;
-                  final memo = memoTextEditingController.text;
-                  // storeId, categoryIdは仮で1,1
-                  final storeId = 1;
-                  final categoryId = 1;
-                  final purchaseDate = DateTime.now();
-                  // RecordItemProviderにセット
-                  ref
-                      .read(recordItemProvider.notifier)
-                      .setItem(
-                        RecordItemModel(
-                          imageUrl: imagePath ?? '',
-                          productName: productName,
-                          storeId: storeId,
-                          categoryId: categoryId,
-                          memo: memo,
-                          price: price,
-                          purchaseDate: purchaseDate,
-                        ),
-                      );
-                  // Supabase登録
-                  await ref.read(recordItemProvider.notifier).register();
-                  // 履歴リストを再取得
+            CustomButton(
+              text: l10n.record_button_text,
+              onPressed: () async {
+                // 画像アップロード
+                final imagePath = ref.read(imagePickerProvider);
+                if (imagePath != null) {
+                  final fileName = imagePath.split('/').last;
                   await ref
-                      .read(historyItemListProvider.notifier)
-                      .fetchPurchasedItems(ref);
+                      .read(imagePickerProvider.notifier)
+                      .uploadToR2(filePath: imagePath, fileName: fileName);
+                }
+                // 入力値取得
+                final productName = itemNameTextEditingController.text;
+                final price =
+                    int.tryParse(priceTextEditingController.text) ?? 0;
+                final memo = memoTextEditingController.text;
+                // storeId, categoryIdは仮で1,1
+                final storeId = 1;
+                final categoryId = 1;
+                final purchaseDate = DateTime.now();
+                // RecordItemProviderにセット
+                ref
+                    .read(recordItemProvider.notifier)
+                    .setItem(
+                      RecordItemModel(
+                        imageUrl: imagePath ?? '',
+                        productName: productName,
+                        storeId: storeId,
+                        categoryId: categoryId,
+                        memo: memo,
+                        price: price,
+                        purchaseDate: purchaseDate,
+                      ),
+                    );
+                // Supabase登録
+                await ref.read(recordItemProvider.notifier).register();
+                // 履歴リストを再取得
+                await ref
+                    .read(historyItemListProvider.notifier)
+                    .fetchPurchasedItems(ref);
+                if (context.mounted) {
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(const SnackBar(content: Text('登録完了')));
-                },
-                child: Text(l10n.record_button_text),
-              ),
+                }
+              },
             ),
           ],
         ),
