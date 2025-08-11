@@ -16,8 +16,34 @@ import '../../providers/record_item_provider.dart';
 import '../../models/record_item_model.dart';
 import 'package:convenience_store_food_record_app/providers/history_item_provider.dart';
 
-class RecordScreen extends ConsumerWidget {
+class RecordScreen extends ConsumerStatefulWidget {
   const RecordScreen({super.key});
+
+  @override
+  ConsumerState<RecordScreen> createState() => _RecordScreenState();
+}
+
+class _RecordScreenState extends ConsumerState<RecordScreen> {
+  String? selectedStoreId;
+  String? selectedCategoryId;
+  late final TextEditingController itemNameTextEditingController;
+  late final TextEditingController priceTextEditingController;
+  late final TextEditingController memoTextEditingController;
+  @override
+  void initState() {
+    super.initState();
+    itemNameTextEditingController = TextEditingController();
+    priceTextEditingController = TextEditingController();
+    memoTextEditingController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    itemNameTextEditingController.dispose();
+    priceTextEditingController.dispose();
+    memoTextEditingController.dispose();
+    super.dispose();
+  }
 
   Future<void> _pickImage(
     BuildContext context,
@@ -60,12 +86,12 @@ class RecordScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  @override
+  Widget build(BuildContext context) {
+    final ref = this.ref;
     final l10n = L10n.of(context);
     final imagePath = ref.watch(imagePickerProvider);
-    final itemNameTextEditingController = TextEditingController();
-    final priceTextEditingController = TextEditingController();
-    final memoTextEditingController = TextEditingController();
+    // TextEditingControllerはStateで管理
 
     return SingleChildScrollView(
       child: Container(
@@ -87,9 +113,23 @@ class RecordScreen extends ConsumerWidget {
             // 商品名
             ItemNameInput(controller: itemNameTextEditingController),
             // コンビニ
-            StoreDropdown(value: null, onChanged: (value) {}),
+            StoreDropdown(
+              value: selectedStoreId,
+              onChanged: (value) {
+                setState(() {
+                  selectedStoreId = value;
+                });
+              },
+            ),
             // カテゴリ
-            CategoryDropdown(value: null, onChanged: (value) {}),
+            CategoryDropdown(
+              value: selectedCategoryId,
+              onChanged: (value) {
+                setState(() {
+                  selectedCategoryId = value;
+                });
+              },
+            ),
             // 金額
             PriceInput(controller: priceTextEditingController),
             // メモ
@@ -100,27 +140,30 @@ class RecordScreen extends ConsumerWidget {
               onPressed: () async {
                 // 画像アップロード
                 final imagePath = ref.read(imagePickerProvider);
+                String imageUrl = '';
                 if (imagePath != null) {
                   final fileName = imagePath.split('/').last;
                   await ref
                       .read(imagePickerProvider.notifier)
                       .uploadToR2(filePath: imagePath, fileName: fileName);
+                  final idx = imagePath.indexOf('image_picker');
+                  imageUrl = idx >= 0 ? imagePath.substring(idx) : fileName;
                 }
                 // 入力値取得
                 final productName = itemNameTextEditingController.text;
                 final price =
                     int.tryParse(priceTextEditingController.text) ?? 0;
                 final memo = memoTextEditingController.text;
-                // storeId, categoryIdは仮で1,1
-                final storeId = 1;
-                final categoryId = 1;
+                // storeId, categoryIdは選択値を使用
+                final storeId = int.tryParse(selectedStoreId ?? '') ?? 0;
+                final categoryId = int.tryParse(selectedCategoryId ?? '') ?? 0;
                 final purchaseDate = DateTime.now();
                 // RecordItemProviderにセット
                 ref
                     .read(recordItemProvider.notifier)
                     .setItem(
                       RecordItemModel(
-                        imageUrl: imagePath ?? '',
+                        imageUrl: imageUrl,
                         productName: productName,
                         storeId: storeId,
                         categoryId: categoryId,
