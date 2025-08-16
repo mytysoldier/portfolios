@@ -7,11 +7,21 @@ import 'package:convenience_store_food_record_app/screen/record/record_screen.da
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image_picker/image_picker.dart';
 
 // Providerをモックするための準備
-class MockRecordItemNotifier extends RecordItemNotifier {}
+class MockRecordFormNotifier extends RecordFormNotifier {}
 
 class MockImagePickerNotifier extends ImagePickerNotifier {
+  @override
+  Future<void> pickImage(BuildContext context, ImageSource source) async {
+    // テスト用: 何もしない
+  }
+
+  @override
+  void showImageSourceActionSheet(BuildContext context) {
+    // テスト用: 何もしない
+  }
   @override
   Future<String?> uploadToR2({
     required String filePath,
@@ -23,7 +33,7 @@ class MockImagePickerNotifier extends ImagePickerNotifier {
 
 // Providerの上書き設定
 final providerOverrides = [
-  recordItemProvider.overrideWith((ref) => MockRecordItemNotifier()),
+  recordFormProvider.overrideWith((ref) => MockRecordFormNotifier()),
   storeMasterProvider.overrideWith((ref) {
     final notifier = StoreMasterNotifier();
     notifier.state = {1: 'テストコンビニ', 2: 'コンビニB'};

@@ -3,7 +3,8 @@ import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 
 class MemoInput extends StatelessWidget {
   final TextEditingController controller;
-  const MemoInput({super.key, required this.controller});
+  final void Function(String)? onChanged;
+  const MemoInput({super.key, required this.controller, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class MemoInput extends StatelessWidget {
         TextField(
           controller: controller,
           maxLines: 3,
+          onChanged: onChanged,
           decoration: InputDecoration(
             hintText: l10n.memo_record_input_hint_text,
             border: const OutlineInputBorder(

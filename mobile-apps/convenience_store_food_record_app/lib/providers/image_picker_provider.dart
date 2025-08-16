@@ -1,9 +1,49 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 import 'dart:io';
 import 'package:minio/minio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ImagePickerNotifier extends StateNotifier<String?> {
+  Future<void> pickImage(BuildContext context, ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+    if (pickedFile != null) {
+      setImagePath(pickedFile.path);
+    }
+  }
+
+  void showImageSourceActionSheet(BuildContext context) {
+    final l10n = L10n.of(context);
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_camera),
+              title: Text(l10n.photo_from_camera),
+              onTap: () {
+                Navigator.pop(context);
+                pickImage(context, ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: Text(l10n.photo_from_folder),
+              onTap: () {
+                Navigator.pop(context);
+                pickImage(context, ImageSource.gallery);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   ImagePickerNotifier() : super(null);
 
   void setImagePath(String? path) {

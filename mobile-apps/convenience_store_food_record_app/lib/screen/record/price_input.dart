@@ -3,7 +3,8 @@ import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 
 class PriceInput extends StatelessWidget {
   final TextEditingController controller;
-  const PriceInput({super.key, required this.controller});
+  final void Function(String)? onChanged;
+  const PriceInput({super.key, required this.controller, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +21,7 @@ class PriceInput extends StatelessWidget {
         const SizedBox(height: 8),
         TextField(
           controller: controller,
+          onChanged: onChanged,
           decoration: InputDecoration(
             hintText: l10n.price_record_input_hint_text,
             border: const OutlineInputBorder(

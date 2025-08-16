@@ -2,19 +2,22 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
+import '../../providers/image_picker_provider.dart';
 
 class ItemPhotoInput extends ConsumerWidget {
   final String? imagePath;
-  final void Function()? onTap;
-  const ItemPhotoInput({
-    super.key,
-    required this.imagePath,
-    required this.onTap,
-  });
+  const ItemPhotoInput({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = L10n.of(context);
+
+    void showImageSourceActionSheet() {
+      ref
+          .read(imagePickerProvider.notifier)
+          .showImageSourceActionSheet(context);
+    }
+
     return Column(
       children: [
         Align(
@@ -28,7 +31,7 @@ class ItemPhotoInput extends ConsumerWidget {
         ),
         const SizedBox(height: 8),
         GestureDetector(
-          onTap: onTap,
+          onTap: showImageSourceActionSheet,
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
