@@ -44,10 +44,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = L10n.of(context);
-    // textControllerはStateで管理
-    final items = ref.watch(historyItemListProvider);
 
-    // フィルタ処理（可読性重視で整理）
+    final items = ref.watch(historyItemListProvider);
+    // フィルタ処理
     final storeMaster = ref.watch(storeMasterProvider);
     final categoryMaster = ref.watch(categoryMasterProvider);
     final selectedStoreText = (selectedStoreId == null)
