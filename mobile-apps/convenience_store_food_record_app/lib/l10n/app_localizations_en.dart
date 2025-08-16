@@ -173,4 +173,20 @@ class L10nEn extends L10n {
 
   @override
   String get other_category => 'その他';
+
+  @override
+  String required_validation_error_message(Object field) {
+    return '$fieldは必須項目です';
+  }
+
+  @override
+  String invalid_validation_error_message(Object field) {
+    return '$fieldの値が不正です';
+  }
+
+  @override
+  String get photo_from_camera => 'カメラで撮影';
+
+  @override
+  String get photo_from_folder => 'フォルダから選択';
 }

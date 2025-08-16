@@ -16,6 +16,8 @@ import '../../providers/record_item_provider.dart';
 import '../../models/record_item_model.dart';
 import 'package:convenience_store_food_record_app/providers/history_item_provider.dart';
 
+import 'package:convenience_store_food_record_app/components/screen/custom_snack_bar.dart';
+
 class RecordScreen extends ConsumerStatefulWidget {
   const RecordScreen({super.key});
 
@@ -58,6 +60,8 @@ class _RecordScreenState extends ConsumerState<RecordScreen> {
   }
 
   void _showImageSourceActionSheet(BuildContext context, WidgetRef ref) {
+    final l10n = L10n.of(context);
+
     showModalBottomSheet(
       context: context,
       builder: (context) => SafeArea(
@@ -65,7 +69,7 @@ class _RecordScreenState extends ConsumerState<RecordScreen> {
           children: [
             ListTile(
               leading: const Icon(Icons.photo_camera),
-              title: const Text('カメラで撮影'),
+              title: Text(l10n.photo_from_camera),
               onTap: () {
                 Navigator.pop(context);
                 _pickImage(context, ref, ImageSource.camera);
@@ -73,7 +77,7 @@ class _RecordScreenState extends ConsumerState<RecordScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text('フォルダから選択'),
+              title: Text(l10n.photo_from_folder),
               onTap: () {
                 Navigator.pop(context);
                 _pickImage(context, ref, ImageSource.gallery);
@@ -85,7 +89,63 @@ class _RecordScreenState extends ConsumerState<RecordScreen> {
     );
   }
 
-  @override
+  bool _validate() {
+    final l10n = L10n.of(context);
+
+    if (itemNameTextEditingController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar.show(
+          message: l10n.required_validation_error_message(l10n.item_name),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return false;
+    }
+
+    if (selectedStoreId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar.show(
+          message: l10n.required_validation_error_message(
+            l10n.item_convenience_store_name,
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return false;
+    }
+
+    if (selectedCategoryId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar.show(
+          message: l10n.required_validation_error_message(l10n.category_name),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return false;
+    }
+
+    if (priceTextEditingController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar.show(
+          message: l10n.required_validation_error_message(l10n.price_name),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return false;
+    }
+    if (int.tryParse(priceTextEditingController.text) == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar.show(
+          message: l10n.invalid_validation_error_message(l10n.price_name),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final ref = this.ref;
@@ -138,6 +198,8 @@ class _RecordScreenState extends ConsumerState<RecordScreen> {
             CustomButton(
               text: l10n.record_button_text,
               onPressed: () async {
+                // 入力値バリデーション
+                if (!_validate()) return;
                 // 画像アップロード
                 final imagePath = ref.read(imagePickerProvider);
                 String imageUrl = '';
@@ -172,16 +234,27 @@ class _RecordScreenState extends ConsumerState<RecordScreen> {
                         purchaseDate: purchaseDate,
                       ),
                     );
-                // Supabase登録
-                await ref.read(recordItemProvider.notifier).register();
-                // 履歴リストを再取得
-                await ref
-                    .read(historyItemListProvider.notifier)
-                    .fetchPurchasedItems(ref);
-                if (context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text('登録完了')));
+                try {
+                  // Supabase登録
+                  await ref.read(recordItemProvider.notifier).register();
+                  // 履歴リストを再取得
+                  await ref
+                      .read(historyItemListProvider.notifier)
+                      .fetchPurchasedItems(ref);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(CustomSnackBar.show(message: '登録完了'));
+                  }
+                } catch (e, stack) {
+                  // エラー時はSnackBarで通知、詳細はログ出力
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(CustomSnackBar.show(message: '登録できませんでした'));
+                  }
+                  print('登録エラー: $e');
+                  print(stack);
                 }
               },
             ),

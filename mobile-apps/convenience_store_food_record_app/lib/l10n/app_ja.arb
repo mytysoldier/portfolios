@@ -53,5 +53,9 @@
     "ice_cream": "アイスクリーム",
     "hot_snack": "ホットスナック",
     "alcohol": "アルコール",
-    "other_category": "その他"
+    "other_category": "その他",
+    "required_validation_error_message": "{field}は必須項目です",
+    "invalid_validation_error_message": "{field}の値が不正です",
+    "photo_from_camera": "カメラで撮影",
+    "photo_from_folder": "フォルダから選択"
 }

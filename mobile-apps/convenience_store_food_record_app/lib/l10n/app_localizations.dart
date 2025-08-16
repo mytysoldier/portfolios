@@ -426,6 +426,30 @@ abstract class L10n {
   /// In ja, this message translates to:
   /// **'その他'**
   String get other_category;
+
+  /// No description provided for @required_validation_error_message.
+  ///
+  /// In ja, this message translates to:
+  /// **'{field}は必須項目です'**
+  String required_validation_error_message(Object field);
+
+  /// No description provided for @invalid_validation_error_message.
+  ///
+  /// In ja, this message translates to:
+  /// **'{field}の値が不正です'**
+  String invalid_validation_error_message(Object field);
+
+  /// No description provided for @photo_from_camera.
+  ///
+  /// In ja, this message translates to:
+  /// **'カメラで撮影'**
+  String get photo_from_camera;
+
+  /// No description provided for @photo_from_folder.
+  ///
+  /// In ja, this message translates to:
+  /// **'フォルダから選択'**
+  String get photo_from_folder;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {
