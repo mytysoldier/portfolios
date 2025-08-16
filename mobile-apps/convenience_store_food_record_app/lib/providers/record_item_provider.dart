@@ -133,6 +133,54 @@ class RecordFormNotifier extends StateNotifier<RecordFormState> {
       return false;
     }
   }
+
+  Future<bool> deleteRecord({
+    required int id,
+    required BuildContext context,
+    required WidgetRef ref,
+  }) async {
+    final l10n = L10n.of(context);
+
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          // title: const Text('削除確認'),
+          content: Padding(
+            padding: EdgeInsets.only(top: 16),
+            child: Text(l10n.alert_text_delete, textAlign: TextAlign.center),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(l10n.dialog_select_no),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(l10n.dialog_select_ok),
+            ),
+          ],
+        );
+      },
+    );
+    if (result != true) return false;
+    final supabase = Supabase.instance.client;
+    try {
+      await supabase.from('purchase_history').delete().eq('id', id);
+      await ref.read(historyItemListProvider.notifier).fetchPurchasedItems(ref);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(CustomSnackBar.show(message: '削除しました'));
+      return true;
+    } catch (e, stack) {
+      print('削除エラー: $e');
+      print(stack);
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar.show(message: '削除できませんでした', backgroundColor: Colors.red),
+      );
+      return false;
+    }
+  }
 }
 
 final recordFormProvider =

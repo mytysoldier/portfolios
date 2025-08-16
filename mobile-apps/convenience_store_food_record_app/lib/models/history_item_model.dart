@@ -1,4 +1,5 @@
 class HistoryItemModel {
+  final int id;
   final String imageUrl;
   final String productName;
   final String storeName;
@@ -8,6 +9,7 @@ class HistoryItemModel {
   final DateTime purchaseDate;
 
   HistoryItemModel({
+    required this.id,
     required this.imageUrl,
     required this.productName,
     required this.storeName,

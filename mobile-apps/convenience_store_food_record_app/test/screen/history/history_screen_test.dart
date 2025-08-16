@@ -22,6 +22,7 @@ class MockHistoryItemListNotifier extends HistoryItemListNotifier {
 
 final dummyItems = [
   HistoryItemModel(
+    id: 1,
     imageUrl: '',
     productName: 'テスト商品',
     storeName: 'テストコンビニ',

@@ -57,5 +57,8 @@
     "required_validation_error_message": "{field}は必須項目です",
     "invalid_validation_error_message": "{field}の値が不正です",
     "photo_from_camera": "カメラで撮影",
-    "photo_from_folder": "フォルダから選択"
+    "photo_from_folder": "フォルダから選択",
+    "alert_text_delete": "削除しますか？",
+    "dialog_select_ok": "はい",
+    "dialog_select_no": "いいえ"
 }

@@ -30,6 +30,7 @@ class HistoryItemListNotifier extends StateNotifier<List<HistoryItemModel>> {
     state = response
         .map(
           (item) => HistoryItemModel(
+            id: item['id'] ?? 0,
             imageUrl: item['item_img'] ?? '',
             productName: item['item_name'] ?? '',
             storeName: storeMap[item['store_id']] ?? '',

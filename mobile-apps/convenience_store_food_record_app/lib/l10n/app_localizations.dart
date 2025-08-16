@@ -450,6 +450,24 @@ abstract class L10n {
   /// In ja, this message translates to:
   /// **'フォルダから選択'**
   String get photo_from_folder;
+
+  /// No description provided for @alert_text_delete.
+  ///
+  /// In ja, this message translates to:
+  /// **'削除しますか？'**
+  String get alert_text_delete;
+
+  /// No description provided for @dialog_select_ok.
+  ///
+  /// In ja, this message translates to:
+  /// **'はい'**
+  String get dialog_select_ok;
+
+  /// No description provided for @dialog_select_no.
+  ///
+  /// In ja, this message translates to:
+  /// **'いいえ'**
+  String get dialog_select_no;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {

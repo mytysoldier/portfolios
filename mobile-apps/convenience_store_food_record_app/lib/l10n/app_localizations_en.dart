@@ -189,4 +189,13 @@ class L10nEn extends L10n {
 
   @override
   String get photo_from_folder => 'フォルダから選択';
+
+  @override
+  String get alert_text_delete => '削除しますか？';
+
+  @override
+  String get dialog_select_ok => 'はい';
+
+  @override
+  String get dialog_select_no => 'いいえ';
 }
