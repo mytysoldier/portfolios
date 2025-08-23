@@ -14,12 +14,19 @@ class MockRecordFormNotifier extends RecordFormNotifier {}
 
 class MockImagePickerNotifier extends ImagePickerNotifier {
   @override
-  Future<void> pickImage(BuildContext context, ImageSource source) async {
+  Future<void> pickImage(
+    BuildContext context,
+    ImageSource source,
+    void Function(String path)? onImagePathChanged,
+  ) async {
     // テスト用: 何もしない
   }
 
   @override
-  void showImageSourceActionSheet(BuildContext context) {
+  void showImageSourceActionSheet(
+    BuildContext context, {
+    void Function(String path)? onImagePathChanged,
+  }) {
     // テスト用: 何もしない
   }
   @override
