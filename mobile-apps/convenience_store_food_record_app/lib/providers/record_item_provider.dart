@@ -1,3 +1,4 @@
+import 'package:convenience_store_food_record_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -91,6 +92,9 @@ class RecordFormNotifier extends StateNotifier<RecordFormState> {
       return false;
     }
 
+    final user = ref.read(userProvider);
+    if (user == null) return false; // ユーザー未取得時は何もしない
+
     String imageUrl = '';
     if (state.imagePath != null) {
       final fileName = state.imagePath!.split('/').last;
@@ -112,7 +116,7 @@ class RecordFormNotifier extends StateNotifier<RecordFormState> {
     );
     try {
       await supabase.from('purchase_history').insert({
-        'user_id': 1,
+        'user_id': user.id,
         'item_img': record.imageUrl,
         'item_name': record.productName,
         'store_id': record.storeId,

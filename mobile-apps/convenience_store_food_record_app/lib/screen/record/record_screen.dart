@@ -46,7 +46,10 @@ class _RecordScreenState extends ConsumerState<RecordScreen> {
           children: [
             ScreenTitle(icon: Icons.add, title: l10n.record_screen_title),
             // 商品写真
-            ItemPhotoInput(imagePath: formState.imagePath),
+            ItemPhotoInput(
+              imagePath: formState.imagePath,
+              onImagePathChanged: (path) => formNotifier.setImagePath(path),
+            ),
             // 商品名
             ItemNameInput(
               controller: itemNameController,

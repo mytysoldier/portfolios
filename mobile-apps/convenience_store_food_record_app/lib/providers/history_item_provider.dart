@@ -1,3 +1,4 @@
+import 'package:convenience_store_food_record_app/providers/user_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/history_item_model.dart';
@@ -25,8 +26,13 @@ class HistoryItemListNotifier extends StateNotifier<List<HistoryItemModel>> {
     await ref.read(categoryMasterProvider.notifier).fetch();
     final storeMap = ref.read(storeMasterProvider);
     final categoryMap = ref.read(categoryMasterProvider);
+    final user = ref.read(userProvider);
+    if (user == null) return; // ユーザー未取得時は何もしない
 
-    final response = await supabase.from('purchase_history').select();
+    final response = await supabase
+        .from('purchase_history')
+        .select()
+        .eq('user_id', user.id);
     state = response
         .map(
           (item) => HistoryItemModel(

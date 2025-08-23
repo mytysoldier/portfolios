@@ -7,15 +7,25 @@ import 'package:minio/minio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ImagePickerNotifier extends StateNotifier<String?> {
-  Future<void> pickImage(BuildContext context, ImageSource source) async {
+  Future<void> pickImage(
+    BuildContext context,
+    ImageSource source,
+    void Function(String path)? onImagePathChanged,
+  ) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source);
     if (pickedFile != null) {
       setImagePath(pickedFile.path);
+      if (onImagePathChanged != null) {
+        onImagePathChanged(pickedFile.path);
+      }
     }
   }
 
-  void showImageSourceActionSheet(BuildContext context) {
+  void showImageSourceActionSheet(
+    BuildContext context, {
+    void Function(String path)? onImagePathChanged,
+  }) {
     final l10n = L10n.of(context);
     showModalBottomSheet(
       context: context,
@@ -27,7 +37,7 @@ class ImagePickerNotifier extends StateNotifier<String?> {
               title: Text(l10n.photo_from_camera),
               onTap: () {
                 Navigator.pop(context);
-                pickImage(context, ImageSource.camera);
+                pickImage(context, ImageSource.camera, onImagePathChanged);
               },
             ),
             ListTile(
@@ -35,7 +45,7 @@ class ImagePickerNotifier extends StateNotifier<String?> {
               title: Text(l10n.photo_from_folder),
               onTap: () {
                 Navigator.pop(context);
-                pickImage(context, ImageSource.gallery);
+                pickImage(context, ImageSource.gallery, onImagePathChanged);
               },
             ),
           ],

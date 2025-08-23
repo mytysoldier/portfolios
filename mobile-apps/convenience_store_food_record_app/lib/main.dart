@@ -37,9 +37,10 @@ class _MyAppState extends ConsumerState<MyApp> {
     // TODO: ユーザーIDの取得方法は適宜修正
     Future.microtask(() async {
       try {
-        await ref.read(userProvider.notifier).fetchUser(id: 1);
+        await ref.read(userProvider.notifier).fetchUser();
       } catch (e) {
-        print('ユーザー情報取得失敗: $e');
+        // ユーザー情報未登録の場合は、デバイスIDで登録
+        await ref.read(userProvider.notifier).insertUserWithDeviceId();
       }
     });
   }

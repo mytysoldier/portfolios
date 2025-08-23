@@ -6,16 +6,24 @@ import '../../providers/image_picker_provider.dart';
 
 class ItemPhotoInput extends ConsumerWidget {
   final String? imagePath;
-  const ItemPhotoInput({super.key, required this.imagePath});
+  final void Function(String path) onImagePathChanged;
+  const ItemPhotoInput({
+    super.key,
+    required this.imagePath,
+    required this.onImagePathChanged,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = L10n.of(context);
 
-    void showImageSourceActionSheet() {
+    Future<void> showImageSourceActionSheet() async {
       ref
           .read(imagePickerProvider.notifier)
-          .showImageSourceActionSheet(context);
+          .showImageSourceActionSheet(
+            context,
+            onImagePathChanged: onImagePathChanged,
+          );
     }
 
     return Column(
@@ -31,7 +39,9 @@ class ItemPhotoInput extends ConsumerWidget {
         ),
         const SizedBox(height: 8),
         GestureDetector(
-          onTap: showImageSourceActionSheet,
+          onTap: () async {
+            await showImageSourceActionSheet();
+          },
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
