@@ -17,3 +17,4 @@ GRANT DELETE ON ALL TABLES IN SCHEMA conv_food_record_app TO public;
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA conv_food_record_app TO public;
 
 # テーブル
+GRANT SELECT ON TABLE conv_food_record_app.user TO public;

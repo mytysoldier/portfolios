@@ -1,12 +1,15 @@
 CREATE SCHEMA IF NOT EXISTS conv_food_record_app;
 
-CREATE TABLE IF NOT EXISTS conv_food_record_app.user (
-    id SERIAL PRIMARY KEY,
-    user_name VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    deleted_at TIMESTAMP
+DROP TABLE IF EXISTS conv_food_record_app.user CASCADE;
+
+CREATE TABLE conv_food_record_app.user (
+    id SERIAL PRIMARY KEY, -- 主キー
+    user_name TEXT,                       -- ユーザー名
+    password TEXT,                        -- パスワード
+    device_id TEXT,                       -- デバイスID（未登録ユーザー用）
+    created_at TIMESTAMP,                  -- 作成日時
+    updated_at TIMESTAMP,                  -- 更新日時
+    deleted_at TIMESTAMP                   -- 削除日時
 );
 
 

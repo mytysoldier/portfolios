@@ -1,6 +1,7 @@
 -- user テーブル（Supabase Authを使わない場合の例）
-INSERT INTO conv_food_record_app.user (user_name, password, created_at, updated_at)
-VALUES ('testuser', 'hashed_password', NOW(), NOW());
+-- device_idを追加したサンプル
+INSERT INTO conv_food_record_app.user (user_name, password, device_id, created_at, updated_at)
+VALUES ('testuser', 'hashed_password', 'sample-device-id-001', NOW(), NOW());
 
 -- purchase_history テーブル
 INSERT INTO conv_food_record_app.purchase_history (

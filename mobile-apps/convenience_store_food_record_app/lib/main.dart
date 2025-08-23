@@ -1,4 +1,5 @@
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
+import 'package:convenience_store_food_record_app/providers/user_provider.dart';
 import 'package:convenience_store_food_record_app/screen/history/history_screen.dart';
 import 'package:convenience_store_food_record_app/screen/record/record_screen.dart';
 import 'package:convenience_store_food_record_app/screen/statistic/statistic_screen.dart';
@@ -22,14 +23,32 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
+
+  @override
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    // TODO: ユーザーIDの取得方法は適宜修正
+    Future.microtask(() async {
+      try {
+        await ref.read(userProvider.notifier).fetchUser(id: 1);
+      } catch (e) {
+        print('ユーザー情報取得失敗: $e');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: _router,
-      theme: mainThemeData, // main_theme.dartのテーマを適用
+      theme: mainThemeData,
       localizationsDelegates: L10n.localizationsDelegates,
       supportedLocales: L10n.supportedLocales,
     );
