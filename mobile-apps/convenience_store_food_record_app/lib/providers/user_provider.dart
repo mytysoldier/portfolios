@@ -6,6 +6,34 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 import '../models/user.dart';
 
+// 入力値保持用State
+class UserInputState {
+  final String nickname;
+  final String password;
+
+  UserInputState({this.nickname = '', this.password = ''});
+
+  UserInputState copyWith({String? nickname, String? password}) {
+    return UserInputState(
+      nickname: nickname ?? this.nickname,
+      password: password ?? this.password,
+    );
+  }
+}
+
+class UserInputNotifier extends StateNotifier<UserInputState> {
+  UserInputNotifier() : super(UserInputState());
+
+  void setNickname(String value) => state = state.copyWith(nickname: value);
+  void setPassword(String value) => state = state.copyWith(password: value);
+  void clear() => state = UserInputState();
+}
+
+final userInputProvider =
+    StateNotifierProvider<UserInputNotifier, UserInputState>((ref) {
+      return UserInputNotifier();
+    });
+
 class UserNotifier extends StateNotifier<User?> {
   UserNotifier() : super(null);
 

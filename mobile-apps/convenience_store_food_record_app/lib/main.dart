@@ -3,6 +3,7 @@ import 'package:convenience_store_food_record_app/providers/user_provider.dart';
 import 'package:convenience_store_food_record_app/screen/history/history_screen.dart';
 import 'package:convenience_store_food_record_app/screen/record/record_screen.dart';
 import 'package:convenience_store_food_record_app/screen/statistic/statistic_screen.dart';
+import 'package:convenience_store_food_record_app/screen/account/account_screen.dart';
 import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -65,7 +66,7 @@ class MainScaffold extends StatelessWidget {
     super.key,
   });
 
-  static const _routes = ['/', '/record', '/statistic'];
+  static const _routes = ['/', '/record', '/statistic', '/account'];
 
   @override
   Widget build(BuildContext context) {
@@ -80,16 +81,31 @@ class MainScaffold extends StatelessWidget {
       ),
       body: Padding(padding: const EdgeInsets.all(16), child: child),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
         onTap: (index) {
           if (index != currentIndex) {
             context.go(_routes[index]);
           }
         },
+        backgroundColor: Colors.white,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: '履歴'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: '記録'),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: '統計'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history, color: Colors.black),
+            label: '履歴',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add, color: Colors.black),
+            label: '記録',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart, color: Colors.black),
+            label: '統計',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle, color: Colors.black),
+            label: 'アカウント',
+          ),
         ],
       ),
     );
@@ -103,6 +119,7 @@ final GoRouter _router = GoRouter(
         int index = 0;
         if (state.fullPath == '/record') index = 1;
         if (state.fullPath == '/statistic') index = 2;
+        if (state.fullPath == '/account') index = 3;
         return MainScaffold(currentIndex: index, child: child);
       },
       routes: [
@@ -130,6 +147,16 @@ final GoRouter _router = GoRouter(
           path: '/statistic',
           pageBuilder: (context, state) => CustomTransitionPage(
             child: const StatisticScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+          ),
+        ),
+        GoRoute(
+          path: '/account',
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: const AccountScreen(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
                   return FadeTransition(opacity: animation, child: child);
