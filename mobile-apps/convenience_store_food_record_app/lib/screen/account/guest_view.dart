@@ -53,7 +53,6 @@ class _GuestViewState extends ConsumerState<GuestView> {
           ),
         ),
         Card(
-          color: const Color(0xFFFFF3E0),
           child: Padding(
             padding: const EdgeInsets.all(32.0),
             child: Column(

@@ -21,15 +21,15 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
         children: [
           // TODO && -> || に戻す
           if (user == null || user.userName == null) ...[
-            // GuestView(),
+            GuestView(),
             // TODO 以下削除
-            const UserInfoView(),
-            const SizedBox(height: 32),
-            LogoutButton(
-              onPressed: () {
-                // TODO: ログアウト処理
-              },
-            ),
+            // const UserInfoView(),
+            // const SizedBox(height: 32),
+            // LogoutButton(
+            //   onPressed: () {
+            //     // TODO: ログアウト処理
+            //   },
+            // ),
           ] else ...[
             const UserInfoView(),
             const SizedBox(height: 32),
