@@ -47,7 +47,6 @@ class _GuestViewState extends ConsumerState<GuestView> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
-                // ...既存のボタンは削除...
               ],
             ),
           ),
