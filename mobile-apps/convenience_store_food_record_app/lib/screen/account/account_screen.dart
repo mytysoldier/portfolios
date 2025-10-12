@@ -35,7 +35,8 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             const SizedBox(height: 32),
             LogoutButton(
               onPressed: () {
-                // TODO: ログアウト処理
+                ref.read(userProvider.notifier).logout();
+                setState(() {});
               },
             ),
           ],

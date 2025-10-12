@@ -45,6 +45,11 @@ class UserNotifier extends StateNotifier<User?> {
     state = null;
   }
 
+  void logout() {
+    clearUser();
+    // 今後、ログアウト時の追加処理があればここに記載
+  }
+
   Future<void> fetchUser() async {
     final supabase = Supabase.instance.client;
     try {
