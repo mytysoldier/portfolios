@@ -67,6 +67,28 @@ class UserNotifier extends StateNotifier<User?> {
     }
   }
 
+  /// ユーザー名・パスワード・device_idでユーザー情報を登録
+  Future<void> registerUser(String userName, String password) async {
+    final supabase = Supabase.instance.client;
+    try {
+      String deviceId = await getDeviceId();
+      final response = await supabase
+          .from('user')
+          .insert({
+            'user_name': userName,
+            'password': password,
+            'device_id': deviceId,
+          })
+          .select()
+          .single();
+      setUser(User.fromJson(response));
+    } catch (e) {
+      print('ユーザー登録失敗: $e');
+      clearUser();
+      // 必要に応じてrethrow
+    }
+  }
+
   /// デバイスIDでUserテーブルにInsert
   Future<void> insertUserWithDeviceId() async {
     final supabase = Supabase.instance.client;

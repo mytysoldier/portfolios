@@ -1,8 +1,27 @@
 import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 
-class RegisterForm extends StatelessWidget {
-  const RegisterForm({super.key});
+class RegisterForm extends StatefulWidget {
+  final void Function(String userName, String password) onRegisterPressed;
+  const RegisterForm({super.key, required this.onRegisterPressed});
+
+  @override
+  State<RegisterForm> createState() => _RegisterFormState();
+}
+
+class _RegisterFormState extends State<RegisterForm> {
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordConfirmController =
+      TextEditingController();
+
+  @override
+  void dispose() {
+    userNameController.dispose();
+    passwordController.dispose();
+    passwordConfirmController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +31,7 @@ class RegisterForm extends StatelessWidget {
       children: [
         Text('ニックネーム', style: Theme.of(context).textTheme.bodyMedium),
         TextField(
+          controller: userNameController,
           decoration: InputDecoration(
             hintText: 'タロウ',
             enabledBorder: OutlineInputBorder(
@@ -24,22 +44,9 @@ class RegisterForm extends StatelessWidget {
             ),
           ),
         ),
-        Text('メールアドレス', style: Theme.of(context).textTheme.bodyMedium),
-        TextField(
-          decoration: InputDecoration(
-            hintText: 'example@gmail.com',
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
         Text('パスワード', style: Theme.of(context).textTheme.bodyMedium),
         TextField(
+          controller: passwordController,
           decoration: InputDecoration(
             hintText: '8文字以上のパスワード',
             enabledBorder: OutlineInputBorder(
@@ -54,6 +61,7 @@ class RegisterForm extends StatelessWidget {
         ),
         Text('パスワード確認用', style: Theme.of(context).textTheme.bodyMedium),
         TextField(
+          controller: passwordConfirmController,
           decoration: InputDecoration(
             hintText: 'パスワードを再入力',
             enabledBorder: OutlineInputBorder(
@@ -69,7 +77,12 @@ class RegisterForm extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              widget.onRegisterPressed(
+                userNameController.text,
+                passwordController.text,
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black,
               shape: RoundedRectangleBorder(

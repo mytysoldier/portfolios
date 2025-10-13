@@ -1,4 +1,5 @@
-import 'package:convenience_store_food_record_app/screen/account/components/guest_description.dart';
+import 'package:convenience_store_food_record_app/providers/user_provider.dart';
+// import 'package:convenience_store_food_record_app/screen/account/components/guest_description.dart';
 import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:convenience_store_food_record_app/screen/account/components/auth_toggle_buttons.dart';
 import 'package:convenience_store_food_record_app/screen/account/components/login_form.dart';
@@ -77,7 +78,13 @@ class _GuestViewState extends ConsumerState<GuestView> {
                 if (_selectedIndex == 0)
                   const LoginForm()
                 else
-                  const RegisterForm(),
+                  RegisterForm(
+                    onRegisterPressed: (userName, password) {
+                      ref
+                          .read(userProvider.notifier)
+                          .registerUser(userName, password);
+                    },
+                  ),
               ],
             ),
           ),
