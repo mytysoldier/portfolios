@@ -10,6 +10,8 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+  bool _obscurePassword = true;
+  bool _obscurePasswordConfirm = true;
   String? errorText;
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -48,6 +50,7 @@ class _RegisterFormState extends State<RegisterForm> {
         Text('パスワード', style: Theme.of(context).textTheme.bodyMedium),
         TextField(
           controller: passwordController,
+          obscureText: _obscurePassword,
           decoration: InputDecoration(
             hintText: '8文字以上のパスワード',
             enabledBorder: OutlineInputBorder(
@@ -58,11 +61,22 @@ class _RegisterFormState extends State<RegisterForm> {
               borderSide: BorderSide(color: Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscurePassword = !_obscurePassword;
+                });
+              },
+            ),
           ),
         ),
         Text('パスワード確認用', style: Theme.of(context).textTheme.bodyMedium),
         TextField(
           controller: passwordConfirmController,
+          obscureText: _obscurePasswordConfirm,
           decoration: InputDecoration(
             hintText: 'パスワードを再入力',
             enabledBorder: OutlineInputBorder(
@@ -72,6 +86,18 @@ class _RegisterFormState extends State<RegisterForm> {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
               borderRadius: BorderRadius.circular(8),
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscurePasswordConfirm
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscurePasswordConfirm = !_obscurePasswordConfirm;
+                });
+              },
             ),
           ),
         ),
