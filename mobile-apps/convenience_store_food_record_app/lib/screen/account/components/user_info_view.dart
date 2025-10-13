@@ -4,11 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:convenience_store_food_record_app/screen/account/components/user_records_card.dart';
 import 'package:convenience_store_food_record_app/screen/account/profile_edit_screen.dart';
 
-class UserInfoView extends ConsumerWidget {
+class UserInfoView extends ConsumerStatefulWidget {
   const UserInfoView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<UserInfoView> createState() => _UserInfoViewState();
+}
+
+class _UserInfoViewState extends ConsumerState<UserInfoView> {
+  @override
+  Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     final userName = user?.userName ?? 'ユーザー名';
 

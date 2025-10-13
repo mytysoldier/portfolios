@@ -67,10 +67,20 @@ class UserNotifier extends StateNotifier<User?> {
     }
   }
 
-  /// ユーザー名・パスワード・device_idでユーザー情報を登録
-  Future<void> registerUser(String userName, String password) async {
+  /// ユーザー名・パスワード・device_idでユーザー情報を登録（重複チェックあり）
+  Future<String?> registerUser(String userName, String password) async {
     final supabase = Supabase.instance.client;
     try {
+      // ユーザー名重複チェック
+      final exists = await supabase
+          .from('user')
+          .select()
+          .eq('user_name', userName)
+          .maybeSingle();
+      if (exists != null) {
+        return 'このユーザー名は既に使われています';
+      }
+
       String deviceId = await getDeviceId();
       final response = await supabase
           .from('user')
@@ -82,10 +92,11 @@ class UserNotifier extends StateNotifier<User?> {
           .select()
           .single();
       setUser(User.fromJson(response));
+      return null;
     } catch (e) {
       print('ユーザー登録失敗: $e');
       clearUser();
-      // 必要に応じてrethrow
+      return 'エラーが発生しました。時間をおいてもう一度お試しください。';
     }
   }
 

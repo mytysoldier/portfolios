@@ -10,6 +10,7 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+  String? errorText;
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmController =
@@ -74,14 +75,48 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
           ),
         ),
+        if (errorText != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(errorText!, style: const TextStyle(color: Colors.red)),
+          ),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
-              widget.onRegisterPressed(
-                userNameController.text,
-                passwordController.text,
-              );
+              final userName = userNameController.text.trim();
+              final password = passwordController.text;
+              final passwordConfirm = passwordConfirmController.text;
+
+              if (userName.isEmpty) {
+                setState(() {
+                  errorText = 'ニックネームを入力してください';
+                });
+                return;
+              }
+              if (password.isEmpty) {
+                setState(() {
+                  errorText = 'パスワードを入力してください';
+                });
+                return;
+              }
+              if (password.length < 8) {
+                setState(() {
+                  errorText = 'パスワードは8文字以上で入力してください';
+                });
+                return;
+              }
+              if (password != passwordConfirm) {
+                setState(() {
+                  errorText = 'パスワードが一致しません';
+                });
+                return;
+              }
+
+              setState(() {
+                errorText = null;
+              });
+              widget.onRegisterPressed(userName, password);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black,

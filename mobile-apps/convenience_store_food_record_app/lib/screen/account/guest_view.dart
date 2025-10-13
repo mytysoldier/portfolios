@@ -79,10 +79,46 @@ class _GuestViewState extends ConsumerState<GuestView> {
                   const LoginForm()
                 else
                   RegisterForm(
-                    onRegisterPressed: (userName, password) {
-                      ref
+                    onRegisterPressed: (userName, password) async {
+                      String? err = await ref
                           .read(userProvider.notifier)
                           .registerUser(userName, password);
+
+                      if (err == null) {
+                        // 登録成功時
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text(''),
+                            content: Text("アカウントが作成されました"),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text(
+                                  'OK',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        // 登録失敗時
+                        showDialog(
+                          context: context,
+                          builder: (dialogContext) => AlertDialog(
+                            title: const Text(''),
+                            content: Text(err!.replaceFirst('Exception: ', '')),
+                            actions: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(dialogContext).pop(),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     },
                   ),
               ],
