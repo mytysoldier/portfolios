@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
-import 'package:crypto/crypto.dart';
-import 'dart:convert';
 
 import '../models/user.dart';
 
@@ -73,6 +71,16 @@ class UserNotifier extends StateNotifier<User?> {
   Future<String?> registerUser(String userName, String password) async {
     final supabase = Supabase.instance.client;
     try {
+      // 他のレコードに同じuser_nameがあればエラー
+      final exists = await supabase
+          .from('user')
+          .select()
+          .eq('user_name', userName)
+          .maybeSingle();
+      if (exists != null) {
+        return 'このユーザー名は既に使われています';
+      }
+
       String deviceId = await getDeviceId();
 
       // device_idで既存レコードを検索
@@ -82,46 +90,27 @@ class UserNotifier extends StateNotifier<User?> {
           .eq('device_id', deviceId)
           .maybeSingle();
 
-      // 他のレコードに同じuser_nameがあればエラー（自分のdevice_id以外）
-      final userNameExists = await supabase
-          .from('user')
-          .select()
-          .eq('user_name', userName)
-          .neq('device_id', deviceId)
-          .maybeSingle();
-      if (userNameExists != null) {
-        return 'このユーザー名は既に使われています';
-      }
-
-      // パスワードをSHA-256変換
-      final hashedPassword = sha256.convert(utf8.encode(password)).toString();
-
       if (deviceRecord != null) {
-        // device_idのレコードがあり、user_nameが一致する場合はOK
-        if (deviceRecord['user_name'] == userName || deviceRecord['user_name'] == null) {
-          final updated = await supabase
-              .from('user')
-              .update({
-                'user_name': userName,
-                'password': hashedPassword,
-                'updated_at': DateTime.now().toIso8601String(),
-              })
-              .eq('device_id', deviceId)
-              .select()
-              .single();
-          setUser(User.fromJson(updated));
-          return null;
-        } else {
-          // device_idのレコードがあり、user_nameが異なる場合はエラー
-          return 'このデバイスには既に別のユーザー名が登録されています';
-        }
+        // device_id登録済なら既存update
+        final updated = await supabase
+            .from('user')
+            .update({
+              'user_name': userName,
+              'password': password,
+              'updated_at': DateTime.now().toIso8601String(),
+            })
+            .eq('device_id', deviceId)
+            .select()
+            .single();
+        setUser(User.fromJson(updated));
+        return null;
       } else {
         // device_id未登録なら新規insert
         final inserted = await supabase
             .from('user')
             .insert({
               'user_name': userName,
-              'password': hashedPassword,
+              'password': password,
               'device_id': deviceId,
               'created_at': DateTime.now().toIso8601String(),
             })
@@ -134,6 +123,24 @@ class UserNotifier extends StateNotifier<User?> {
       print('ユーザー登録失敗: $e');
       clearUser();
       return 'エラーが発生しました。時間をおいてもう一度お試しください。';
+    }
+  }
+
+  /// デバイスIDでUserテーブルにInsert
+  Future<void> insertUserWithDeviceId() async {
+    final supabase = Supabase.instance.client;
+    try {
+      String deviceId = await getDeviceId();
+      final response = await supabase
+          .from('user')
+          .insert({'device_id': deviceId})
+          .select()
+          .single();
+      setUser(User.fromJson(response));
+    } catch (e) {
+      print('UserテーブルへのInsert失敗: $e');
+      clearUser();
+      // 失敗時はログ出力のみでrethrowしない
     }
   }
 

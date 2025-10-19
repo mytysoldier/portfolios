@@ -468,6 +468,246 @@ abstract class L10n {
   /// In ja, this message translates to:
   /// **'いいえ'**
   String get dialog_select_no;
+
+  /// No description provided for @terms_of_service_title.
+  ///
+  /// In ja, this message translates to:
+  /// **'利用規約'**
+  String get terms_of_service_title;
+
+  /// No description provided for @terms_of_service_last_updated.
+  ///
+  /// In ja, this message translates to:
+  /// **'最終更新日: 2025年10月19日'**
+  String get terms_of_service_last_updated;
+
+  /// No description provided for @terms_of_service_sentence_one.
+  ///
+  /// In ja, this message translates to:
+  /// **'第1条（適用）'**
+  String get terms_of_service_sentence_one;
+
+  /// No description provided for @terms_of_service_sentence_one_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'本規約は、本アプリ「コンビニ飯記録」（以下「本サービス」）の利用に関する条件を、本サービスを利用するすべてのユーザー（以下「ユーザー」）と本サービス提供者（以下「当方」）との間で定めるものです。'**
+  String get terms_of_service_sentence_one_content;
+
+  /// No description provided for @terms_of_service_sentence_two.
+  ///
+  /// In ja, this message translates to:
+  /// **'第2条（アカウント登録）'**
+  String get terms_of_service_sentence_two;
+
+  /// No description provided for @terms_of_service_sentence_two_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'ユーザーは、本サービスの利用にあたり、正確かつ最新の情報を提供するものとします。虚偽の情報を提供した場合、アカウントの停止または削除を行うことがあります。'**
+  String get terms_of_service_sentence_two_content;
+
+  /// No description provided for @terms_of_service_sentence_three.
+  ///
+  /// In ja, this message translates to:
+  /// **'第3条（禁止事項）'**
+  String get terms_of_service_sentence_three;
+
+  /// No description provided for @terms_of_service_sentence_three_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。\n・法令または公序良俗に違反する行為\n・犯罪行為に関連する行為\n・他のユーザーまたは第三者の権利を侵害する行為\n・本サービスの運営を妨害する行為\n・不正アクセスまたはこれを試みる行為'**
+  String get terms_of_service_sentence_three_content;
+
+  /// No description provided for @terms_of_service_sentence_four.
+  ///
+  /// In ja, this message translates to:
+  /// **'第4条（ユーザーコンテンツ）'**
+  String get terms_of_service_sentence_four;
+
+  /// No description provided for @terms_of_service_sentence_four_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'ユーザーが本サービスに投稿したコンテンツ（写真、テキスト等）の著作権は、ユーザーに帰属します。原則として、当方はこれらのコンテンツを使用しません。'**
+  String get terms_of_service_sentence_four_content;
+
+  /// No description provided for @terms_of_service_sentence_five.
+  ///
+  /// In ja, this message translates to:
+  /// **'第5条（個人情報の取扱い）'**
+  String get terms_of_service_sentence_five;
+
+  /// No description provided for @terms_of_service_sentence_five_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'当方は、ユーザーの個人情報を適切に管理し、プライバシーポリシーに従い取り扱います。'**
+  String get terms_of_service_sentence_five_content;
+
+  /// No description provided for @terms_of_service_sentence_six.
+  ///
+  /// In ja, this message translates to:
+  /// **'第6条（サービスの変更・停止）'**
+  String get terms_of_service_sentence_six;
+
+  /// No description provided for @terms_of_service_sentence_six_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'当方は、ユーザーへの事前の通知なく、本サービスの内容を変更、または提供を停止することができるものとします。これによりユーザーに生じた損害について、当方は一切の責任を負いません。'**
+  String get terms_of_service_sentence_six_content;
+
+  /// No description provided for @terms_of_service_sentence_seven.
+  ///
+  /// In ja, this message translates to:
+  /// **'第7条（免責事項）'**
+  String get terms_of_service_sentence_seven;
+
+  /// No description provided for @terms_of_service_sentence_seven_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'当方は、本サービスにおける情報の正確性や動作の安全性について保証しません。'**
+  String get terms_of_service_sentence_seven_content;
+
+  /// No description provided for @terms_of_service_sentence_eight.
+  ///
+  /// In ja, this message translates to:
+  /// **'第8条（利用停止・退会）'**
+  String get terms_of_service_sentence_eight;
+
+  /// No description provided for @terms_of_service_sentence_eight_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'ユーザーは、いつでも本サービスの利用を停止し、退会することができます。'**
+  String get terms_of_service_sentence_eight_content;
+
+  /// No description provided for @terms_of_service_sentence_nine.
+  ///
+  /// In ja, this message translates to:
+  /// **'第9条（規約の変更）'**
+  String get terms_of_service_sentence_nine;
+
+  /// No description provided for @terms_of_service_sentence_nine_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'当方は、必要に応じて本規約を変更することができるものとします。変更後の規約は、本サービス上に掲載した時点から効力を生じるものとします。'**
+  String get terms_of_service_sentence_nine_content;
+
+  /// No description provided for @terms_of_service_sentence_ten.
+  ///
+  /// In ja, this message translates to:
+  /// **'第10条（準拠法・裁判管轄）'**
+  String get terms_of_service_sentence_ten;
+
+  /// No description provided for @terms_of_service_sentence_ten_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'本規約の解釈・適用は日本法に準拠し、本サービスに関して紛争が生じた場合、当方の所在地を管轄する裁判所を第一審の専属的合意管轄とします。'**
+  String get terms_of_service_sentence_ten_content;
+
+  /// No description provided for @privacy_policy_title.
+  ///
+  /// In ja, this message translates to:
+  /// **'プライバシーポリシー'**
+  String get privacy_policy_title;
+
+  /// No description provided for @privacy_policy_last_updated.
+  ///
+  /// In ja, this message translates to:
+  /// **'最終更新日: 2025年10月19日'**
+  String get privacy_policy_last_updated;
+
+  /// No description provided for @privacy_policy_section_one.
+  ///
+  /// In ja, this message translates to:
+  /// **'1. 収集する情報'**
+  String get privacy_policy_section_one;
+
+  /// No description provided for @privacy_policy_section_one_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'当方は、本サービスの提供にあたり、以下の情報を収集します。\n・アカウント情報：ユーザー名、表示名、パスワード\n・利用情報：購入記録、商品情報、価格、メモ、写真\n・デバイス情報：端末の種類、OS、deviceId\n・ログ情報：アクセス日時、IPアドレス、利用状況'**
+  String get privacy_policy_section_one_content;
+
+  /// No description provided for @privacy_policy_section_two.
+  ///
+  /// In ja, this message translates to:
+  /// **'2. 情報の利用目的'**
+  String get privacy_policy_section_two;
+
+  /// No description provided for @privacy_policy_section_two_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'収集した情報は、以下の目的で利用します。\n・本サービスの提供、維持、改善\n・ユーザーサポート、問い合わせ対応\n・サービスの不正利用の防止\n・利用状況の分析、統計データの作成\n・新機能や更新情報の通知'**
+  String get privacy_policy_section_two_content;
+
+  /// No description provided for @privacy_policy_section_three.
+  ///
+  /// In ja, this message translates to:
+  /// **'3. 情報の共有'**
+  String get privacy_policy_section_three;
+
+  /// No description provided for @privacy_policy_section_three_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'当方は、ユーザーの個人情報を第三者に販売、貸与、または共有することはありません。ただし、以下の場合を除きます。\n・ユーザーの同意がある場合\n・法令に基づく場合\n・人の生命、身体または財産の保護のために必要がある場合'**
+  String get privacy_policy_section_three_content;
+
+  /// No description provided for @privacy_policy_section_four.
+  ///
+  /// In ja, this message translates to:
+  /// **'4. データの保存'**
+  String get privacy_policy_section_four;
+
+  /// No description provided for @privacy_policy_section_four_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'ゲストモードで利用する場合、データはお使いのデバイスにローカル保存されます。アカウント登録した場合、データは暗号化されて当方のサーバーに保存されます。'**
+  String get privacy_policy_section_four_content;
+
+  /// No description provided for @privacy_policy_section_five.
+  ///
+  /// In ja, this message translates to:
+  /// **'5. データの削除'**
+  String get privacy_policy_section_five;
+
+  /// No description provided for @privacy_policy_section_five_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'ユーザーは、アカウント設定からいつでもアカウントとすべてのデータを削除できます。削除されたデータは、バックアップを除き、速やかに削除されます。'**
+  String get privacy_policy_section_five_content;
+
+  /// No description provided for @privacy_policy_section_six.
+  ///
+  /// In ja, this message translates to:
+  /// **'6. セキュリティ'**
+  String get privacy_policy_section_six;
+
+  /// No description provided for @privacy_policy_section_six_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'当方は、ユーザーの個人情報を保護するため、適切なセキュリティ対策を実施しています。ただし、インターネット上の通信の完全な安全性を保証するものではありません。'**
+  String get privacy_policy_section_six_content;
+
+  /// No description provided for @privacy_policy_section_seven.
+  ///
+  /// In ja, this message translates to:
+  /// **'7. プライバシーポリシーの変更'**
+  String get privacy_policy_section_seven;
+
+  /// No description provided for @privacy_policy_section_seven_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'当方は、必要に応じて本ポリシーを変更することがあります。変更後のポリシーは、本サービス上に掲載した時点から効力を生じるものとします。'**
+  String get privacy_policy_section_seven_content;
+
+  /// No description provided for @privacy_policy_section_eight.
+  ///
+  /// In ja, this message translates to:
+  /// **'8. お問い合わせ'**
+  String get privacy_policy_section_eight;
+
+  /// No description provided for @privacy_policy_section_eight_content.
+  ///
+  /// In ja, this message translates to:
+  /// **'本ポリシーに関するご質問やご不明な点がございましたら、アプリ内のお問い合わせフォームからご連絡ください。'**
+  String get privacy_policy_section_eight_content;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {

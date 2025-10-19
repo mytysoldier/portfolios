@@ -1,5 +1,6 @@
 import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterForm extends StatefulWidget {
   final void Function(String userName, String password) onRegisterPressed;
@@ -165,7 +166,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   alignment: PlaceholderAlignment.middle,
                   child: GestureDetector(
                     onTap: () {
-                      // TODO: 利用規約ページへ遷移
+                      context.push('/terms_of_service');
                     },
                     child: Text(
                       '利用規約',
@@ -181,7 +182,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   alignment: PlaceholderAlignment.middle,
                   child: GestureDetector(
                     onTap: () {
-                      // TODO: プライバシーポリシーページへ遷移
+                      context.push('/privacy_policy');
                     },
                     child: Text(
                       'プライバシーポリシー',

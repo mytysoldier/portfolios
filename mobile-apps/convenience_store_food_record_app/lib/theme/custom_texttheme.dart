@@ -5,4 +5,9 @@ extension CustomTextTheme on TextTheme {
     return headlineLarge?.copyWith(fontWeight: FontWeight.bold) ??
         const TextStyle(fontWeight: FontWeight.bold);
   }
+
+  TextStyle get bodyLargeBold {
+    return bodyLarge?.copyWith(fontWeight: FontWeight.bold) ??
+        const TextStyle(fontWeight: FontWeight.bold);
+  }
 }
