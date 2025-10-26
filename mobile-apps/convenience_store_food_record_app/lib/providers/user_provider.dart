@@ -67,58 +67,28 @@ class UserNotifier extends StateNotifier<User?> {
     }
   }
 
-  /// ユーザー名・パスワード・device_idでユーザー情報を登録（upsert仕様）
   Future<String?> registerUser(String userName, String password) async {
-    final supabase = Supabase.instance.client;
     try {
-      // 他のレコードに同じuser_nameがあればエラー
-      final exists = await supabase
-          .from('user')
-          .select()
-          .eq('user_name', userName)
-          .maybeSingle();
-      if (exists != null) {
+      String deviceId = await getDeviceId();
+      final supabase = Supabase.instance.client;
+      final response = await supabase.functions.invoke(
+        'create_user',
+        body: {
+          'userName': userName,
+          'password': password,
+          'deviceId': deviceId,
+        },
+      );
+      final data = response.data;
+      if (response.status == 409) {
         return 'このユーザー名は既に使われています';
       }
-
-      String deviceId = await getDeviceId();
-
-      // device_idで既存レコードを検索
-      final deviceRecord = await supabase
-          .from('user')
-          .select()
-          .eq('device_id', deviceId)
-          .maybeSingle();
-
-      if (deviceRecord != null) {
-        // device_id登録済なら既存update
-        final updated = await supabase
-            .from('user')
-            .update({
-              'user_name': userName,
-              'password': password,
-              'updated_at': DateTime.now().toIso8601String(),
-            })
-            .eq('device_id', deviceId)
-            .select()
-            .single();
-        setUser(User.fromJson(updated));
-        return null;
-      } else {
-        // device_id未登録なら新規insert
-        final inserted = await supabase
-            .from('user')
-            .insert({
-              'user_name': userName,
-              'password': password,
-              'device_id': deviceId,
-              'created_at': DateTime.now().toIso8601String(),
-            })
-            .select()
-            .single();
-        setUser(User.fromJson(inserted));
-        return null;
+      if (response.status != 200 && response.status != 201) {
+        return data?['error'] ?? 'ユーザー登録に失敗しました';
       }
+      // 成功時はfetchUserで最新ユーザー情報を取得
+      await fetchUser();
+      return null;
     } catch (e) {
       print('ユーザー登録失敗: $e');
       clearUser();
