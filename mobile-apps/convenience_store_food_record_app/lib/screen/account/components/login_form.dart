@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:convenience_store_food_record_app/providers/login_provider.dart';
 import 'package:convenience_store_food_record_app/providers/user_provider.dart';
 import 'package:convenience_store_food_record_app/models/user.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
@@ -138,7 +139,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
         ),
         TextButton(
           onPressed: () {
-            // TODO: パスワード再設定画面へ遷移
+            context.push('/reset_password');
           },
           child: Text(
             'パスワードを忘れた方',

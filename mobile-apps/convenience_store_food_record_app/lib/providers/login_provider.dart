@@ -43,4 +43,39 @@ class LoginService {
       throw Exception('ログイン失敗: $error');
     }
   }
+
+  Future<void> resetPassword({
+    required String userName,
+    required String newPassword,
+  }) async {
+    if (userName.isEmpty || newPassword.isEmpty) {
+      throw Exception('ユーザー名と新しいパスワードを入力してください');
+    }
+
+    final supabaseUrl = dotenv.env['SUPABASE_URL'];
+    final anonKey = dotenv.env['SUPABASE_ANON_KEY'];
+    if (supabaseUrl == null || anonKey == null) {
+      throw Exception('環境変数が設定されていません');
+    }
+    final url = Uri.parse('$supabaseUrl/functions/v1/reset_password');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $anonKey',
+      },
+      body: jsonEncode({'userName': userName, 'newPassword': newPassword}),
+    );
+
+    final Map<String, dynamic> json = response.body.isNotEmpty
+        ? Map<String, dynamic>.from(jsonDecode(response.body))
+        : {};
+
+    if (response.statusCode == 200 && json['success'] == true) {
+      return;
+    } else {
+      final error = json['error'] ?? response.body;
+      throw Exception('パスワードリセット失敗: $error');
+    }
+  }
 }

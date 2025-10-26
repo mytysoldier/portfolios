@@ -1,6 +1,7 @@
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 import 'package:convenience_store_food_record_app/providers/user_provider.dart';
 import 'package:convenience_store_food_record_app/screen/account/privacy_policy_screen.dart';
+import 'package:convenience_store_food_record_app/screen/account/reset_password_screen.dart';
 import 'package:convenience_store_food_record_app/screen/account/terms_of_service_screen.dart';
 import 'package:convenience_store_food_record_app/screen/history/history_screen.dart';
 import 'package:convenience_store_food_record_app/screen/record/record_screen.dart';
@@ -179,6 +180,16 @@ final GoRouter _router = GoRouter(
           path: '/privacy_policy',
           pageBuilder: (context, state) => CustomTransitionPage(
             child: PrivacyPolicyScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+          ),
+        ),
+        GoRoute(
+          path: '/reset_password',
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: ResetPasswordScreen(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
                   return FadeTransition(opacity: animation, child: child);
