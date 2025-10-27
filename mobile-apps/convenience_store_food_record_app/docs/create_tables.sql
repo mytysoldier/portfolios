@@ -41,3 +41,18 @@ CREATE TABLE IF NOT EXISTS conv_food_record_app.purchase_history (
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     user_id INTEGER REFERENCES conv_food_record_app.user(id) ON DELETE CASCADE
 );
+
+DROP TABLE IF EXISTS conv_food_record_app.upload_daily_usage CASCADE;
+
+CREATE TABLE IF NOT EXISTS conv_food_record_app.upload_daily_usage (
+    user_id INTEGER NOT NULL REFERENCES conv_food_record_app.user(id) ON DELETE CASCADE,
+    quota_date DATE NOT NULL,
+    current_count INTEGER NOT NULL DEFAULT 0,
+    daily_limit INTEGER NOT NULL,
+    last_uploaded_at TIMESTAMP NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (user_id, quota_date),
+    CHECK (daily_limit > 0),
+    CHECK (current_count >= 0)
+);

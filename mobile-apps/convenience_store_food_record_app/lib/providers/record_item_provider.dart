@@ -1,8 +1,11 @@
+import 'package:convenience_store_food_record_app/providers/upload_daily_usage_provider.dart';
 import 'package:convenience_store_food_record_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/record_item_model.dart';
+import '../models/upload_daily_usage.dart';
 import '../components/screen/custom_snack_bar.dart';
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 import 'package:convenience_store_food_record_app/providers/image_picker_provider.dart';
@@ -94,6 +97,34 @@ class RecordFormNotifier extends StateNotifier<RecordFormState> {
 
     final user = ref.read(userProvider);
     if (user == null) return false; // ユーザー未取得時は何もしない
+    final defaultDailyLimit = _resolveDailyLimit();
+    final usageNotifier = ref.read(uploadDailyUsageProvider.notifier);
+    UploadDailyUsage? currentUsage;
+    int effectiveLimit = defaultDailyLimit;
+    try {
+      currentUsage = await usageNotifier.fetch(userId: user.id);
+      effectiveLimit = currentUsage?.dailyLimit ?? defaultDailyLimit;
+
+      if ((currentUsage?.currentCount ?? 0) >= effectiveLimit) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar.show(
+            message: '1日のアップロード上限に達しました',
+            backgroundColor: Colors.red,
+          ),
+        );
+        return false;
+      }
+    } catch (error, stackTrace) {
+      debugPrint('利用状況の取得に失敗: $error');
+      debugPrint('$stackTrace');
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar.show(
+          message: 'アップロード状況の確認に失敗しました',
+          backgroundColor: Colors.red,
+        ),
+      );
+      return false;
+    }
 
     String imageUrl = '';
     if (state.imagePath != null) {
@@ -125,6 +156,32 @@ class RecordFormNotifier extends StateNotifier<RecordFormState> {
         'price': record.price,
         'purchase_date': record.purchaseDate.toIso8601String(),
       });
+      try {
+        await usageNotifier.incrementCount(
+          userId: user.id,
+          dailyLimit: effectiveLimit,
+        );
+      } on StateError catch (error, stackTrace) {
+        debugPrint('利用状況の更新に失敗(上限超過): $error');
+        debugPrint('$stackTrace');
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar.show(
+            message: '1日のアップロード上限に達しました',
+            backgroundColor: Colors.red,
+          ),
+        );
+        return false;
+      } catch (error, stackTrace) {
+        debugPrint('利用状況の更新に失敗: $error');
+        debugPrint('$stackTrace');
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar.show(
+            message: 'アップロード状況の更新に失敗しました',
+            backgroundColor: Colors.red,
+          ),
+        );
+        return false;
+      }
       await ref.read(historyItemListProvider.notifier).fetchPurchasedItems(ref);
       clear();
       return true;
@@ -136,6 +193,19 @@ class RecordFormNotifier extends StateNotifier<RecordFormState> {
       );
       return false;
     }
+  }
+
+  int _resolveDailyLimit() {
+    const fallbackLimit = 10;
+    final envValue = dotenv.env['DAILY_UPLOAD_LIMIT'];
+    final parsed = envValue != null ? int.tryParse(envValue) : null;
+    if (parsed == null || parsed <= 0) {
+      if (envValue != null && envValue.isNotEmpty) {
+        debugPrint('Invalid DAILY_UPLOAD_LIMIT value: $envValue');
+      }
+      return fallbackLimit;
+    }
+    return parsed;
   }
 
   Future<bool> deleteRecord({
