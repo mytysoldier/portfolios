@@ -708,6 +708,12 @@ abstract class L10n {
   /// In ja, this message translates to:
   /// **'本ポリシーに関するご質問やご不明な点がございましたら、アプリ内のお問い合わせフォームからご連絡ください。'**
   String get privacy_policy_section_eight_content;
+
+  /// No description provided for @error_image_too_large.
+  ///
+  /// In ja, this message translates to:
+  /// **'画像サイズが大きすぎます。5MB以下の画像を選択してください。'**
+  String get error_image_too_large;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {

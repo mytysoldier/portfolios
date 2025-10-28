@@ -336,4 +336,7 @@ class L10nJa extends L10n {
   @override
   String get privacy_policy_section_eight_content =>
       '本ポリシーに関するご質問やご不明な点がございましたら、アプリ内のお問い合わせフォームからご連絡ください。';
+
+  @override
+  String get error_image_too_large => '画像サイズが大きすぎます。5MB以下の画像を選択してください。';
 }

@@ -336,4 +336,8 @@ class L10nEn extends L10n {
   @override
   String get privacy_policy_section_eight_content =>
       '本ポリシーに関するご質問やご不明な点がございましたら、アプリ内のお問い合わせフォームからご連絡ください。';
+
+  @override
+  String get error_image_too_large =>
+      'The selected image is too large. Please choose a file up to 5MB.';
 }

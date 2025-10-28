@@ -1,12 +1,15 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
 import 'dart:io';
-import 'package:minio/minio.dart';
+
+import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:minio/minio.dart';
 
 class ImagePickerNotifier extends StateNotifier<String?> {
+  static const int _maxImageSizeInBytes = 5 * 1024 * 1024; // 5 MB
+
   Future<void> pickImage(
     BuildContext context,
     ImageSource source,
@@ -15,6 +18,15 @@ class ImagePickerNotifier extends StateNotifier<String?> {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source);
     if (pickedFile != null) {
+      final file = File(pickedFile.path);
+      final fileSize = await file.length();
+      if (fileSize > _maxImageSizeInBytes) {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(L10n.of(context).error_image_too_large)),
+        );
+        return;
+      }
       setImagePath(pickedFile.path);
       if (onImagePathChanged != null) {
         onImagePathChanged(pickedFile.path);
@@ -27,25 +39,34 @@ class ImagePickerNotifier extends StateNotifier<String?> {
     void Function(String path)? onImagePathChanged,
   }) {
     final l10n = L10n.of(context);
+    final parentContext = context;
     showModalBottomSheet(
-      context: context,
-      builder: (context) => SafeArea(
+      context: parentContext,
+      builder: (sheetContext) => SafeArea(
         child: Wrap(
           children: [
             ListTile(
               leading: const Icon(Icons.photo_camera),
               title: Text(l10n.photo_from_camera),
               onTap: () {
-                Navigator.pop(context);
-                pickImage(context, ImageSource.camera, onImagePathChanged);
+                Navigator.pop(sheetContext);
+                pickImage(
+                  parentContext,
+                  ImageSource.camera,
+                  onImagePathChanged,
+                );
               },
             ),
             ListTile(
               leading: const Icon(Icons.photo_library),
               title: Text(l10n.photo_from_folder),
               onTap: () {
-                Navigator.pop(context);
-                pickImage(context, ImageSource.gallery, onImagePathChanged);
+                Navigator.pop(sheetContext);
+                pickImage(
+                  parentContext,
+                  ImageSource.gallery,
+                  onImagePathChanged,
+                );
               },
             ),
           ],
