@@ -281,14 +281,4 @@ workflow = WorkflowBuilder().add_phase(CustomPhase()).build()
 - **検証網羅性**: WarpCodeの自動テスト実行
 - **レポート詳細度**: 複合的なAI分析結果
 
-## 🤝 貢献
-
-プルリクエスト・イシュー報告を歓迎します！
-
-## 📄 ライセンス
-
-MIT License
-
 ---
-
-*🤖 このプロジェクトは Gemini → Claude Code → Copilot → WarpCode の協調実行により継続的に改善されています。*
