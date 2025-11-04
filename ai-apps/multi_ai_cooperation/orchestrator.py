@@ -1,49 +1,87 @@
-# orchestrator.py
+# orchestrator.py (リファクタリング版)
 """
-複数のAIエージェント（Copilot, Gemini, OpenAI, WarpCodeなど）を協調的に動かすオーケストレーター。
-各エージェントは共通インターフェイス run_prompt(prompt: str) を持つことを前提とする。
+Multi-AI協調オーケストレーター - 軽量版
+新しいフェーズベースアーキテクチャを使用
 """
 
-from copilot.copilot import CopilotAgent
-from gemini.gemini import GeminiAgent
-from openai.openai import OpenAIAgent
-from warpcode.warpcode import WarpAgent
+from workflows.multi_ai_workflow import MultiAIWorkflow
+
 
 class Orchestrator:
-    def __init__(self):
-        self.copilot = CopilotAgent()
-        self.gemini = GeminiAgent()
-        self.openai = OpenAIAgent()
-        self.warp = WarpAgent()
-
+    """
+    軽量化されたオーケストレーター
+    実際の協調処理はMultiAIWorkflowに委譲
+    """
+    
+    def __init__(self, output_dir: str = "generated_projects"):
+        self.workflow = MultiAIWorkflow(output_dir)
+        self.verbose_mode = False
+    
+    def set_verbose_mode(self, verbose: bool = True):
+        """詳細表示モードの設定"""
+        self.verbose_mode = verbose
+        self.workflow.set_verbose_mode(verbose)
+    
     def run_task(self, task: str):
         """
-        1. Copilotに下書きを作らせる
-        2. Geminiにレビューさせる
-        3. OpenAIに要約させる
-        4. WarpCodeにコード補完を依頼する
+        タスクを実行（新アーキテクチャ使用）
+        
+        フローパターン:
+        Gemini(要件分析) → Claude(設計) → Copilot(実装) → WarpCode(検証) → Claude(レポート)
         """
-        print("🧩 Step 1: Copilotに下書きを依頼中...")
-        draft = self.copilot.run_prompt(task)
-        print("\n=== Copilot Output ===\n", draft)
+        try:
+            # ワークフローを同期実行
+            context = self.workflow.execute_workflow_sync(task)
+            
+            # 実行結果の表示
+            if context.errors:
+                print(f"\n⚠️ 実行中にエラーが発生しました:")
+                for error in context.errors:
+                    print(f"   {error}")
+            
+            return context
+            
+        except Exception as e:
+            print(f"❌ オーケストレーター実行エラー: {str(e)}")
+            return None
 
-        # print("\n🧩 Step 2: Geminiにレビュー依頼中...")
-        # review = self.gemini.run_prompt(f"以下の内容をレビューしてください:\n{draft}")
-        # print("\n=== Gemini Review ===\n", review)
 
-        # print("\n🧩 Step 3: OpenAIに要約依頼中...")
-        # summary = self.openai.run_prompt(f"以下を3行で要約:\n{review}")
-        # print("\n=== OpenAI Summary ===\n", summary)
+def get_user_preferences():
+    """ユーザーの設定を取得"""
+    print("\n⚙️  システム設定")
+    print("=" * 30)
+    
+    # 詳細表示モードの選択
+    detail_choice = input("📄 詳細表示モード (各フェーズの内容を詳しく表示) [y/N]: ").strip().lower()
+    verbose_mode = detail_choice in ['y', 'yes', 'はい']
+    
+    return {
+        "verbose_mode": verbose_mode
+    }
 
-        # print("\n🧩 Step 4: WarpCodeに最終コード生成依頼中...")
-        # warp_output = self.warp.run_prompt(f"この要約をもとにコードを最適化:\n{summary}")
-        # print("\n=== WarpCode Output ===\n", warp_output)
 
 if __name__ == "__main__":
-    orchestrator = Orchestrator()
-    
     print("🚀 Multi-AI Cooperationシステムを開始します！")
-    print("   'quit'または'exit'で終了します\n")
+    print("   'quit'または'exit'で終了します")
+    print("   新しいフェーズベースアーキテクチャを使用")
+    
+    # 初期設定
+    preferences = get_user_preferences()
+    orchestrator = Orchestrator()
+    orchestrator.set_verbose_mode(preferences["verbose_mode"])
+    
+    # 詳細表示モードの説明
+    if preferences["verbose_mode"]:
+        print("\n🔍 詳細表示モードが有効です:")
+        print("   - 各フェーズの実行内容を詳細に表示")
+        print("   - AI の応答内容を抜粋表示")
+        print("   - ファイル作成・検証結果の詳細")
+        print("   ※ より多くの情報が表示されます\n")
+    else:
+        print("\n📋 標準表示モードです:")
+        print("   - 各フェーズの概要のみ表示")
+        print("   - 実行結果のサマリー表示")
+        print("   ※ 詳細を見たい場合は再起動して詳細モードを選択してください\n")
     
     while True:
         try:
@@ -60,12 +98,55 @@ if __name__ == "__main__":
                 print("⚠️  タスクを入力してください。")
                 continue
             
+            # モード設定変更コマンド
+            if user_input.lower() in ['config', 'setting', '設定']:
+                new_preferences = get_user_preferences()
+                orchestrator.set_verbose_mode(new_preferences["verbose_mode"])
+                print("✅ 設定を更新しました\n")
+                continue
+            
             # タスクを実行
-            print(f"\n📋 タスク: {user_input}")
-            print("-" * 50)
-            orchestrator.run_task(user_input)
-            print("-" * 50)
-            print("✅ タスク完了！\n")
+            print(f"\n🎯 タスク開始: {user_input}")
+            print("🤖 AI協調フロー: Gemini → Claude → Copilot → WarpCode → Claude")
+            if preferences["verbose_mode"]:
+                print("🔍 詳細表示モードで実行中...")
+            print("=" * 70)
+            
+            context = orchestrator.run_task(user_input)
+            
+            if context:
+                print("=" * 70)
+                print("🎉 タスク完了！")
+                
+                # プロジェクト概要を表示
+                if context.project_path:
+                    print(f"📁 プロジェクト保存先: {context.project_path}")
+                
+                if context.created_files:
+                    print(f"📄 作成ファイル数: {len(context.created_files)}")
+                
+                # 詳細表示モードでの追加情報
+                if preferences["verbose_mode"] and context.created_files:
+                    print("\n📋 作成されたファイル一覧:")
+                    for file_path in context.created_files[:10]:  # 最大10個表示
+                        try:
+                            file_size = file_path.stat().st_size if file_path.exists() else 0
+                            print(f"   - {file_path.name} ({file_size} bytes)")
+                        except:
+                            print(f"   - {file_path.name}")
+                    
+                    if len(context.created_files) > 10:
+                        print(f"   ... (+{len(context.created_files) - 10}個のファイル)")
+            else:
+                print("❌ タスクの実行に失敗しました。")
+            
+            print("\n" + "=" * 70)
+            
+            # 設定変更の提案
+            if not preferences["verbose_mode"]:
+                print("💡 より詳細な実行内容を見たい場合は 'config' と入力してください")
+            
+            print()  # 空行
             
         except KeyboardInterrupt:
             print("\n\n👋 システムを終了します。お疲れさまでした！")

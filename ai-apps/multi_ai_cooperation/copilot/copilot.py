@@ -10,13 +10,14 @@ class CopilotAgent:
     def __init__(self, base_command: str = "copilot"):
         self.base_command = base_command
 
-    def run_prompt(self, prompt: str, allow_all_tools: bool = True) -> Optional[str]:
+    def run_prompt(self, prompt: str, allow_all_tools: bool = True, working_dir: str = None) -> Optional[str]:
         """
         Copilot CLI にプロンプトを渡して結果を取得する
 
         Args:
             prompt (str): Copilot に渡すテキストプロンプト
             allow_all_tools (bool): --allow-all-tools フラグを付与するかどうか
+            working_dir (str): 作業ディレクトリを指定（Noneの場合は現在のディレクトリ）
         Returns:
             str | None: Copilotの返答テキスト
         """
@@ -29,7 +30,8 @@ class CopilotAgent:
                 cmd,
                 capture_output=True,
                 text=True,
-                check=True
+                check=True,
+                cwd=working_dir
             )
             return result.stdout.strip()
         except subprocess.CalledProcessError as e:

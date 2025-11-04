@@ -1,0 +1,239 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.game-info {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.score-board {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+}
+
+.score {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.stone {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.black-stone {
+    background: #000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.white-stone {
+    background: #fff;
+    border: 2px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.message {
+    text-align: center;
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.reset-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.reset-btn:hover {
+    background: #5568d3;
+}
+
+.board {
+    background: #2d5016;
+    border: 3px solid #1a3009;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 2px;
+    padding: 5px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.cell {
+    aspect-ratio: 1;
+    background: #3d7018;
+    border: 1px solid #2d5016;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.2s;
+    position: relative;
+}
+
+.cell:hover:not(.has-stone) {
+    background: #4d8020;
+}
+
+.cell.valid-move {
+    background: #5d9028;
+}
+
+.cell.valid-move::after {
+    content: '';
+    width: 30%;
+    height: 30%;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    position: absolute;
+}
+
+.cell-stone {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    transition: transform 0.3s;
+    animation: placeStone 0.3s ease-out;
+}
+
+@keyframes placeStone {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.cell-stone.black {
+    background: radial-gradient(circle at 30% 30%, #333, #000);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+}
+
+.cell-stone.white {
+    background: radial-gradient(circle at 30% 30%, #fff, #ddd);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.game-over {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.game-over.hidden {
+    display: none;
+}
+
+.game-over-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 90%;
+}
+
+.game-over-content h2 {
+    font-size: 2em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.game-over-content p {
+    font-size: 1.2em;
+    margin-bottom: 25px;
+    color: #666;
+}
+
+.new-game-btn {
+    padding: 15px 30px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.new-game-btn:hover {
+    background: #5568d3;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2em;
+    }
+    
+    .score {
+        font-size: 1.2em;
+    }
+    
+    .stone {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .message {
+        font-size: 1em;
+    }
+}
