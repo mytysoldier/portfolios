@@ -118,9 +118,31 @@ if __name__ == "__main__":
                 print("=" * 70)
                 print("🎉 タスク完了！")
                 
+                # 実行時間を表示
+                workflow_duration = context.get_workflow_duration()
+                if workflow_duration:
+                    print(f"⏱️  総実行時間: {context.format_duration(workflow_duration)}")
+                
+                # フェーズ別実行時間を表示
+                if context.phase_timings:
+                    print("\n📊 フェーズ別実行時間:")
+                    phase_names = ["requirement", "design", "implementation", "verification", "report"]
+                    for phase_name in phase_names:
+                        duration = context.get_phase_duration(phase_name)
+                        if duration:
+                            phase_display_names = {
+                                "requirement": "要件・調査",
+                                "design": "設計・仕様",
+                                "implementation": "実装",
+                                "verification": "検証・実行",
+                                "report": "レポート"
+                            }
+                            display_name = phase_display_names.get(phase_name, phase_name)
+                            print(f"   - {display_name}: {context.format_duration(duration)}")
+                
                 # プロジェクト概要を表示
                 if context.project_path:
-                    print(f"📁 プロジェクト保存先: {context.project_path}")
+                    print(f"\n📁 プロジェクト保存先: {context.project_path}")
                 
                 if context.created_files:
                     print(f"📄 作成ファイル数: {len(context.created_files)}")

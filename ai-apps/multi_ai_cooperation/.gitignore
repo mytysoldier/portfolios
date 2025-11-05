@@ -20,3 +20,5 @@ outputs/
 # OSごとの不要ファイル
 .DS_Store
 Thumbs.db
+
+generated_projects/

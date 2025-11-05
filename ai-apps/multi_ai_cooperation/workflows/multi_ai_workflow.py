@@ -3,6 +3,7 @@ Multi-AI協調ワークフロー管理
 """
 import asyncio
 from typing import List, Dict, Any
+from datetime import timedelta
 
 from phases.context import ProjectContext
 from phases.base_phase import BasePhase
@@ -63,6 +64,9 @@ class MultiAIWorkflow:
         context = ProjectContext(user_request=user_request)
         context.add_log("ワークフロー開始")
         
+        # 全体実行時間の測定開始
+        context.start_workflow_timer()
+        
         try:
             # 各フェーズを順次実行
             for i, phase in enumerate(self.phases, 1):
@@ -70,11 +74,19 @@ class MultiAIWorkflow:
                 self._display_phase_header(phase.name)
                 
                 try:
+                    # フェーズの実行時間測定開始
+                    context.start_phase_timer(phase.name)
+                    
                     # フェーズ実行
                     result = await phase.execute(context)
                     
+                    # フェーズの実行時間測定終了
+                    context.end_phase_timer(phase.name)
+                    
                     if result:
-                        print(f"✅ Phase {i} 完了: {phase.name}")
+                        phase_duration = context.get_phase_duration(phase.name)
+                        duration_str = context.format_duration(phase_duration) if phase_duration else ""
+                        print(f"✅ Phase {i} 完了: {phase.name} ({duration_str})")
                         
                         # 詳細表示モードの場合のみ詳細を表示
                         if self.verbose:
@@ -86,6 +98,9 @@ class MultiAIWorkflow:
                         context.add_error(f"Phase {phase.name} failed")
                         
                 except Exception as e:
+                    # エラー時も実行時間測定終了
+                    context.end_phase_timer(phase.name)
+                    
                     error_msg = f"Phase {phase.name} でエラー: {str(e)}"
                     print(f"❌ {error_msg}")
                     context.add_error(error_msg)
@@ -100,11 +115,18 @@ class MultiAIWorkflow:
             
             print("\n" + "=" * 60)
             print("🎉 Multi-AI協調ワークフロー完了")
+            
+            # 全体実行時間の測定終了
+            context.end_workflow_timer()
+            
             self._display_final_summary(context)
             
             return context
             
         except Exception as e:
+            # エラー時も全体実行時間の測定終了
+            context.end_workflow_timer()
+            
             error_msg = f"ワークフロー実行エラー: {str(e)}"
             print(f"❌ {error_msg}")
             context.add_error(error_msg)
@@ -340,8 +362,40 @@ class MultiAIWorkflow:
         print(f"   - 作成ファイル数: {len(context.created_files)}")
         print(f"   - エラー数: {len(context.errors)}")
         
+        # 実行時間統計
+        workflow_duration = context.get_workflow_duration()
+        if workflow_duration:
+            print(f"   - 総実行時間: {context.format_duration(workflow_duration)}")
+            
+            # フェーズ別実行時間の詳細
+            if context.phase_timings:
+                print(f"\n⏱️  フェーズ別実行時間:")
+                phase_names = ["requirement", "design", "implementation", "verification", "report"]
+                phase_display_names = {
+                    "requirement": "要件・調査",
+                    "design": "設計・仕様", 
+                    "implementation": "実装",
+                    "verification": "検証・実行",
+                    "report": "レポート"
+                }
+                
+                total_phase_time = 0
+                for phase_name in phase_names:
+                    duration = context.get_phase_duration(phase_name)
+                    if duration:
+                        display_name = phase_display_names.get(phase_name, phase_name)
+                        print(f"   - {display_name}: {context.format_duration(duration)}")
+                        total_phase_time += duration.total_seconds()
+                
+                # 実際の処理時間とオーバーヘッド時間を表示
+                if total_phase_time > 0:
+                    overhead_seconds = workflow_duration.total_seconds() - total_phase_time
+                    if overhead_seconds > 0:
+                        overhead_duration = timedelta(seconds=overhead_seconds)
+                        print(f"   - システムオーバーヘッド: {context.format_duration(overhead_duration)}")
+        
         if context.project_path:
-            print(f"   - プロジェクトフォルダ: {context.project_path}")
+            print(f"\n📁 プロジェクトフォルダ: {context.project_path}")
         
         if context.errors:
             print(f"\n⚠️ エラーサマリー:")
