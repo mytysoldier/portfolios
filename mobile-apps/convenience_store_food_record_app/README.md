@@ -1,57 +1,72 @@
-# コンビニ飯記録アプリ
+# コンビニ飯記録アプリ 🍱
 
-## 対応OS
+Flutter で開発した、**コンビニで購入した商品の記録・履歴・統計を簡単に管理できるアプリ**です。  
+日々の支出や食生活を“見える化”して、自分の「コンビニ習慣」を振り返ることができます。
+
+---
+
+## 🚀 対応OS
 - iOS
 - Android
 
-## 機能一覧
-- 記録画面:購入したコンビニの商品（おにぎり、パン、デザートなど）を写真と簡単なメモ、金額とともに記録。
-- 履歴画面:記録した商品の履歴を一覧で表示。商品名やカテゴリなどで検索・フィルタリングできる。
-- 統計画面:記録したデータから、コンビニごとの購入回数や、ジャンル別の支出などをグラフで表示
+---
 
-## 使用技術、FW、LB
-- Flutter & Dart: メイン言語
-- flutter_localization: メッセージ管理
-- go_router: 画面遷移
-- Riverpod: 状態管理
-- minio: クラウドStogageオブジェクト保存処理
-- supabase_flutter: Supabase関連処理
+## 📱 機能一覧
 
-## セットアップ手順
+### 📝 記録画面
+- 購入した商品（おにぎり、パン、デザートなど）を  
+  - 写真  
+  - 簡単なメモ  
+  - 金額  
+  とともに記録  
+- 画像サイズの自動リサイズ処理あり（通信・容量対策）  
+- 1日のアップロード件数制限あり（スパム防止）  
 
-1. リポジトリをクローン
-	```sh
-	git clone <このリポジトリのURL>
-	cd convenience_store_food_record_app
-	```
-2. 依存パッケージを取得
-	```sh
-	flutter pub get
-	```
-3. iOSの場合
-	```sh
-	cd ios && pod install && cd ..
-	```
-4. アプリを起動
-	```sh
-	flutter run
-	```
+### 📚 履歴画面
+- 記録した商品の履歴を一覧で表示  
+- 商品名、カテゴリ、店舗などで検索・フィルタリング可能  
+- 編集・削除対応（予定）
+
+### 📊 統計画面
+- コンビニ別の購入回数・支出額をグラフ表示  
+- ジャンル別支出割合を円グラフ・棒グラフで可視化  
+- 集計期間の切り替え（週・月）に対応予定  
+
+### 👤 マイページ
+- ユーザー情報（ニックネーム・メールアドレス）を表示  
+- 端末ごとの識別IDを取得し、Supabase Auth と連携  
+- ログアウト・再ログインが可能  
+- 今後のアップデートで、通知設定やテーマ変更などの個人設定にも対応予定  
+
+
+---
 
 ## スクリーンショット
 
-| 記録画面 | 履歴画面 | 統計画面 |
-|:---:|:---:|:---:|
-| ![record](docs/screenshots/record.png) | ![history](docs/screenshots/history.png) | ![statistic](docs/screenshots/statistic.png) |
+| 記録画面 | 履歴画面 | 統計画面 | マイページ |
+|:---:|:---:|:---:|:---:|
+| ![record](docs/screenshots/record.png) | ![history](docs/screenshots/history.png) | ![statistic](docs/screenshots/statistic.png) | ![mypage](docs/screenshots/mypage.png) |
 
-## API,DB,Storage仕様
+---
 
-- データ登録,取得API: Supabase REST API
-- データ登録先Table: Supabase Table（PURCHASE_HISTORY）
-- 画像アップロードStorage: Cloudflare R2
+## 🧩 使用技術 / フレームワーク
 
-## 開発者向けメモ
+| 分類 | 内容 |
+|------|------|
+| フロントエンド | Flutter & Dart |
+| 状態管理 | Riverpod |
+| ルーティング | go_router |
+| ローカライズ | flutter_localization |
+| バックエンド | Supabase（REST API + Edge Functions） |
+| ストレージ | Cloudflare R2 + MinIO |
+| グラフ描画 | charts_flutter（または fl_chart） |
+| デバイス管理 | device_info_plus（端末ID取得など） |
 
-- DBスキーマやサンプルデータは `docs/` 配下のSQLファイルを参照
-- UI部品は `lib/components/`、画面ごとのWidgetは `lib/screen/` に配置
-- 状態管理はRiverpodを利用
-- ローカライズは `lib/l10n/` 配下
+---
+
+## 🛠️ セットアップ手順
+
+1. **リポジトリをクローン**
+   ```bash
+   git clone <このリポジトリのURL>
+   cd convenience_store_food_record_app
