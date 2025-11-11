@@ -3,13 +3,15 @@ package com.example.koog_inv_app.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.koog_inv_app.model.ChatMessage
+import com.example.koog_inv_app.repository.ChatFunctionalRepository
 import com.example.koog_inv_app.repository.ChatRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ChatViewModel(
-    private val repository: ChatRepository = ChatRepository()
+//    private val repository: ChatRepository = ChatRepository()
+    private val repository: ChatFunctionalRepository = ChatFunctionalRepository()
 ) : ViewModel() {
     private val _messages = MutableStateFlow<List<ChatMessage>>(emptyList())
     val messages = _messages.asStateFlow()
