@@ -1,4 +1,5 @@
 import 'package:convenience_store_food_record_app/components/network/loading_indicator.dart';
+import 'package:convenience_store_food_record_app/providers/image_cache_provider.dart';
 import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'dart:typed_data';
@@ -96,6 +97,11 @@ class HistoryItem extends ConsumerWidget {
                                     context: context,
                                     ref: ref,
                                   );
+                              // 画像キャッシュも削除
+                              final imageId = item.id.toString();
+                              ref
+                                  .read(imageCacheProvider.notifier)
+                                  .remove(imageId);
                             },
                           ),
                         ),
