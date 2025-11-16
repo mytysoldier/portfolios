@@ -21,6 +21,7 @@ class ItemNameInput extends StatelessWidget {
         ),
         TextField(
           controller: controller,
+          onChanged: onChanged,
           onSubmitted: onChanged,
           textInputAction: TextInputAction.done,
           decoration: InputDecoration(

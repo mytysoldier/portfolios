@@ -21,6 +21,7 @@ class PriceInput extends StatelessWidget {
         const SizedBox(height: 8),
         TextField(
           controller: controller,
+          onChanged: onChanged,
           onSubmitted: onChanged,
           textInputAction: TextInputAction.done,
           decoration: InputDecoration(
