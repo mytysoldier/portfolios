@@ -35,23 +35,6 @@ final userInputProvider =
     });
 
 class UserNotifier extends StateNotifier<User?> {
-  Future<String?> updateUserName(String newUserName) async {
-    if (state == null) return 'ユーザーが未ログインです';
-    final supabase = Supabase.instance.client;
-    try {
-      await supabase
-          .from('user')
-          .update({'user_name': newUserName})
-          .eq('id', state!.id);
-      // stateを更新
-      state = state!.copyWith(userName: newUserName);
-      return null;
-    } catch (e) {
-      print('ユーザー名更新失敗: $e');
-      return 'ユーザー名の更新に失敗しました';
-    }
-  }
-
   UserNotifier() : super(null);
 
   void setUser(User user) {
@@ -85,24 +68,6 @@ class UserNotifier extends StateNotifier<User?> {
   }
 
   Future<String?> registerUser(String userName, String password) async {
-    /// ユーザー名を更新する
-    Future<String?> updateUserName(String newUserName) async {
-      if (state == null) return 'ユーザーが未ログインです';
-      final supabase = Supabase.instance.client;
-      try {
-        await supabase
-            .from('user')
-            .update({'user_name': newUserName})
-            .eq('id', state!.id);
-        // stateを更新
-        state = state!.copyWith(userName: newUserName);
-        return null;
-      } catch (e) {
-        print('ユーザー名更新失敗: $e');
-        return 'ユーザー名の更新に失敗しました';
-      }
-    }
-
     try {
       String deviceId = await getDeviceId();
       final supabase = Supabase.instance.client;
@@ -128,6 +93,24 @@ class UserNotifier extends StateNotifier<User?> {
       print('ユーザー登録失敗: $e');
       clearUser();
       return 'エラーが発生しました。時間をおいてもう一度お試しください。';
+    }
+  }
+
+  /// ユーザー名を更新する
+  Future<String?> updateUserName(String newUserName) async {
+    if (state == null) return 'ユーザーが未ログインです';
+    final supabase = Supabase.instance.client;
+    try {
+      await supabase
+          .from('user')
+          .update({'user_name': newUserName})
+          .eq('id', state!.id);
+      // stateを更新
+      state = state!.copyWith(userName: newUserName);
+      return null;
+    } catch (e) {
+      print('ユーザー名更新失敗: $e');
+      return 'ユーザー名の更新に失敗しました';
     }
   }
 
