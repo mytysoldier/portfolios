@@ -22,16 +22,33 @@ class RecordScreen extends ConsumerStatefulWidget {
 }
 
 class _RecordScreenState extends ConsumerState<RecordScreen> {
+  late final TextEditingController itemNameController;
+  late final TextEditingController priceController;
+  late final TextEditingController memoController;
+
+  @override
+  void initState() {
+    super.initState();
+    final formState = ref.read(recordFormProvider);
+    itemNameController = TextEditingController(text: formState.itemName);
+    priceController = TextEditingController(text: formState.price);
+    memoController = TextEditingController(text: formState.memo);
+  }
+
+  @override
+  void dispose() {
+    itemNameController.dispose();
+    priceController.dispose();
+    memoController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ref = this.ref;
     final l10n = L10n.of(context);
     final formState = ref.watch(recordFormProvider);
     final formNotifier = ref.read(recordFormProvider.notifier);
-
-    final itemNameController = TextEditingController(text: formState.itemName);
-    final priceController = TextEditingController(text: formState.price);
-    final memoController = TextEditingController(text: formState.memo);
 
     return SingleChildScrollView(
       child: Container(
@@ -79,6 +96,8 @@ class _RecordScreenState extends ConsumerState<RecordScreen> {
             CustomButton(
               text: l10n.record_button_text,
               onPressed: () async {
+                // キーボードを閉じる
+                FocusScope.of(context).unfocus();
                 final success = await formNotifier.submit(
                   context: context,
                   ref: ref,

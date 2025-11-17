@@ -22,7 +22,8 @@ class MemoInput extends StatelessWidget {
         TextField(
           controller: controller,
           maxLines: 3,
-          onChanged: onChanged,
+          onSubmitted: onChanged,
+          textInputAction: TextInputAction.done,
           decoration: InputDecoration(
             hintText: l10n.memo_record_input_hint_text,
             border: const OutlineInputBorder(

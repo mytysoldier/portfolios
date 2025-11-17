@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:convenience_store_food_record_app/l10n/app_localizations.dart';
+import 'package:flutter/services.dart';
 
 class ItemNameInput extends StatelessWidget {
   final TextEditingController controller;
@@ -21,6 +22,8 @@ class ItemNameInput extends StatelessWidget {
         TextField(
           controller: controller,
           onChanged: onChanged,
+          onSubmitted: onChanged,
+          textInputAction: TextInputAction.done,
           decoration: InputDecoration(
             hintText: l10n.item_name_record_input_hint_text,
             border: const OutlineInputBorder(

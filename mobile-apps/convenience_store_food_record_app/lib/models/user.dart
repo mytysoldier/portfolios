@@ -1,4 +1,24 @@
 class User {
+  User copyWith({
+    int? id,
+    String? userName,
+    String? password,
+    String? deviceId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
+  }) {
+    return User(
+      id: id ?? this.id,
+      userName: userName ?? this.userName,
+      password: password ?? this.password,
+      deviceId: deviceId ?? this.deviceId,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+    );
+  }
+
   final int id; // 主キー
   final String? userName; // ユーザー名
   final String? password; // パスワード

@@ -1,3 +1,4 @@
+import 'package:convenience_store_food_record_app/providers/history_item_provider.dart';
 import 'package:convenience_store_food_record_app/theme/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
