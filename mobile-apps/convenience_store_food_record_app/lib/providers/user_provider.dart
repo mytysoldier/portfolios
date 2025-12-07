@@ -35,6 +35,20 @@ final userInputProvider =
     });
 
 class UserNotifier extends StateNotifier<User?> {
+  /// アカウント削除
+  Future<String?> deleteAccount() async {
+    if (state == null) return 'ユーザーが未ログインです';
+    final supabase = Supabase.instance.client;
+    try {
+      await supabase.from('user').delete().eq('id', state!.id);
+      clearUser();
+      return null;
+    } catch (e) {
+      print('アカウント削除失敗: $e');
+      return 'アカウントの削除に失敗しました';
+    }
+  }
+
   UserNotifier() : super(null);
 
   void setUser(User user) {

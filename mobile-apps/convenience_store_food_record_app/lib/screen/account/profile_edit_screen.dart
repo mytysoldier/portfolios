@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:convenience_store_food_record_app/providers/user_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileEditScreen extends ConsumerStatefulWidget {
   const ProfileEditScreen({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     ).showSnackBar(const SnackBar(content: Text('パスワード変更画面は実装予定です')));
   }
 
-  void _deleteAccount() {
+  void _deleteAccount(BuildContext ctx) {
     // TODO: アカウント削除の確認ダイアログと削除処理を実装
     showDialog(
       context: context,
@@ -63,11 +64,14 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
             child: const Text('キャンセル'),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
+              await ref.read(userProvider.notifier).deleteAccount();
+              if (!mounted) return;
               Navigator.pop(context);
+              Future.microtask(() => Navigator.pop(ctx));
               ScaffoldMessenger.of(
                 context,
-              ).showSnackBar(const SnackBar(content: Text('アカウント削除機能は実装予定です')));
+              ).showSnackBar(const SnackBar(content: Text('アカウントを削除しました')));
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
             child: const Text('削除'),
@@ -215,7 +219,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                       size: 16,
                       color: Colors.red,
                     ),
-                    onTap: _deleteAccount,
+                    onTap: () => _deleteAccount(context),
                   ),
                 ],
               ),
