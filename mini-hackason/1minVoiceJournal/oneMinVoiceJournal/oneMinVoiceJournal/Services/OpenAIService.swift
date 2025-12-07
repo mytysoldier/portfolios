@@ -10,7 +10,7 @@ struct OpenAIService {
         var errorDescription: String? {
             switch self {
             case .missingAPIKey:
-                return "一部の解析設定が不足しています。環境変数 OPENAI_API_KEY を設定してください。"
+                return "一部の解析設定が不足しています。"
             case .invalidResponse:
                 return "解析サーバーから想定外のレスポンスが返されました。"
             case .decodingFailed:
