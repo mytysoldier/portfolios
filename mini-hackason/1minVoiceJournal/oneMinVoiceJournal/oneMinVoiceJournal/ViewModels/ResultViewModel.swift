@@ -4,9 +4,12 @@ import SwiftData
 @MainActor
 final class ResultViewModel: ObservableObject {
     let analysisResult: AnalysisResult
+    @Published var isLoading: Bool
+    @Published var isSaved: Bool = false
 
-    init(analysisResult: AnalysisResult) {
+    init(analysisResult: AnalysisResult, isLoading: Bool = false) {
         self.analysisResult = analysisResult
+        self.isLoading = isLoading
     }
 
     func saveEntry(in modelContext: ModelContext) throws {
@@ -21,5 +24,6 @@ final class ResultViewModel: ObservableObject {
         )
         modelContext.insert(entry)
         try modelContext.save()
+        isSaved = true
     }
 }

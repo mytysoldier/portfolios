@@ -6,14 +6,75 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8456E4182EE56F9E00DA84DE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8456E4172EE56F9D00DA84DE /* WidgetKit.framework */; };
+		8456E41A2EE56F9E00DA84DE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8456E4192EE56F9E00DA84DE /* SwiftUI.framework */; };
+		8456E4292EE56F9F00DA84DE /* oneMinVoiceJournalWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8456E4152EE56F9D00DA84DE /* oneMinVoiceJournalWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8456E4272EE56F9F00DA84DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8456E37C2EE52F9900DA84DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8456E4142EE56F9D00DA84DE;
+			remoteInfo = oneMinVoiceJournalWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8456E42E2EE56F9F00DA84DE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8456E4292EE56F9F00DA84DE /* oneMinVoiceJournalWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		8456E3842EE52F9900DA84DE /* oneMinVoiceJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = oneMinVoiceJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8456E4152EE56F9D00DA84DE /* oneMinVoiceJournalWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = oneMinVoiceJournalWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8456E4172EE56F9D00DA84DE /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		8456E4192EE56F9E00DA84DE /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8456E42A2EE56F9F00DA84DE /* Exceptions for "oneMinVoiceJournalWidget" folder in "oneMinVoiceJournalWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 8456E4142EE56F9D00DA84DE /* oneMinVoiceJournalWidgetExtension */;
+		};
+		8456E42F2EE5706500DA84DE /* Exceptions for "oneMinVoiceJournal" folder in "oneMinVoiceJournal" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Widgets/JournalWidget.swift,
+			);
+			target = 8456E3832EE52F9900DA84DE /* oneMinVoiceJournal */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		8456E3862EE52F9900DA84DE /* oneMinVoiceJournal */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8456E42F2EE5706500DA84DE /* Exceptions for "oneMinVoiceJournal" folder in "oneMinVoiceJournal" target */,
+			);
 			path = oneMinVoiceJournal;
+			sourceTree = "<group>";
+		};
+		8456E41B2EE56F9E00DA84DE /* oneMinVoiceJournalWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8456E42A2EE56F9F00DA84DE /* Exceptions for "oneMinVoiceJournalWidget" folder in "oneMinVoiceJournalWidgetExtension" target */,
+			);
+			path = oneMinVoiceJournalWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -26,6 +87,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8456E4122EE56F9D00DA84DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8456E41A2EE56F9E00DA84DE /* SwiftUI.framework in Frameworks */,
+				8456E4182EE56F9E00DA84DE /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -33,6 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				8456E3862EE52F9900DA84DE /* oneMinVoiceJournal */,
+				8456E41B2EE56F9E00DA84DE /* oneMinVoiceJournalWidget */,
+				8456E4162EE56F9D00DA84DE /* Frameworks */,
 				8456E3852EE52F9900DA84DE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,8 +113,18 @@
 			isa = PBXGroup;
 			children = (
 				8456E3842EE52F9900DA84DE /* oneMinVoiceJournal.app */,
+				8456E4152EE56F9D00DA84DE /* oneMinVoiceJournalWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8456E4162EE56F9D00DA84DE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8456E4172EE56F9D00DA84DE /* WidgetKit.framework */,
+				8456E4192EE56F9E00DA84DE /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -55,10 +137,12 @@
 				8456E3802EE52F9900DA84DE /* Sources */,
 				8456E3812EE52F9900DA84DE /* Frameworks */,
 				8456E3822EE52F9900DA84DE /* Resources */,
+				8456E42E2EE56F9F00DA84DE /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8456E4282EE56F9F00DA84DE /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				8456E3862EE52F9900DA84DE /* oneMinVoiceJournal */,
@@ -69,6 +153,28 @@
 			productName = oneMinVoiceJournal;
 			productReference = 8456E3842EE52F9900DA84DE /* oneMinVoiceJournal.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8456E4142EE56F9D00DA84DE /* oneMinVoiceJournalWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8456E42B2EE56F9F00DA84DE /* Build configuration list for PBXNativeTarget "oneMinVoiceJournalWidgetExtension" */;
+			buildPhases = (
+				8456E4112EE56F9D00DA84DE /* Sources */,
+				8456E4122EE56F9D00DA84DE /* Frameworks */,
+				8456E4132EE56F9D00DA84DE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8456E41B2EE56F9E00DA84DE /* oneMinVoiceJournalWidget */,
+			);
+			name = oneMinVoiceJournalWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = oneMinVoiceJournalWidgetExtension;
+			productReference = 8456E4152EE56F9D00DA84DE /* oneMinVoiceJournalWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -81,6 +187,9 @@
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					8456E3832EE52F9900DA84DE = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					8456E4142EE56F9D00DA84DE = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -100,12 +209,20 @@
 			projectRoot = "";
 			targets = (
 				8456E3832EE52F9900DA84DE /* oneMinVoiceJournal */,
+				8456E4142EE56F9D00DA84DE /* oneMinVoiceJournalWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8456E3822EE52F9900DA84DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8456E4132EE56F9D00DA84DE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +239,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8456E4112EE56F9D00DA84DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8456E4282EE56F9F00DA84DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8456E4142EE56F9D00DA84DE /* oneMinVoiceJournalWidgetExtension */;
+			targetProxy = 8456E4272EE56F9F00DA84DE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		8456E3902EE52F9B00DA84DE /* Debug */ = {
@@ -304,6 +436,60 @@
 			};
 			name = Release;
 		};
+		8456E42C2EE56F9F00DA84DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Z2HY876B86;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = oneMinVoiceJournalWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = oneMinVoiceJournalWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.takamatii.oneMinVoiceJournal.oneMinVoiceJournalWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8456E42D2EE56F9F00DA84DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Z2HY876B86;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = oneMinVoiceJournalWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = oneMinVoiceJournalWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.takamatii.oneMinVoiceJournal.oneMinVoiceJournalWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -321,6 +507,15 @@
 			buildConfigurations = (
 				8456E3932EE52F9B00DA84DE /* Debug */,
 				8456E3942EE52F9B00DA84DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8456E42B2EE56F9F00DA84DE /* Build configuration list for PBXNativeTarget "oneMinVoiceJournalWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8456E42C2EE56F9F00DA84DE /* Debug */,
+				8456E42D2EE56F9F00DA84DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,3 +1,7 @@
+# Xcode user-specific files
 oneMinVoiceJournal/oneMinVoiceJournal.xcodeproj/project.xcworkspace/xcuserdata/
 oneMinVoiceJournal/oneMinVoiceJournal.xcodeproj/xcuserdata/
 *.xcuserstate
+.DS_Store
+oneMinVoiceJournal/oneMinVoiceJournal.xcodeproj/xcshareddata/xcschemes/oneMinVoiceJournal.xcschemeoneMinVoiceJournal/oneMinVoiceJournal.xcodeproj/xcshareddata/
+oneMinVoiceJournal/oneMinVoiceJournal.xcodeproj/xcshareddata/

@@ -10,13 +10,13 @@ struct OpenAIService {
         var errorDescription: String? {
             switch self {
             case .missingAPIKey:
-                return "OpenAI APIキーが設定されていません。環境変数 OPENAI_API_KEY を設定してください。"
+                return "一部の解析設定が不足しています。環境変数 OPENAI_API_KEY を設定してください。"
             case .invalidResponse:
-                return "OpenAI API から無効なレスポンスが返されました。"
+                return "解析サーバーから想定外のレスポンスが返されました。"
             case .decodingFailed:
-                return "OpenAI API レスポンスの解析に失敗しました。"
+                return "解析結果の読み取りに失敗しました。"
             case .requestFailed(let statusCode):
-                return "OpenAI API 呼び出しに失敗しました (status: \(statusCode))。"
+                return "解析サーバーの呼び出しに失敗しました (status: \(statusCode))。"
             }
         }
     }

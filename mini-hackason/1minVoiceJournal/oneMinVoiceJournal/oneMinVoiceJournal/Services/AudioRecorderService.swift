@@ -125,7 +125,7 @@ private extension AudioRecorderService {
 
     func startTimer() {
         stopTimer()
-        meterTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+        meterTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self else { return }
             guard self.isRecording else { return }
             if let currentTime = self.audioRecorder?.currentTime {

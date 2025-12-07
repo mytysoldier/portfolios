@@ -4,6 +4,7 @@ import SwiftData
 struct LogListView: View {
     let modelContext: ModelContext
     @StateObject private var viewModel: LogListViewModel
+    @State private var searchText: String = ""
 
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
@@ -11,30 +12,37 @@ struct LogListView: View {
     }
 
     var body: some View {
-        List(viewModel.entries) { entry in
-            NavigationLink {
-                DetailView(entry: entry, modelContext: modelContext)
-            } label: {
-                HStack(spacing: 12) {
-                    Text(EmotionEmoji.emoji(for: entry.emotion))
-                        .font(.largeTitle)
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(entry.title.isEmpty ? "タイトル未設定" : entry.title)
-                            .font(.headline)
-                        Text(entry.summary.isEmpty ? entry.text : entry.summary)
-                            .font(.subheadline)
+        VStack {
+            filterPicker
+            List(viewModel.entries) { entry in
+                NavigationLink {
+                    DetailView(entry: entry, modelContext: modelContext)
+                } label: {
+                    HStack(spacing: 12) {
+                        Text(EmotionEmoji.emoji(for: entry.emotion))
+                            .font(.largeTitle)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(entry.title.isEmpty ? "タイトル未設定" : entry.title)
+                                .font(.headline)
+                            Text(entry.summary.isEmpty ? entry.text : entry.summary)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(2)
+                        }
+                        Spacer()
+                        Text(entry.createdAt, format: .dateTime.month().day())
+                            .font(.caption)
                             .foregroundStyle(.secondary)
-                            .lineLimit(2)
                     }
-                    Spacer()
-                    Text(entry.createdAt, format: .dateTime.month().day())
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    .padding(.vertical, 4)
                 }
-                .padding(.vertical, 4)
             }
+            .listStyle(.insetGrouped)
         }
-        .listStyle(.insetGrouped)
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+        .onChange(of: searchText) { newValue in
+            viewModel.updateSearchText(newValue)
+        }
         .navigationTitle("ログ一覧")
         .overlay {
             if viewModel.entries.isEmpty {
@@ -59,6 +67,30 @@ struct LogListView: View {
                 if !isPresented { viewModel.fetchError = nil }
             }
         )
+    }
+
+    private var filterPicker: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(LogListViewModel.EmotionFilter.allCases) { filter in
+                    Button {
+                        viewModel.selectedFilter = filter
+                    } label: {
+                        Text(filter.label)
+                            .font(.subheadline)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .foregroundStyle(filter == viewModel.selectedFilter ? Color.accentColor : Color.primary)
+                            .background(
+                                Capsule()
+                                    .fill(filter == viewModel.selectedFilter ? Color.accentColor.opacity(0.2) : Color.secondary.opacity(0.1))
+                            )
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+        .padding(.top)
     }
 }
 

@@ -11,51 +11,43 @@ struct ResultView: View {
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     @State private var showingAlert = false
+    @State private var showSavedToast = false
 
-    init(analysisResult: AnalysisResult, onSave: (() -> Void)? = nil) {
-        _viewModel = StateObject(wrappedValue: ResultViewModel(analysisResult: analysisResult))
+    init(analysisResult: AnalysisResult, isLoading: Bool = false, onSave: (() -> Void)? = nil) {
+        _viewModel = StateObject(wrappedValue: ResultViewModel(analysisResult: analysisResult, isLoading: isLoading))
         self.onSave = onSave
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(spacing: 12) {
-                Text(EmotionEmoji.emoji(for: viewModel.analysisResult.emotion))
-                    .font(.system(size: 52))
-                VStack(alignment: .leading) {
-                    Text(viewModel.analysisResult.emotion)
-                        .font(.title3)
-                    Text(viewModel.analysisResult.title.isEmpty ? "タイトル未設定" : viewModel.analysisResult.title)
-                        .font(.title.bold())
-                }
-            }
+            headerSection
 
-            Group {
-                Text("要約")
-                    .font(.headline)
-                Text(viewModel.analysisResult.summary.isEmpty ? "生成を待っています..." : viewModel.analysisResult.summary)
-            }
-
-            Group {
-                Text("アドバイス")
-                    .font(.headline)
-                Text(viewModel.analysisResult.advice.isEmpty ? "生成を待っています..." : viewModel.analysisResult.advice)
-            }
+            summarySection
 
             playbackSection
 
             Spacer()
 
             Button(action: saveEntry) {
-                Text("保存")
+                Text(viewModel.isSaved ? "保存済み" : "保存")
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: 12).fill(Color.accentColor))
+                    .background(RoundedRectangle(cornerRadius: 12).fill(viewModel.isSaved ? Color.green : Color.accentColor))
                     .foregroundStyle(.white)
             }
+            .disabled(viewModel.isSaved)
         }
         .padding()
         .navigationTitle("結果")
+        .overlay(alignment: .top) {
+            if showSavedToast {
+                Text("保存しました")
+                    .padding()
+                    .background(.ultraThinMaterial, in: Capsule())
+                    .padding(.top, 16)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
+        }
         .alert(alertTitle, isPresented: $showingAlert) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -70,8 +62,59 @@ struct ResultView: View {
         do {
             try viewModel.saveEntry(in: modelContext)
             onSave?()
+            withAnimation {
+                showSavedToast = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                withAnimation {
+                    showSavedToast = false
+                }
+            }
         } catch {
             presentAlert(title: "保存に失敗しました", message: error.localizedDescription)
+        }
+    }
+
+    @ViewBuilder
+    private var summarySection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Group {
+                Text("要約")
+                    .font(.headline)
+                if viewModel.analysisResult.summary.isEmpty {
+                    SkeletonView()
+                } else {
+                    Text(viewModel.analysisResult.summary)
+                }
+            }
+
+            Group {
+                Text("アドバイス")
+                    .font(.headline)
+                if viewModel.analysisResult.advice.isEmpty {
+                    SkeletonView()
+                } else {
+                    Text(viewModel.analysisResult.advice)
+                }
+            }
+        }
+    }
+
+    private var headerSection: some View {
+        HStack(spacing: 12) {
+            Text(EmotionEmoji.emoji(for: viewModel.analysisResult.emotion))
+                .font(.system(size: 52))
+            VStack(alignment: .leading) {
+                Text(viewModel.analysisResult.emotion)
+                    .font(.title3)
+                if viewModel.analysisResult.title.isEmpty {
+                    SkeletonView()
+                        .frame(height: 24)
+                } else {
+                    Text(viewModel.analysisResult.title)
+                        .font(.title.bold())
+                }
+            }
         }
     }
 
@@ -93,6 +136,7 @@ struct ResultView: View {
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 12).fill(Color.accentColor.opacity(0.15)))
             }
+            .disabled(viewModel.isLoading)
         }
     }
 
