@@ -2,16 +2,18 @@
 //  oneMinVoiceJournalApp.swift
 //  oneMinVoiceJournal
 //
-//  Created by 高松由樹 on 2025/12/07.
+//  Created by mytysoldier on 2025/12/07.
 //
 
 import SwiftUI
+import SwiftData
 
 @main
-struct oneMinVoiceJournalApp: App {
+struct OneMinVoiceJournalApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
         }
+        .modelContainer(for: JournalEntry.self)
     }
 }
