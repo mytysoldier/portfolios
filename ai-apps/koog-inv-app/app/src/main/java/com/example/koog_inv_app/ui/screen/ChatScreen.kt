@@ -5,9 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import com.example.koog_inv_app.viewmodel.ChatViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.koog_inv_app.model.ChatMessage
@@ -92,9 +96,12 @@ fun ChatBubble(message: ChatMessage) {
             shape = MaterialTheme.shapes.medium,
             shadowElevation = 2.dp
         ) {
+            val scrollState = rememberScrollState()
             Text(
                 text = message.text,
-                modifier = Modifier.padding(12.dp),
+                modifier = Modifier.padding(12.dp)
+                    .heightIn(max = 300.dp)
+                    .verticalScroll(scrollState),
                 color = Color.Black
             )
         }
