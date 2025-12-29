@@ -29,6 +29,14 @@ class Settings(BaseModel):
     gemini_api_key: Optional[str] = None
     gemini_model: Optional[str] = None
 
+    # レート制限
+    rate_limit_per_second: int = 2
+
+    # LangSmith
+    langchain_tracing_v2: bool = False
+    langchain_api_key: Optional[str] = None
+    langchain_project: str = "llm-utility-api"
+
 
 @lru_cache
 def get_settings() -> Settings:
@@ -42,12 +50,28 @@ def get_settings() -> Settings:
     else:
         provider = None
 
+    # レート制限
+    rate_limit_raw = os.getenv("RATE_LIMIT_PER_SECOND", "2")
+    try:
+        rate_limit = int(rate_limit_raw)
+    except ValueError:
+        rate_limit = 2
+
+    # LangSmith
+    langchain_tracing_v2 = os.getenv("LANGCHAIN_TRACING_V2", "").lower() == "true"
+    langchain_api_key = os.getenv("LANGCHAIN_API_KEY")
+    langchain_project = os.getenv("LANGCHAIN_PROJECT", "llm-utility-api")
+
     return Settings(
         llm_provider=provider,
         openai_api_key=os.getenv("OPENAI_API_KEY"),
         openai_model=os.getenv("OPENAI_MODEL"),
         gemini_api_key=os.getenv("GEMINI_API_KEY"),
         gemini_model=os.getenv("GEMINI_MODEL"),
+        rate_limit_per_second=rate_limit,
+        langchain_tracing_v2=langchain_tracing_v2,
+        langchain_api_key=langchain_api_key,
+        langchain_project=langchain_project,
     )
 
 

@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import json
+import os
+import re
 from typing import Any, Dict, List, Optional
 
-from openai import OpenAI, OpenAIError
-import google.generativeai as genai
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 from .config import LLMProvider, Settings, get_settings
 
@@ -21,16 +24,41 @@ class LLMError(Exception):
     """
 
 
-_openai_client: Optional[OpenAI] = None
-_gemini_model: Optional[genai.GenerativeModel] = None
-
-
-def _ensure_openai() -> OpenAI:
+# LangSmith の初期化（環境変数が設定されていれば自動でトレースされる）
+def _init_langsmith_if_needed() -> None:
     """
-    OpenAI クライアントを初期化して返す。
+    LANGCHAIN_TRACING_V2=true かつ LANGCHAIN_API_KEY が設定されていれば、
+    環境変数を設定して LangSmith トレースを有効化する。
+    
+    注意: この関数は環境変数を直接読み込むため、.env ファイルの変更が反映されます。
+    """
+    # 環境変数を直接読み込む（get_settings() のキャッシュを回避）
+    tracing_v2 = os.getenv("LANGCHAIN_TRACING_V2", "").lower() == "true"
+    api_key = os.getenv("LANGCHAIN_API_KEY")
+    project = os.getenv("LANGCHAIN_PROJECT", "default")
+    
+    if tracing_v2 and api_key:
+        os.environ["LANGCHAIN_TRACING_V2"] = "true"
+        os.environ["LANGCHAIN_API_KEY"] = api_key
+        os.environ["LANGCHAIN_PROJECT"] = project
+        # デバッグ用（本番環境では削除してもOK）
+        print(f"[LangSmith] トレースを有効化しました。プロジェクト: {project}")
+
+
+# アプリ起動時に一度だけ実行
+_init_langsmith_if_needed()
+
+
+_openai_chat_model: Optional[ChatOpenAI] = None
+_gemini_chat_model: Optional[ChatGoogleGenerativeAI] = None
+
+
+def _ensure_openai_chat_model() -> ChatOpenAI:
+    """
+    LangChain の ChatOpenAI を初期化して返す。
     設定が足りない場合は ProviderNotConfiguredError を投げる。
     """
-    global _openai_client
+    global _openai_chat_model
 
     settings = get_settings()
     if (
@@ -40,18 +68,22 @@ def _ensure_openai() -> OpenAI:
     ):
         raise ProviderNotConfiguredError("OpenAI が正しく設定されていません。")
 
-    if _openai_client is None:
-        _openai_client = OpenAI(api_key=settings.openai_api_key)
+    if _openai_chat_model is None:
+        _openai_chat_model = ChatOpenAI(
+            model=settings.openai_model,
+            api_key=settings.openai_api_key,
+            temperature=0.3,
+        )
 
-    return _openai_client
+    return _openai_chat_model
 
 
-def _ensure_gemini() -> genai.GenerativeModel:
+def _ensure_gemini_chat_model() -> ChatGoogleGenerativeAI:
     """
-    Gemini モデルを初期化して返す。
+    LangChain の ChatGoogleGenerativeAI を初期化して返す。
     設定が足りない場合は ProviderNotConfiguredError を投げる。
     """
-    global _gemini_model
+    global _gemini_chat_model
 
     settings = get_settings()
     if (
@@ -61,11 +93,14 @@ def _ensure_gemini() -> genai.GenerativeModel:
     ):
         raise ProviderNotConfiguredError("Gemini が正しく設定されていません。")
 
-    if _gemini_model is None:
-        genai.configure(api_key=settings.gemini_api_key)
-        _gemini_model = genai.GenerativeModel(settings.gemini_model)
+    if _gemini_chat_model is None:
+        _gemini_chat_model = ChatGoogleGenerativeAI(
+            model=settings.gemini_model,
+            google_api_key=settings.gemini_api_key,
+            temperature=0.3,
+        )
 
-    return _gemini_model
+    return _gemini_chat_model
 
 
 def _validate_single_provider_configured(settings: Settings) -> None:
@@ -98,42 +133,36 @@ def _build_summarize_system_message(style: Optional[str]) -> str:
 
 
 def _summarize_with_openai(text: str, max_chars: int, style: Optional[str]) -> str:
-    settings = get_settings()
-    client = _ensure_openai()
+    chat_model = _ensure_openai_chat_model()
     system_msg = _build_summarize_system_message(style)
 
     try:
-        resp = client.chat.completions.create(
-            model=settings.openai_model,  # type: ignore[arg-type]
-            messages=[
-                {"role": "system", "content": system_msg},
-                {
-                    "role": "user",
-                    "content": (
-                        f"次のテキストを最大 {max_chars} 文字以内で日本語で要約してください。\n\n{text}"
-                    ),
-                },
-            ],
-            temperature=0.3,
-        )
-        return resp.choices[0].message.content or ""
-    except OpenAIError as e:
+        messages = [
+            SystemMessage(content=system_msg),
+            HumanMessage(
+                content=f"次のテキストを最大 {max_chars} 文字以内で日本語で要約してください。\n\n{text}"
+            ),
+        ]
+        response = chat_model.invoke(messages)
+        return response.content or ""
+    except Exception as e:
         raise LLMError(f"OpenAI summarize でエラーが発生しました: {e}") from e
 
 
 def _summarize_with_gemini(text: str, max_chars: int, style: Optional[str]) -> str:
+    chat_model = _ensure_gemini_chat_model()
     system_msg = _build_summarize_system_message(style)
-    prompt = (
-        system_msg
-        + "\n\n"
-        + f"次のテキストを最大 {max_chars} 文字以内で日本語で要約してください。\n\n{text}"
-    )
 
-    model = _ensure_gemini()
     try:
-        resp = model.generate_content(prompt)
-        return resp.text or ""
-    except Exception as e:  # pragma: no cover - SDK 由来の例外を包括
+        messages = [
+            SystemMessage(content=system_msg),
+            HumanMessage(
+                content=f"次のテキストを最大 {max_chars} 文字以内で日本語で要約してください。\n\n{text}"
+            ),
+        ]
+        response = chat_model.invoke(messages)
+        return response.content or ""
+    except Exception as e:
         raise LLMError(f"Gemini summarize でエラーが発生しました: {e}") from e
 
 
@@ -192,23 +221,22 @@ def _rewrite_with_openai(
     keep_meaning: Optional[bool],
 ) -> str:
     settings = get_settings()
-    client = _ensure_openai()
     user_content = _build_rewrite_prompt(text, tone, max_chars, keep_meaning)
 
     try:
-        resp = client.chat.completions.create(
+        messages = [
+            SystemMessage(content="あなたは日本語の文章スタイル変換アシスタントです。"),
+            HumanMessage(content=user_content),
+        ]
+        # rewrite は temperature を少し上げる
+        chat_model_temp = ChatOpenAI(
             model=settings.openai_model,  # type: ignore[arg-type]
-            messages=[
-                {
-                    "role": "system",
-                    "content": "あなたは日本語の文章スタイル変換アシスタントです。",
-                },
-                {"role": "user", "content": user_content},
-            ],
+            api_key=settings.openai_api_key,
             temperature=0.5,
         )
-        return resp.choices[0].message.content or ""
-    except OpenAIError as e:
+        response = chat_model_temp.invoke(messages)
+        return response.content or ""
+    except Exception as e:
         raise LLMError(f"OpenAI rewrite でエラーが発生しました: {e}") from e
 
 
@@ -218,15 +246,24 @@ def _rewrite_with_gemini(
     max_chars: Optional[int],
     keep_meaning: Optional[bool],
 ) -> str:
+    settings = get_settings()
+    chat_model = _ensure_gemini_chat_model()
     user_content = _build_rewrite_prompt(text, tone, max_chars, keep_meaning)
-    model = _ensure_gemini()
 
     try:
-        resp = model.generate_content(
-            "あなたは日本語の文章スタイル変換アシスタントです。\n\n" + user_content
+        messages = [
+            SystemMessage(content="あなたは日本語の文章スタイル変換アシスタントです。"),
+            HumanMessage(content=user_content),
+        ]
+        # rewrite は temperature を少し上げる
+        chat_model_temp = ChatGoogleGenerativeAI(
+            model=settings.gemini_model,  # type: ignore[arg-type]
+            google_api_key=settings.gemini_api_key,
+            temperature=0.5,
         )
-        return resp.text or ""
-    except Exception as e:  # pragma: no cover
+        response = chat_model_temp.invoke(messages)
+        return response.content or ""
+    except Exception as e:
         raise LLMError(f"Gemini rewrite でエラーが発生しました: {e}") from e
 
 
@@ -258,86 +295,127 @@ def rewrite(
 
 
 def _build_extract_instruction(max_items: int) -> str:
+    """
+    extract 用のプロンプトを構築。
+    JSON schema の例も含めて明確に指示する。
+    """
     return (
         "次のテキストから重要なポイントを日本語で要約し、"
-        f"最大 {max_items} 個まで JSON 配列（文字列の配列）で返してください。"
-        'フォーマットは例えば ["ポイント1", "ポイント2"] のみとし、説明文は書かないでください。'
+        f"最大 {max_items} 個まで JSON 配列（文字列の配列）で返してください。\n"
+        "返答は JSON のみとし、説明文やコードブロック記号は一切含めないでください。\n"
+        "フォーマット例: [\"ポイント1\", \"ポイント2\", \"ポイント3\"]\n"
+        "JSON 以外の文字列は返さないでください。"
     )
 
 
 def _extract_with_openai(text: str, max_items: int) -> str:
     settings = get_settings()
-    client = _ensure_openai()
     instruction = _build_extract_instruction(max_items)
 
     try:
-        resp = client.chat.completions.create(
+        messages = [
+            SystemMessage(
+                content="あなたは入力テキストの要点を抽出し、JSON 形式で返すアシスタントです。JSON のみを返し、説明文は一切含めないでください。"
+            ),
+            HumanMessage(content=instruction + "\n\nテキスト:\n" + text),
+        ]
+        # extract は temperature を低めに
+        chat_model_temp = ChatOpenAI(
             model=settings.openai_model,  # type: ignore[arg-type]
-            messages=[
-                {
-                    "role": "system",
-                    "content": "あなたは入力テキストの要点を抽出し、JSON 形式で返すアシスタントです。",
-                },
-                {
-                    "role": "user",
-                    "content": instruction + "\n\nテキスト:\n" + text,
-                },
-            ],
+            api_key=settings.openai_api_key,
             temperature=0.3,
         )
-        return resp.choices[0].message.content or ""
-    except OpenAIError as e:
+        response = chat_model_temp.invoke(messages)
+        return response.content or ""
+    except Exception as e:
         raise LLMError(f"OpenAI extract でエラーが発生しました: {e}") from e
 
 
 def _extract_with_gemini(text: str, max_items: int) -> str:
+    settings = get_settings()
+    chat_model = _ensure_gemini_chat_model()
     instruction = _build_extract_instruction(max_items)
-    model = _ensure_gemini()
 
     try:
-        resp = model.generate_content(
-            "あなたは入力テキストの要点を抽出し、JSON 形式で返すアシスタントです。\n\n"
-            + instruction
-            + "\n\nテキスト:\n"
-            + text
+        messages = [
+            SystemMessage(
+                content="あなたは入力テキストの要点を抽出し、JSON 形式で返すアシスタントです。JSON のみを返し、説明文は一切含めないでください。"
+            ),
+            HumanMessage(content=instruction + "\n\nテキスト:\n" + text),
+        ]
+        # extract は temperature を低めに
+        chat_model_temp = ChatGoogleGenerativeAI(
+            model=settings.gemini_model,  # type: ignore[arg-type]
+            google_api_key=settings.gemini_api_key,
+            temperature=0.3,
         )
-        return resp.text or ""
-    except Exception as e:  # pragma: no cover
+        response = chat_model_temp.invoke(messages)
+        return response.content or ""
+    except Exception as e:
         raise LLMError(f"Gemini extract でエラーが発生しました: {e}") from e
 
 
 def _clean_json_block(raw: str) -> str:
     """
-    LLM から返ってきた文字列から、JSON 部分だけを取り出すための簡易クリーナー。
-    ```json ... ``` 形式にもある程度対応する。
+    LLM から返ってきた文字列から、JSON 部分だけを取り出すためのクリーナー。
+    ```json ... ``` 形式にも対応する。
     """
     cleaned = raw.strip()
+
+    # コードブロック記号を除去
     if cleaned.startswith("```"):
-        # ```json ... ``` や ``` ... ``` を削る
-        cleaned = cleaned.strip("`")
-        # 言語ラベルを除いた後ろ側だけを使う
-        if "\n" in cleaned:
-            cleaned = cleaned.split("\n", 1)[1]
-        if "```" in cleaned:
-            cleaned = cleaned.rsplit("```", 1)[0]
+        # ```json や ``` を削除
+        cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r"\s*```$", "", cleaned)
         cleaned = cleaned.strip()
+
     return cleaned
 
 
-def _parse_extract_items(cleaned: str, max_items: int) -> List[Dict[str, Any]]:
+def _parse_extract_items_fallback(text: str, max_items: int) -> List[Dict[str, Any]]:
+    """
+    JSON パースに失敗した場合のフォールバック処理。
+    テキストを行分割して max_items に丸めた items を生成する。
+    """
+    # 改行や句点で分割
+    lines = re.split(r"[\n。\.\?\!！？]", text)
+    items = [line.strip() for line in lines if line.strip()]
+    # max_items に制限
+    items = items[:max_items]
+    return [{"text": item, "confidence": 1.0} for item in items]
+
+
+def _parse_extract_items(cleaned: str, max_items: int, original_text: str) -> List[Dict[str, Any]]:
+    """
+    JSON 文字列をパースして [{text, confidence}] のリストに変換する。
+    パースに失敗した場合はフォールバック処理を実行。
+    """
+    # まず JSON として直接パースを試す
     try:
         items_raw = json.loads(cleaned)
-    except json.JSONDecodeError as e:
-        raise LLMError(f"抽出結果の JSON パースに失敗しました: {e}. raw={cleaned!r}") from e
+    except json.JSONDecodeError:
+        # コードブロックを除去して再試行
+        cleaned_again = _clean_json_block(cleaned)
+        try:
+            items_raw = json.loads(cleaned_again)
+        except json.JSONDecodeError:
+            # それでもダメならフォールバック
+            return _parse_extract_items_fallback(original_text, max_items)
 
     if not isinstance(items_raw, list):
-        raise LLMError("抽出結果が JSON 配列ではありません。")
+        # 配列でない場合もフォールバック
+        return _parse_extract_items_fallback(original_text, max_items)
 
     results: List[Dict[str, Any]] = []
     for item in items_raw[:max_items]:
         if not isinstance(item, str):
             continue
         results.append({"text": item.strip(), "confidence": 1.0})
+
+    # 結果が空の場合はフォールバック
+    if not results:
+        return _parse_extract_items_fallback(original_text, max_items)
+
     return results
 
 
@@ -345,7 +423,10 @@ def extract(text: str, max_items: int) -> List[Dict[str, Any]]:
     """
     テキストから要点を最大 max_items 個まで抽出し、
     [{\"text\": str, \"confidence\": float}] の形式で返す。
-    confidence は 1.0 固定でよい前提。
+    confidence は 1.0 固定。
+
+    JSON パースに失敗した場合は、フォールバック処理として
+    テキストを行分割して items を生成する。
     """
     settings = get_settings()
     _validate_single_provider_configured(settings)
@@ -358,7 +439,4 @@ def extract(text: str, max_items: int) -> List[Dict[str, Any]]:
         raise ProviderNotConfiguredError("LLM_PROVIDER が openai か gemini に設定されていません。")
 
     cleaned = _clean_json_block(raw)
-    return _parse_extract_items(cleaned, max_items)
-
-
-
+    return _parse_extract_items(cleaned, max_items, original_text=text)
