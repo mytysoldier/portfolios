@@ -1,35 +1,37 @@
 import os
 import sys
-import subprocess
 import shutil
 import re
 import time
 import argparse
+import base64
+import json
 from datetime import datetime
 from dotenv import load_dotenv
-import google.generativeai as genai
+from openai import OpenAI
+import PIL.Image
 
 # Configuration
 GENERATED_ROOT = "generated"
-OUTPUT_DIR_NAME = "nanobanana-output"
 
-def setup_gemini():
-    load_dotenv()
-    api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
-    if not api_key:
-        print("Error: GEMINI_API_KEY (or GOOGLE_API_KEY) not found in .env file.")
-        print("Please set your API key in .env.")
-        return None
-    
-    genai.configure(api_key=api_key)
-    return genai.GenerativeModel('gemini-2.5-flash') # Fixed model name
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
 
-def generate_text(model, prompt):
+def generate_completion(client, messages, response_format=None):
     try:
-        response = model.generate_content(prompt)
-        return response.text
+        kwargs = {
+            "model": "gpt-4o",
+            "messages": messages,
+            "max_tokens": 4096,
+        }
+        if response_format:
+            kwargs["response_format"] = response_format
+            
+        response = client.chat.completions.create(**kwargs)
+        return response.choices[0].message.content
     except Exception as e:
-        print(f"Error generating text: {e}")
+        print(f"Error generating content: {e}")
         return None
 
 def determine_project_path():
@@ -45,221 +47,289 @@ def determine_project_path():
     project_name = f"output{next_num}"
     return os.path.join(GENERATED_ROOT, project_name)
 
-def generate_images(prompt, project_dir, count=3):
-    """
-    Generate images using the gemini CLI (nanobanana).
-    """
-    print(f"\n[Image Generation] Prompt: {prompt}")
-    print(f"Generating {count} variations... (Estimated time: 15-30 seconds)")
+def plan_site_structure(client, user_input, images_to_process):
+    print("\n--- Phase 1: Planning Site Structure & Copy ---")
     
-    try:
-        # Construct command
-        # Using pipe to feed instruction to gemini CLI
-        # The CLI asks for confirmation with a multiple choice menu:
-        # 1. Yes, allow once
-        # 2. Yes, always allow tool...
-        # 3. Yes, always allow all tools from server...
-        # 4. No...
-        input_text = f'/generate "{prompt}" --count={count}\n'
-        
-        process = subprocess.Popen(
-            ['gemini'], 
-            stdin=subprocess.PIPE, 
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.PIPE,
-            text=True
+    system_instruction = (
+        "You are a Creative Director and UX Designer. "
+        "Your goal is to plan a multi-page static website based on the user's request and visual assets. "
+        "1. ANALYZE COMPLEXITY: Determine the appropriate scale based on user input. "
+        "   - If the request is simple or vauge, default to a compact 1-3 page structure (e.g., Home + Contact) to ensure fast generation. "
+        "   - Only create a complex 4-5 page structure if explicitly requested or clearly necessary. "
+        "2. IMAGE USAGE (CRITICAL): You have a set of assets. You MUST plan enough content to display ALL of them. "
+        "   - If you have 12 images of food, create a Menu page with 12 items, or a Gallery page. "
+        "   - Do NOT pick just 3 images and ignore the rest. The user wants to see ALL assets used. "
+        "3. Define a Sitemap. STRICTLY FOLLOW the user's request for page count and titles if specified. "
+        "4. Write content that is effective but concise (avoid unnecessary fluff to save generation time). "
+        "5. Output strictly valid JSON."
+    )
+    
+    messages = [{"role": "system", "content": system_instruction}]
+    
+    user_content_parts = []
+    
+    # Create a list of available filenames to force usage
+    available_files = [f"assets/{os.path.basename(p)}" for p in images_to_process]
+    available_files_str = "\n".join([f"- {f}" for f in available_files])
+    
+    user_content_parts.append({"type": "text", "text": (
+        f"User Request: {user_input}\n\n"
+        "AVAILABLE ASSETS (TOTAL: {len(images_to_process)} files):\n"
+        f"{available_files_str}\n\n"
+        "INSTRUCTION: Assign specific 'assets/filename.ext' from the list above to the 'content_brief' of relevant pages. "
+        "You MUST ensure EVERY file in the list above is assigned to at least one page. "
+        "If there are too many images for the requested pages, add a Gallery section or extend the Menu page significantly. "
+        "Do NOT ignore any images."
+    )})
+    
+    if images_to_process:
+        user_content_parts.append({"type": "text", "text": "Visual Context (Base the style and tone on these):"})
+        for img_p in images_to_process:
+            try:
+                base64_image = encode_image(img_p)
+                # Interleave filename to help AI map 'assets/foo.png' to the visual
+                fname = os.path.basename(img_p)
+                user_content_parts.append({
+                    "type": "text", 
+                    "text": f"Image Filename: assets/{fname}"
+                })
+                user_content_parts.append({
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}
+                })
+            except:
+                pass
+    
+    user_content_parts.append({
+        "type": "text", 
+        "text": (
+            "Output JSON format:\n"
+            "{\n"
+            "  \"global_style_guide\": \"Brief description of colors, fonts, and vibe.\",\n"
+            "  \"site_name\": \"The Name of the Website (consistent across all pages)\",\n"
+            "  \"pages\": [\n"
+            "    {\n"
+            "      \"filename\": \"index.html\",\n"
+            "      \"title\": \"Page Title\",\n"
+            "      \"navigation_label\": \"Home\",\n"
+            "      \"content_brief\": \"Detailed content outline including headlines, paragraphs using marketing copy, and instructions on image placement.\"\n"
+            "    }\n"
+            "  ]\n"
+            "}"
         )
-        
-        # Adding a timeout mechanism
+    })
+    
+    messages.append({"role": "user", "content": user_content_parts})
+    
+    json_response = generate_completion(client, messages, response_format={"type": "json_object"})
+    
+    if json_response:
         try:
-            # We trust EOF (closing stdin) will finish the session or command
-            print("DEBUG: Sending command and waiting (timeout=120s)...")
-            stdout, stderr = process.communicate(input=input_text, timeout=120)
-        except subprocess.TimeoutExpired:
-            process.kill()
-            print("Error: Image generation timed out.")
-            return []
+            plan = json.loads(json_response)
+            print(f"Plan created: {len(plan.get('pages', []))} pages.")
+            return plan
+        except json.JSONDecodeError:
+            print("Error decoding JSON plan.")
+            return None
+    return None
 
-        # Check for output
-        if not os.path.exists(OUTPUT_DIR_NAME):
-            # Fallback check current directory just in case
-            pass
-            
-        # Find new images
-        # We need a way to identify *newly* created images or just move all from output
-        src_dir = OUTPUT_DIR_NAME if os.path.exists(OUTPUT_DIR_NAME) else "."
+def generate_page_html(client, page, sitemap_links, global_style, images_to_process, site_name):
+    filename = page['filename']
+    print(f"\n--- Phase 2: Generating {filename} ---")
+    
+    system_instruction = (
+        "You are a skilled web developer using TailwindCSS. "
+        "Create a single HTML file independent of others (but linking to them). "
+        "Do NOT use external CSS/JS files. Embed everything. "
+        f"Global Style Guide: {global_style}"
+    )
+    
+    messages = [{"role": "system", "content": system_instruction}]
+    
+    user_content_parts = []
+    
+    # Navigation Context
+    nav_html_hint = "Make sure to include a responsive navigation bar with these links: " + ", ".join([f"<a href='{p['filename']}'>{p['label']}</a>" for p in sitemap_links])
+    
+    # Content Context
+    content_instruction = (
+        f"Generate code for: {filename}\n"
+        f"Page Title: {page['title']}\n"
+        f"Content Requirements: {page['content_brief']}\n"
+        f"Navigation Requirements: {nav_html_hint}\n"
+        "UI_UX CRITICAL RULES:\n"
+        "1. NO DEAD BUTTONS. All buttons/CTAs must be <a> tags linking to one of the sitemap pages or an anchor ID (e.g., #contact). Do not create buttons that do nothing.\n"
+        "2. CONSISTENT LAYOUT. Use a standard <header>, <main class='container mx-auto px-4'>, and <footer> structure to prevent layout shifts between pages.\n"
+        "3. RESPONSIVE DESIGN. Use Tailwind's mobile-first approach (e.g. 'grid-cols-1 md:grid-cols-3'). Ensure the navbar is responsive (hamburger menu or stackable).\n"
+        f"4. HEADER CONSISTENCY: You MUST use the exact Site Name: '{site_name}' in the header/logo area. Do NOT vary it.\n"
+        "5. BREADCRUMBS: If this is NOT the home page, you MUST display a breadcrumb trail (e.g., 'Home > Page Title') in a container directly below the navbar/header. "
+        "   Use a consistent style/location for breadcrumbs across all subpages.\n"
+        "6. NO IMAGE LINKS. Do NOT wrap <img> tags in <a> tags. Images should be static displays only. Do NOT link images to detailed pages unless those pages exist in the sitemap.\n"
+        "7. DO NOT invent paths like 'assets/hero.jpg' or 'images/logo.png' if they are not in the list above. They will be broken.\n"
+        "Ensure the copy is exactly as requested (or better). Make it look premium."
+    )
+    user_content_parts.append({"type": "text", "text": content_instruction})
+    
+    # Image Context (pass refs)
+    if images_to_process:
+        available_images = [f"assets/{os.path.basename(p)}" for p in images_to_process]
+        img_list_str = ", ".join(available_images)
+        user_content_parts.append({
+            "type": "text",
+            "text": (
+                f"IMPORTANT - VISUAL ASSETS POLICY:\n"
+                f"1. You have access ONLY to these local files: {img_list_str}.\n"
+                "2. You MUST use these exact paths (e.g. 'assets/foo.jpg') for your main images.\n"
+                "3. If you need MORE images than provided (e.g. for a gallery or background) and you cannot reuse the provided ones, "
+                "you MUST use external placeholders (e.g. 'https://placehold.co/600x400').\n"
+                "4. DO NOT invent paths like 'assets/hero.jpg' or 'images/logo.png' if they are not in the list above. They will be broken."
+            )
+        })
         
-        # Nanobanana usually saves with timestamp or name
-        # We'll just look for recent png/jpg files in the output dir
+        # Also pass vision context again so it knows what the assets look like to place them well
+        user_content_parts.append({"type": "text", "text": "Reference Visuals (Use these to match the coded design):"})
+        for img_p in images_to_process:
+            try:
+                base64_image = encode_image(img_p)
+                # Interleave filename!
+                fname = os.path.basename(img_p)
+                user_content_parts.append({
+                    "type": "text", 
+                    "text": f"Image Filename: assets/{fname}"
+                })
+                user_content_parts.append({
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}
+                })
+            except:
+                pass
         
-        if not os.path.exists(src_dir):
-             print(f"Error: Output directory '{src_dir}' not found.")
-             print("StdOut:", stdout)
-             print("StdErr:", stderr)
-             return []
+        # Add instruction to try and use available images
+        user_content_parts.append({
+            "type": "text",
+            "text": (
+                "Try to use the provided 'assets/...' images as much as possible to make the site rich. "
+                "If the content brief mentions a specific asset file, YOU MUST USE IT in the HTML."
+            )
+        })
+    else:
+        # No images provided case
+        user_content_parts.append({
+            "type": "text", 
+            "text": (
+                "IMPORTANT - NO LOCAL IMAGES AVAILABLE:\n"
+                "1. You do not have access to any local image files.\n"
+                "2. You MUST use external placeholders for ALL visuals (e.g. 'https://placehold.co/600x400' or Unsplash Source if stable).\n"
+                "3. Do NOT use 'assets/...' paths as they do not exist.\n"
+                "4. Focus on typography, layout, and colors to make the site attractive without custom photography."
+            )
+        })
 
-        project_images_dir = os.path.join(project_dir, "images")
-        os.makedirs(project_images_dir, exist_ok=True)
-        
-        moved_images = []
-        # Filter files created in the last 60 seconds
-        now = time.time()
-        for f in os.listdir(src_dir):
-            if f.endswith(('.png', '.jpg', '.jpeg')):
-                full_path = os.path.join(src_dir, f)
-                if os.path.getmtime(full_path) > now - 60:
-                    dest_path = os.path.join(project_images_dir, f)
-                    shutil.move(full_path, dest_path)
-                    moved_images.append(f"images/{f}")
-        
-        if not moved_images:
-            print("Warning: No new images found in output directory.")
-            # Be helpful debugging
-            print(f"Checked directory: {os.path.abspath(src_dir)}")
-            print("--- CLI DEBUG INFO ---")
-            print("StdOut:", stdout)
-            print("StdErr:", stderr)
-            print("----------------------")
-        else:
-            print(f"Successfully generated {len(moved_images)} images.")
-            
-        return moved_images
-
-    except Exception as e:
-        print(f"Error in image generation: {e}")
-        return []
+    user_content_parts.append({"type": "text", "text": "Output ONLY the HTML code block."})
+    
+    messages.append({"role": "user", "content": user_content_parts})
+    
+    content_response = generate_completion(client, messages)
+    
+    if content_response:
+        match = re.search(r'```html\s*(.*?)\s*```', content_response, re.DOTALL)
+        if match:
+            return match.group(1)
+        elif "<html" in content_response:
+             return content_response
+    return None
 
 def main():
-    parser = argparse.ArgumentParser(description="AI Static Site Generator")
-    parser.add_argument("--step", choices=['all', 'plan', 'image', 'html'], default='all', help="Execute specific step")
+    parser = argparse.ArgumentParser(description="AI Static Site Generator (Multi-Page)")
+    parser.add_argument("--image", help="Path to a local image file OR directory", default=None)
     args = parser.parse_args()
 
-    model = setup_gemini()
-    if not model:
+    load_dotenv()
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        print("Error: OPENAI_API_KEY not found.")
         return
 
-    print("--- AI Static Site Generator (Gemini Powered) ---")
+    client = OpenAI(api_key=api_key)
     
-    user_input = ""
-    # Only ask for input if we're starting fresh or doing a plan
-    print("AIに依頼したい内容を入力してください (終了するには 'exit' or 'quit'):")
+    # Input Loop
+    print("AI Static Site Generator (Multi-Page Edition)")
+    print("どんなサイトを作りますか？ (入力終了は空行でEnter)")
+    print("> ", end="", flush=True)
+    
+    lines = []
     while True:
         try:
-            user_input = input("\n> ")
-            if user_input.lower() in ['exit', 'quit']:
-                return
-            if user_input.strip():
+            line = input()
+            if not line:
                 break
-        except KeyboardInterrupt:
-            return
+            lines.append(line)
+        except EOFError:
+            break
+            
+    user_input = "\n".join(lines)
+    if not user_input.strip():
+        print("入力がありませんでした。")
+        return
+
+    # Image Processing
+    image_path = args.image
+    if not image_path:
+        print("画像のパス (任意):")
+        inp = input("> ").strip()
+        if inp: image_path = inp.replace("'", "").replace('"', "").strip()
+
+    images_to_process = []
+    if image_path and os.path.exists(image_path):
+        if os.path.isdir(image_path):
+            valid_exts = ('.png', '.jpg', '.jpeg', '.webp')
+            for f in sorted(os.listdir(image_path)):
+                if f.lower().endswith(valid_exts):
+                    images_to_process.append(os.path.join(image_path, f))
+        else:
+            images_to_process.append(image_path)
+    
+    print(f"Found {len(images_to_process)} images.")
 
     start_time = time.time()
-    print("\n--- Process Started ---")
-    print("Estimated total time: 45-60 seconds")
     
-    # 1. Plan & Setup
-    if args.step in ['all', 'plan']:
-        print("\n[Step 1/3] Planning & Setup...")
-        project_dir = determine_project_path()
-        os.makedirs(project_dir, exist_ok=True)
-        print(f"Target Directory: {project_dir}")
-        
-        planning_prompt = (
-                f"Analyze this request: '{user_input}'. "
-                "Describe the main image that should be on the page (if fitting). "
-                "Output format:\n"
-                "ImagePrompt: <prompt or NONE>"
-            )
-        plan_text = generate_text(model, planning_prompt)
-        image_prompt = None
-        if plan_text:
-            for line in plan_text.split('\n'):
-                if line.startswith("ImagePrompt:"):
-                    prompt_val = line.split(":", 1)[1].strip()
-                    if prompt_val and prompt_val != "NONE":
-                        image_prompt = prompt_val
-        
-        # Save state for other steps if needed (simple file based state for now, or just re-run)
-        # For this simple script, we pass variables in memory if running 'all', 
-        # but if running individual steps validation is harder without persistence. 
-        # Assuming 'all' flow for variable passing.
-    
-    # Validation for partial steps without context is tricky, so assume 'all' flow logic for variables
-    # If user runs --step image, we need prompt. 
-    # For now, let's keep it simple: --step is mostly for skipping/debugging by modifying code constants if needed,
-    # or we just re-derive prompt every time.
-    
-    # Re-derive project dir for consistence
-    # NOTE: This creates a new dir every run if we just call determine_project_path(). 
-    # For debugging, we might want to use the LATEST dir.
-    # Let's stick to the 'all' flow primarily being the supported user path.
-    
-    # Logic to ensure variables are set if jumping into middle steps
-    # Note: In a real app we'd load state. Here we just re-run minimal planning if needed.
-    if args.step == 'image':
-        print("(Re-running minimal planning for context...)")
-        project_dir = determine_project_path() # Warning: this might create new output dir increment
-        # Actually for debugging we probably want the last one or just create new. 
-        # Let's simplify: always creating new output N is safer than overwriting unknown.
-        os.makedirs(project_dir, exist_ok=True)
-        
-        # Get prompt
-        planning_prompt = (
-            f"Analyze this request: '{user_input}'. "
-            "Output format:\n"
-            "ImagePrompt: <prompt or NONE>"
-        )
-        plan_text = generate_text(model, planning_prompt)
-        image_prompt = None
-        if plan_text:
-            for line in plan_text.split('\n'):
-                if line.startswith("ImagePrompt:"):
-                    prompt_val = line.split(":", 1)[1].strip()
-                    if prompt_val and prompt_val != "NONE":
-                        image_prompt = prompt_val
-    
-    # 2. Images
-    image_paths = []
-    # If step is 'all' or 'image', AND we have a prompt
-    if (args.step == 'all' or args.step == 'image') and image_prompt:
-        print(f"\n[Step 2/3] Generating Content (Images)...")
-        image_paths = generate_images(image_prompt, project_dir, count=3)
-    
-    # 3. HTML
-    if args.step in ['all', 'html']:
-        print(f"\n[Step 3/3] Generating Code (HTML)...")
-        system_prompt = (
-                "You are a skilled web developer using TailwindCSS."
-                "Create a single file HTML/CSS/JS solution."
-                "Do NOT use external CSS files, put styles in <style>."
-                "Do NOT use external JS files, put scripts in <script>."
-                f"The user wants: {user_input}. "
-            )
-        
-        if image_paths:
-            img_list_str = ", ".join(image_paths)
-            system_prompt += (
-                f" INSTRUCTION: The following images are available: {img_list_str}. "
-                "Use them effectively in the design (e.g. carousel, grid, or hero background). "
-                "Use the first image as the main hero background."
-            )
+    # 1. Plan
+    site_plan = plan_site_structure(client, user_input, images_to_process)
+    if not site_plan:
+        print("Planning failed.")
+        return
 
-        system_prompt += " Output ONLY the HTML code block."
-        
-        html_response = generate_text(model, system_prompt)
-        
-        match = re.search(r'```html\s*(.*?)\s*```', html_response, re.DOTALL)
-        if match:
-            html_content = match.group(1)
-            output_file = os.path.join(project_dir, "index.html")
-            with open(output_file, "w", encoding="utf-8") as f:
-                f.write(html_content)
-            print(f"\nSuccessfully generated site at: {output_file}")
+    project_dir = determine_project_path()
+    os.makedirs(project_dir, exist_ok=True)
+    print(f"Target: {project_dir}")
+    
+    # Copy Assets
+    if images_to_process:
+        assets_dir = os.path.join(project_dir, "assets")
+        os.makedirs(assets_dir, exist_ok=True)
+        for img in images_to_process:
+            try:
+                shutil.copy(img, os.path.join(assets_dir, os.path.basename(img)))
+            except: pass
+
+    # Prepare Link Info
+    sitemap_links = []
+    for p in site_plan.get('pages', []):
+        sitemap_links.append({'filename': p['filename'], 'label': p.get('navigation_label', p.get('title'))})
+
+    # 2. Generate Pages
+    for page in site_plan.get('pages', []):
+        html = generate_page_html(client, page, sitemap_links, site_plan.get('global_style_guide', ''), images_to_process, site_plan.get('site_name', 'My Website'))
+        if html:
+            out_path = os.path.join(project_dir, page['filename'])
+            with open(out_path, "w", encoding="utf-8") as f:
+                f.write(html)
+            print(f"Saved: {out_path}")
         else:
-            print("Failed to extract HTML.")
+            print(f"Failed to generate {page['filename']}")
 
     elapsed = time.time() - start_time
-    print(f"\n--- Completed in {elapsed:.1f} seconds ---")
+    print(f"Done in {elapsed:.1f}s")
 
 if __name__ == "__main__":
     main()
