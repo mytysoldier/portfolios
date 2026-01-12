@@ -41,6 +41,7 @@
 		8456E4152EE56F9D00DA84DE /* oneMinVoiceJournalWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = oneMinVoiceJournalWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8456E4172EE56F9D00DA84DE /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8456E4192EE56F9E00DA84DE /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		B0C1D2E3F4A5B6C7D8E9F0A1 /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = oneMinVoiceJournal/Config/AppConfig.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -54,6 +55,7 @@
 		8456E42F2EE5706500DA84DE /* Exceptions for "oneMinVoiceJournal" folder in "oneMinVoiceJournal" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Info.plist,
 				Widgets/JournalWidget.swift,
 			);
 			target = 8456E3832EE52F9900DA84DE /* oneMinVoiceJournal */;
@@ -378,6 +380,7 @@
 		};
 		8456E3932EE52F9B00DA84DE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0C1D2E3F4A5B6C7D8E9F0A1 /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -386,7 +389,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"oneMinVoiceJournal/Preview Content\"";
 				DEVELOPMENT_TEAM = Z2HY876B86;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = oneMinVoiceJournal/Info.plist;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "音声日記を録音するためにマイクを使用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -408,6 +412,7 @@
 		};
 		8456E3942EE52F9B00DA84DE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0C1D2E3F4A5B6C7D8E9F0A1 /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -416,7 +421,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"oneMinVoiceJournal/Preview Content\"";
 				DEVELOPMENT_TEAM = Z2HY876B86;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = oneMinVoiceJournal/Info.plist;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "音声日記を録音するためにマイクを使用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

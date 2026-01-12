@@ -2,15 +2,18 @@ import Foundation
 
 struct OpenAIService {
     enum ServiceError: Error, LocalizedError {
-        case missingAPIKey
+        case missingBaseURL
+        case invalidBaseURL
         case invalidResponse
         case decodingFailed
         case requestFailed(statusCode: Int)
 
         var errorDescription: String? {
             switch self {
-            case .missingAPIKey:
-                return "一部の解析設定が不足しています。"
+            case .missingBaseURL:
+                return "解析サーバーのURLが設定されていません。"
+            case .invalidBaseURL:
+                return "解析サーバーのURLが不正です。"
             case .invalidResponse:
                 return "解析サーバーから想定外のレスポンスが返されました。"
             case .decodingFailed:
@@ -21,21 +24,39 @@ struct OpenAIService {
         }
     }
 
-    private let apiKey: String
+    private let baseURL: URL
+    private let appKey: String?
+    private let anonKey: String?
     private let session: URLSession
 
-    init(apiKey: String? = ProcessInfo.processInfo.environment["OPENAI_API_KEY"], session: URLSession = .shared) throws {
-        guard let apiKey, !apiKey.isEmpty else {
-            throw ServiceError.missingAPIKey
+    init(
+        baseURLString: String? = Bundle.main.object(forInfoDictionaryKey: "API_BASE_URL") as? String,
+        appKey: String? = Bundle.main.object(forInfoDictionaryKey: "APP_CLIENT_KEY") as? String,
+        anonKey: String? = Bundle.main.object(forInfoDictionaryKey: "SUPABASE_ANON_KEY") as? String,
+        session: URLSession = .shared
+    ) throws {
+        #if DEBUG
+        debugPrint("API_BASE_URL (raw):", baseURLString ?? "nil")
+        #endif
+        guard let baseURLString, !baseURLString.isEmpty else {
+            throw ServiceError.missingBaseURL
         }
-        self.apiKey = apiKey
+        let trimmedBaseURLString = baseURLString.trimmingCharacters(in: .whitespacesAndNewlines)
+        #if DEBUG
+        debugPrint("API_BASE_URL (trimmed):", trimmedBaseURLString)
+        #endif
+        guard let baseURL = URL(string: trimmedBaseURLString) else {
+            throw ServiceError.invalidBaseURL
+        }
+        self.baseURL = baseURL
+        self.appKey = appKey?.isEmpty == false ? appKey : nil
+        self.anonKey = anonKey?.isEmpty == false ? anonKey : nil
         self.session = session
     }
 
     func transcribeAudio(at url: URL, model: String = "whisper-1", temperature: Double = 0) async throws -> String {
-        var request = URLRequest(url: URL(string: "https://api.openai.com/v1/audio/transcriptions")!)
+        var request = makeRequest(url: baseURL.appendingPathComponent("oneMinVoiceJournalTranscribe"))
         request.httpMethod = "POST"
-        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
 
         let boundary = UUID().uuidString
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
@@ -50,34 +71,23 @@ struct OpenAIService {
         #endif
 
         struct WhisperResponse: Decodable { let text: String }
-        guard let whisper = try? JSONDecoder().decode(WhisperResponse.self, from: data) else {
-            throw ServiceError.decodingFailed
+        struct TranscriptResponse: Decodable { let transcript: String }
+
+        if let whisper = try? JSONDecoder().decode(WhisperResponse.self, from: data) {
+            return whisper.text
         }
-        return whisper.text
+        if let transcript = try? JSONDecoder().decode(TranscriptResponse.self, from: data) {
+            return transcript.transcript
+        }
+        throw ServiceError.decodingFailed
     }
 
-    func analyzeEmotion(from transcript: String, model: String = "gpt-4o-mini") async throws -> AnalysisPayload {
-        var request = URLRequest(url: URL(string: "https://api.openai.com/v1/chat/completions")!)
+    func analyzeEmotion(from transcript: String) async throws -> AnalysisPayload {
+        var request = makeRequest(url: baseURL.appendingPathComponent("oneMinVoiceJournalAnalyze"))
         request.httpMethod = "POST"
-        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let systemPrompt = """
-        あなたは感情分析AIです。以下のユーザーの音声テキストを読み、感情カテゴリー・タイトル・要約・アドバイスを JSON 形式で出力してください。
-        感情カテゴリーは次のいずれかです：Happy, Calm, Neutral, Sad, Angry, Hurt, Overwhelmed
-        """
-
-        let userPrompt = transcript
-
-        let payload = ChatRequest(
-            model: model,
-            messages: [
-                .init(role: "system", content: systemPrompt),
-                .init(role: "user", content: userPrompt)
-            ],
-            responseFormat: .jsonObject
-        )
-
+        let payload = AnalyzeRequest(transcript: transcript)
         request.httpBody = try JSONEncoder().encode(payload)
 
         let (data, response) = try await session.data(for: request)
@@ -88,23 +98,20 @@ struct OpenAIService {
         }
         #endif
 
-        let completion = try JSONDecoder().decode(ChatResponse.self, from: data)
-        guard let contentString = completion.choices.first?.message.content else {
-            throw ServiceError.invalidResponse
+        let decoder = JSONDecoder()
+        if let response = try? decoder.decode(AnalyzeResponse.self, from: data) {
+            return response.analysis
         }
-        #if DEBUG
-        debugPrint("OpenAI response:", contentString)
-        #endif
-
-        let jsonData = try sanitizeJSONString(contentString)
-        do {
-            return try decodeAnalysis(from: jsonData)
-        } catch {
-            #if DEBUG
-            debugPrint("Failed to decode analysis:", String(data: jsonData, encoding: .utf8) ?? "N/A")
-            #endif
-            throw ServiceError.decodingFailed
+        if let analysis = try? decoder.decode(AnalysisPayload.self, from: data) {
+            return analysis
         }
+        if let rawString = String(data: data, encoding: .utf8) {
+            let jsonData = try sanitizeJSONString(rawString)
+            if let analysis = try? decodeAnalysis(from: jsonData) {
+                return analysis
+            }
+        }
+        throw ServiceError.decodingFailed
     }
 }
 
@@ -118,42 +125,24 @@ extension OpenAIService {
 }
 
 private extension OpenAIService {
-    struct ChatRequest: Encodable {
-        struct Message: Encodable {
-            let role: String
-            let content: String
+    func makeRequest(url: URL) -> URLRequest {
+        var request = URLRequest(url: url)
+        if let anonKey {
+            request.setValue("Bearer \(anonKey)", forHTTPHeaderField: "Authorization")
+            request.setValue(anonKey, forHTTPHeaderField: "apikey")
         }
-
-        struct ResponseFormat: Encodable {
-            let type: String
-
-            static var jsonObject: ResponseFormat {
-                ResponseFormat(type: "json_object")
-            }
+        if let appKey {
+            request.setValue(appKey, forHTTPHeaderField: "X-App-Key")
         }
-
-        let model: String
-        let messages: [Message]
-        let responseFormat: ResponseFormat
-
-        private enum CodingKeys: String, CodingKey {
-            case model, messages
-            case responseFormat = "response_format"
-        }
+        return request
     }
 
-    struct ChatResponse: Decodable {
-        struct Choice: Decodable {
-            struct Message: Decodable {
-                let role: String
-                let content: String
-            }
+    struct AnalyzeRequest: Encodable {
+        let transcript: String
+    }
 
-            let index: Int
-            let message: Message
-        }
-
-        let choices: [Choice]
+    struct AnalyzeResponse: Decodable {
+        let analysis: AnalysisPayload
     }
 
     func buildMultipartBody(boundary: String, fileURL: URL, model: String, temperature: Double) throws -> Data {

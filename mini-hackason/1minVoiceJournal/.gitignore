@@ -5,3 +5,5 @@ oneMinVoiceJournal/oneMinVoiceJournal.xcodeproj/xcuserdata/
 .DS_Store
 oneMinVoiceJournal/oneMinVoiceJournal.xcodeproj/xcshareddata/xcschemes/oneMinVoiceJournal.xcschemeoneMinVoiceJournal/oneMinVoiceJournal.xcodeproj/xcshareddata/
 oneMinVoiceJournal/oneMinVoiceJournal.xcodeproj/xcshareddata/
+oneMinVoiceJournal/Config/Secrets.xcconfig
+oneMinVoiceJournal/oneMinVoiceJournal/Config/Secrets.xcconfig

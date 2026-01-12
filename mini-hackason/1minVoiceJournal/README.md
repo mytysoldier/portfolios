@@ -19,3 +19,19 @@
 - [画面仕様](docs/screen_specification.md)
 - [技術スタック](docs/technical_stack.md)
 - [ファイル構成](docs/file_structure.md)
+
+## 🔧 セットアップ（Secrets）
+
+`xcconfig` 経由で API 設定を読み込みます。実値は Git 管理しません。
+
+1. `oneMinVoiceJournal/Config/Secrets.example.xcconfig` を `oneMinVoiceJournal/Config/Secrets.xcconfig` にコピー
+2. `Secrets.xcconfig` に実値を設定
+   - `API_BASE_URL` は `https:$(SLASH)$(SLASH)...` の形式で設定
+   - 例:
+     ```xcconfig
+     API_BASE_URL = https:$(SLASH)$(SLASH)example.supabase.co/functions/v1
+     APP_CLIENT_KEY = YOUR_APP_CLIENT_KEY
+     SUPABASE_ANON_KEY = YOUR_SUPABASE_ANON_KEY
+     ```
+
+`Secrets.xcconfig` は `.gitignore` で除外済みです。
