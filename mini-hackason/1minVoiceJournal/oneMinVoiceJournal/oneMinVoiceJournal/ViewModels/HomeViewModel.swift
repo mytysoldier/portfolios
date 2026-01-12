@@ -63,7 +63,7 @@ final class HomeViewModel: ObservableObject {
         }
 
         do {
-            let service = try OpenAIService()
+            var service = try OpenAIService()
             let transcript = try await service.transcribeAudio(at: url)
             stage = .analyzing
             let analysis = try await service.analyzeEmotion(from: transcript)

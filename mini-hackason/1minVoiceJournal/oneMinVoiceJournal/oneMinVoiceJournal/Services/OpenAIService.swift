@@ -7,6 +7,7 @@ struct OpenAIService {
         case invalidResponse
         case decodingFailed
         case requestFailed(statusCode: Int)
+        case usageLimitExceeded
 
         var errorDescription: String? {
             switch self {
@@ -20,6 +21,8 @@ struct OpenAIService {
                 return "解析結果の読み取りに失敗しました。"
             case .requestFailed(let statusCode):
                 return "解析サーバーの呼び出しに失敗しました (status: \(statusCode))。"
+            case .usageLimitExceeded:
+                return "本日の利用制限（10回）に達しました。明日またお試しください。"
             }
         }
     }
@@ -28,6 +31,7 @@ struct OpenAIService {
     private let appKey: String?
     private let anonKey: String?
     private let session: URLSession
+    private var usageLimitService = UsageLimitService()
 
     init(
         baseURLString: String? = Bundle.main.object(forInfoDictionaryKey: "API_BASE_URL") as? String,
@@ -54,7 +58,15 @@ struct OpenAIService {
         self.session = session
     }
 
-    func transcribeAudio(at url: URL, model: String = "whisper-1", temperature: Double = 0) async throws -> String {
+    mutating func transcribeAudio(at url: URL, model: String = "whisper-1", temperature: Double = 0) async throws -> String {
+        // 利用制限チェック
+        guard usageLimitService.canUseAPI() else {
+            throw ServiceError.usageLimitExceeded
+        }
+
+        // カウントをインクリメント
+        usageLimitService.incrementUsage()
+
         var request = makeRequest(url: baseURL.appendingPathComponent("oneMinVoiceJournalTranscribe"))
         request.httpMethod = "POST"
 
