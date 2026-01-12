@@ -1,0 +1,451 @@
+openapi: 3.0.3
+info:
+  title: One Minute Voice Journal API
+  description: |
+    音声ジャーナルの感情分析を行うAPIです。
+    - `/oneMinVoiceJournalTranscribe`: 音声ファイルをテキストに変換
+    - `/oneMinVoiceJournalAnalyze`: テキストから感情分析を実行
+    - `/oneMinVoiceJournal`: 統合エンドポイント（後方互換性のため）
+  version: 2.0.0
+  contact:
+    name: API Support
+
+servers:
+  - url: https://{project-ref}.supabase.co/functions/v1
+    description: Supabase Edge Function
+    variables:
+      project-ref:
+        description: Supabaseプロジェクトの参照ID
+        default: your-project-ref
+
+paths:
+  /oneMinVoiceJournalTranscribe:
+    options:
+      summary: CORS preflight リクエスト
+      description: CORS preflight用のOPTIONSリクエスト
+      operationId: optionsTranscribe
+      tags:
+        - Transcription
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: 'authorization, x-client-info, apikey, content-type'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ok
+
+    post:
+      summary: 音声をテキストに変換
+      description: 音声ファイルをアップロードしてテキストに変換します。
+      operationId: transcribeAudio
+      tags:
+        - Transcription
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 音声ファイル（m4a, mp3, wav, webmなど）
+            encoding:
+              file:
+                contentType: audio/m4a, audio/mp3, audio/wav, audio/webm
+      security:
+        - bearerAuth: []
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 変換成功
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscribeResponse'
+              example:
+                transcript: "今日はとても良い一日でした。新しいプロジェクトが成功して、とても嬉しい気持ちです。"
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                missingFile:
+                  summary: 音声ファイルが提供されていない
+                  value:
+                    error: "音声ファイルが提供されていません"
+                invalidContentType:
+                  summary: 無効なContent-Type
+                  value:
+                    error: "multipart/form-data形式で音声ファイルを送信してください。"
+        '405':
+          description: メソッドが許可されていない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /oneMinVoiceJournalAnalyze:
+    options:
+      summary: CORS preflight リクエスト
+      description: CORS preflight用のOPTIONSリクエスト
+      operationId: optionsAnalyze
+      tags:
+        - Analysis
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: 'authorization, x-client-info, apikey, content-type'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ok
+
+    post:
+      summary: テキストから感情分析を実行
+      description: テキストから感情分析を実行します。
+      operationId: analyzeEmotion
+      tags:
+        - Analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranscriptRequest'
+            examples:
+              example1:
+                summary: 基本的な例
+                value:
+                  transcript: "今日はとても良い一日でした。新しいプロジェクトが成功して、とても嬉しい気持ちです。"
+      security:
+        - bearerAuth: []
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 分析成功
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextAnalysisResponse'
+              example:
+                analysis:
+                  emotion: "Happy"
+                  title: "プロジェクト成功の喜び"
+                  summary: "新しいプロジェクトが成功し、喜びを感じている"
+                  advice: "成功を祝い、次の目標に向けて進みましょう"
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                missingTranscript:
+                  summary: transcriptフィールドが不足
+                  value:
+                    error: "transcriptフィールドが必要です。"
+                invalidContentType:
+                  summary: 無効なContent-Type
+                  value:
+                    error: "application/json形式でtranscriptを含むJSONを送信してください。"
+        '405':
+          description: メソッドが許可されていない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /oneMinVoiceJournal:
+    options:
+      summary: CORS preflight リクエスト
+      description: CORS preflight用のOPTIONSリクエスト
+      operationId: optionsOneMinVoiceJournal
+      tags:
+        - Voice Journal
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: 'authorization, x-client-info, apikey, content-type'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ok
+
+    post:
+      summary: 音声ジャーナルの感情分析（統合エンドポイント）
+      description: |
+        音声ファイルまたはテキストから感情分析を実行します（後方互換性のため）。
+        - 音声ファイルをアップロードする場合: multipart/form-data形式で送信（テキスト変換と感情分析を一度に実行）
+        - テキストから分析する場合: application/json形式で送信
+      operationId: analyzeVoiceJournal
+      deprecated: true
+      tags:
+        - Voice Journal
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 音声ファイル（m4a, mp3, wav, webmなど）
+            encoding:
+              file:
+                contentType: audio/m4a, audio/mp3, audio/wav, audio/webm
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranscriptRequest'
+            examples:
+              example1:
+                summary: 基本的な例
+                value:
+                  transcript: "今日はとても良い一日でした。新しいプロジェクトが成功して、とても嬉しい気持ちです。"
+      security:
+        - bearerAuth: []
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 分析成功
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/AudioAnalysisResponse'
+                  - $ref: '#/components/schemas/TextAnalysisResponse'
+              examples:
+                audioResponse:
+                  summary: 音声ファイルアップロード時のレスポンス
+                  value:
+                    transcript: "今日はとても良い一日でした。新しいプロジェクトが成功して、とても嬉しい気持ちです。"
+                    analysis:
+                      emotion: "Happy"
+                      title: "プロジェクト成功の喜び"
+                      summary: "新しいプロジェクトが成功し、喜びを感じている"
+                      advice: "成功を祝い、次の目標に向けて進みましょう"
+                textResponse:
+                  summary: テキスト分析時のレスポンス
+                  value:
+                    analysis:
+                      emotion: "Happy"
+                      title: "プロジェクト成功の喜び"
+                      summary: "新しいプロジェクトが成功し、喜びを感じている"
+                      advice: "成功を祝い、次の目標に向けて進みましょう"
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                missingFile:
+                  summary: 音声ファイルが提供されていない
+                  value:
+                    error: "音声ファイルが提供されていません"
+                invalidRequest:
+                  summary: 無効なリクエスト
+                  value:
+                    error: "無効なリクエストです。音声ファイル（multipart/form-data）またはtranscriptを含むJSONを送信してください。"
+        '405':
+          description: メソッドが許可されていない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "メソッド GET はサポートされていません。POSTメソッドを使用してください。"
+        '500':
+          description: サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                serverError:
+                  summary: サーバーエラー
+                  value:
+                    error: "予期しないエラーが発生しました"
+                apiKeyError:
+                  summary: APIキー未設定
+                  value:
+                    error: "OPENAI_API_KEYが設定されていません"
+                transcriptionError:
+                  summary: 音声変換エラー
+                  value:
+                    error: "音声変換に失敗しました (status: 400)"
+                analysisError:
+                  summary: 感情分析エラー
+                  value:
+                    error: "感情分析に失敗しました (status: 500)"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: SupabaseのAnon KeyをBearerトークンとして使用
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: apikey
+      description: SupabaseのAnon Keyをapikeyヘッダーとして使用
+
+  schemas:
+    TranscriptRequest:
+      type: object
+      required:
+        - transcript
+      properties:
+        transcript:
+          type: string
+          description: 分析するテキスト
+          example: "今日はとても良い一日でした。新しいプロジェクトが成功して、とても嬉しい気持ちです。"
+          minLength: 1
+
+    AnalysisPayload:
+      type: object
+      required:
+        - emotion
+        - title
+        - summary
+        - advice
+      properties:
+        emotion:
+          type: string
+          description: 感情カテゴリー
+          enum:
+            - Happy
+            - Calm
+            - Neutral
+            - Sad
+            - Angry
+            - Hurt
+            - Overwhelmed
+          example: "Happy"
+        title:
+          type: string
+          description: タイトル
+          example: "プロジェクト成功の喜び"
+        summary:
+          type: string
+          description: 要約
+          example: "新しいプロジェクトが成功し、喜びを感じている"
+        advice:
+          type: string
+          description: アドバイス
+          example: "成功を祝い、次の目標に向けて進みましょう"
+
+    AudioAnalysisResponse:
+      type: object
+      required:
+        - transcript
+        - analysis
+      properties:
+        transcript:
+          type: string
+          description: 音声から変換されたテキスト
+          example: "今日はとても良い一日でした。新しいプロジェクトが成功して、とても嬉しい気持ちです。"
+        analysis:
+          $ref: '#/components/schemas/AnalysisPayload'
+
+    TextAnalysisResponse:
+      type: object
+      required:
+        - analysis
+      properties:
+        analysis:
+          $ref: '#/components/schemas/AnalysisPayload'
+
+    TranscribeResponse:
+      type: object
+      required:
+        - transcript
+      properties:
+        transcript:
+          type: string
+          description: 音声から変換されたテキスト
+          example: "今日はとても良い一日でした。新しいプロジェクトが成功して、とても嬉しい気持ちです。"
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: エラーメッセージ
+          example: "無効なリクエストです"
+
+tags:
+  - name: Transcription
+    description: 音声をテキストに変換するエンドポイント
+  - name: Analysis
+    description: テキストから感情分析を実行するエンドポイント
+  - name: Voice Journal
+    description: 音声ジャーナルの感情分析に関するエンドポイント（統合、後方互換性のため）
