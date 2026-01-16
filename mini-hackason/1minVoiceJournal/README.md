@@ -35,3 +35,22 @@
      ```
 
 `Secrets.xcconfig` は `.gitignore` で除外済みです。
+
+## 🖼 スクリーンショット（App Store用）
+
+App Store Connect が受け付ける iPhone スクリーンショットは以下のサイズです。
+
+- 1242 × 2688（iPhone 11 Pro Max / XS Max）
+- 1284 × 2778（iPhone 12/13/14 Pro Max）
+
+手元のスクリーンショットが別サイズ（例: 1290 × 2796）の場合は、以下のコマンドで変換できます。
+
+```bash
+sips -z 2778 1284 /path/to/home.png --out /path/to/home-1284x2778.png
+```
+
+1242 × 2688 に変換する場合:
+
+```bash
+sips -z 2688 1242 /path/to/home.png --out /path/to/home-1242x2688.png
+```
