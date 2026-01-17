@@ -145,6 +145,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8456E3922EE52F9B00DA84DE /* Build configuration list for PBXNativeTarget "oneMinVoiceJournal" */;
 			buildPhases = (
+				849AC2FB2F1B967E0071747A /* ShellScript */,
 				8456E3802EE52F9900DA84DE /* Sources */,
 				8456E3812EE52F9900DA84DE /* Frameworks */,
 				8456E3822EE52F9900DA84DE /* Resources */,
@@ -241,6 +242,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		849AC2FB2F1B967E0071747A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -n \"${APP_CLIENT_KEY}\" ] && [ -n \"${SUPABASE_ANON_KEY}\" ]; then\n　mkdir -p \"${SRCROOT}/oneMinVoiceJournal/Config\"\n　cat > \"${SRCROOT}/oneMinVoiceJournal/Config/Secrets.xcconfig\" <<EOF\nSLASH = /\nAPI_BASE_URL = https:\\$(SLASH)\\$(SLASH)hykitfawzlsnmatiyqdq.supabase.co/functions/v1\nAPP_CLIENT_KEY = ${APP_CLIENT_KEY}\nSUPABASE_ANON_KEY = ${SUPABASE_ANON_KEY}\nEOF\nfi\n\nexit 0\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8456E3802EE52F9900DA84DE /* Sources */ = {
