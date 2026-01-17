@@ -1,7 +1,5 @@
-SLASH = /
-
-API_BASE_URL = https:$(SLASH)$(SLASH)example.invalid
-APP_CLIENT_KEY =
-SUPABASE_ANON_KEY =
+API_BASE_URL = $(API_BASE_URL)
+APP_CLIENT_KEY = $(APP_CLIENT_KEY)
+SUPABASE_ANON_KEY = $(SUPABASE_ANON_KEY)
 
 #include? "Secrets.xcconfig"
