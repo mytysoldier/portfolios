@@ -1,3 +1,7 @@
+anthropic
 google-generativeai
+langchain
 langsmith
+openai
 python-dotenv
+streamlit
