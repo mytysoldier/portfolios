@@ -1,8 +1,46 @@
+import os
 import streamlit as st
+from dotenv import load_dotenv
 from llm import call_llm
 
 
+def setup_langsmith_tracing() -> None:
+    load_dotenv()
+
+    api_key = os.getenv("LANGSMITH_API_KEY") or os.getenv("LANGCHAIN_API_KEY")
+    project = os.getenv("LANGSMITH_PROJECT_NAME") or os.getenv("LANGCHAIN_PROJECT")
+    endpoint = os.getenv("LANGSMITH_ENDPOINT") or os.getenv("LANGCHAIN_ENDPOINT")
+    tracing_flag = os.getenv("LANGSMITH_TRACING") or os.getenv("LANGCHAIN_TRACING_V2")
+
+    def _parse_bool(value: str | None) -> bool | None:
+        if value is None:
+            return None
+        normalized = value.strip().lower()
+        if normalized in {"1", "true", "yes", "on"}:
+            return True
+        if normalized in {"0", "false", "no", "off"}:
+            return False
+        return None
+
+    tracing_enabled = _parse_bool(tracing_flag)
+
+    if api_key:
+        os.environ.setdefault("LANGCHAIN_API_KEY", api_key)
+
+    if tracing_enabled is True or (tracing_enabled is None and api_key):
+        os.environ["LANGCHAIN_TRACING_V2"] = "true"
+    elif tracing_enabled is False:
+        os.environ["LANGCHAIN_TRACING_V2"] = "false"
+
+    if project:
+        os.environ.setdefault("LANGCHAIN_PROJECT", project)
+
+    if endpoint:
+        os.environ.setdefault("LANGCHAIN_ENDPOINT", endpoint)
+
+
 def main() -> None:
+    setup_langsmith_tracing()
     st.set_page_config(page_title="LangSmith + LLM App", page_icon="🧪")
     st.title("LangSmith + LLM App")
     st.caption("プロンプトとモデルを選択して実行します。")
@@ -60,6 +98,8 @@ def main() -> None:
                     prompt=prompt,
                     llm_api=llm_api,
                     model_name=model,
+                    metadata={"ui": "streamlit", "llm_api": llm_api, "model": model},
+                    tags=["streamlit"],
                 )
             except Exception as e:
                 st.error(str(e))
