@@ -39,6 +39,9 @@ streamlit run app.py
 - LangSmith のトレースは自動有効化され、`invoke()` の run が記録されます。
 - チェーンは「回答作成 → 整形（要点/詳細）」の2段構成です。
 
+## SDKの単体呼び出し例
+LangChain を使わずに各SDKで直接呼ぶ例は `llm/sdk_examples` に置いてあります。
+
 ## トレースについて
 - Flow（Mermaid）
 ```mermaid
