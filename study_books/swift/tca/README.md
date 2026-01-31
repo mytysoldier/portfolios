@@ -28,3 +28,14 @@ TCAを深く理解し、実践的なアプリケーションを構築できる�
 ## 各教材について
 
 各教材は独立して学習できるようになっています。各フォルダ内のREADMEを参照してください。
+
+---
+
+## 教材情報
+
+- **作成日**: 2026年1月
+- **参考情報**:
+  - [TCA公式ドキュメント](https://github.com/pointfreeco/swift-composable-architecture)
+  - [Point-FreeのTCAシリーズ](https://www.pointfree.co/collections/composable-architecture)
+  - [Swift公式ドキュメント](https://www.swift.org/documentation/)
+  - [SwiftUI公式ドキュメント](https://developer.apple.com/xcode/swiftui/)

@@ -65,3 +65,14 @@ dependencies: [
 ## 次のステップ
 
 1時間版を完了したら、より詳細な学習のために[3時間版](../3hours/README.md)に進むことをお勧めします。
+
+---
+
+## 教材情報
+
+- **作成日**: 2026年1月
+- **参考情報**:
+  - [TCA公式ドキュメント](https://github.com/pointfreeco/swift-composable-architecture)
+  - [Point-FreeのTCAシリーズ](https://www.pointfree.co/collections/composable-architecture)
+  - [Swift公式ドキュメント](https://www.swift.org/documentation/)
+  - [SwiftUI公式ドキュメント](https://developer.apple.com/xcode/swiftui/)
