@@ -227,7 +227,7 @@ struct CounterApp: App {
 - `Store(initialState:reducer:)`でStoreを作成
 - 初期状態として`CounterState()`を指定
 - Reducerとして`CounterReducer()`のインスタンスを指定
-- 新しいAPIでは、Environmentパラメータは不要（必要に応じてReducer内で定義）
+- Environmentパラメータは不要（必要に応じてReducer内で定義）
 
 ## 完成したプロジェクト構成
 

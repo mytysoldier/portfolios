@@ -190,7 +190,7 @@ Reducerは、Actionを受け取り、現在のStateを新しいStateに変換す
 
 #### Reducerの実装パターン
 
-新しいTCAでは、`struct`で`Reducer`プロトコルに準拠します：
+TCAでは、`struct`で`Reducer`プロトコルに準拠します：
 
 ```swift
 struct CounterReducer: Reducer {
