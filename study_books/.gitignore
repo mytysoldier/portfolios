@@ -1,0 +1,24 @@
+# 演習用ワークディレクトリ
+swift/tca/1hour/workspace/
+swift/tca/3hours/workspace/
+
+# Xcode関連
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+*.swiftpm/
+
+# ビルド成果物
+*.app
+*.framework
+*.dSYM
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# その他
+.DS_Store
+*.swp
+*.swo
+*~
