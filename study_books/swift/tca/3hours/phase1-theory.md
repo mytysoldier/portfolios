@@ -49,14 +49,29 @@ TCAでは、Stateは不変（immutable）として扱われます。Stateを変�
 
 ```swift
 // TCAのReducer（内部的には可変だが、概念的には不変）
-let reducer = Reducer<State, Action, Void> { state, action, _ in
-    switch action {
-    case .increment:
-        state.count += 1  // 内部的には可変だが、新しいStateとして扱う
-        return .none
+struct CounterReducer: Reducer {
+    struct State: Equatable {
+        var count: Int = 0
+    }
+    
+    enum Action: Equatable {
+        case increment
+    }
+    
+    func reduce(into state: inout State, action: Action) -> Effect<Action> {
+        switch action {
+        case .increment:
+            state.count += 1  // inoutで参照渡しだが、概念的には新しいStateとして扱う
+            return .none
+        }
     }
 }
 ```
+
+**ポイント**:
+- `inout`キーワードでStateを参照渡しにしているが、概念的には不変として扱う
+- TCAが内部的にStateの変更を検知し、新しいStateとして扱う
+- これにより、状態変更の追跡とデバッグが容易になる
 
 #### 3. 関数の合成（Function Composition）
 
@@ -64,14 +79,39 @@ let reducer = Reducer<State, Action, Void> { state, action, _ in
 
 ```swift
 // 小さなReducer
-let counterReducer = Reducer<CounterState, CounterAction, Void> { ... }
-let todoReducer = Reducer<TodoState, TodoAction, Void> { ... }
+struct CounterReducer: Reducer { ... }
+struct TodoReducer: Reducer { ... }
 
 // 組み合わせたReducer
-let appReducer = Reducer.combine(
-    counterReducer,
-    todoReducer
-)
+struct AppReducer: Reducer {
+    var body: some Reducer<AppState, AppAction> {
+        Reduce { state, action in
+            // アプリ全体のロジック
+            return .none
+        }
+        .ifLet(\.counter, action: /AppAction.counter) {
+            CounterReducer()
+        }
+        .ifLet(\.todo, action: /AppAction.todo) {
+            TodoReducer()
+        }
+    }
+}
+```
+
+または、`Scope`を使って合成することもできます：
+
+```swift
+struct AppReducer: Reducer {
+    var body: some Reducer<AppState, AppAction> {
+        Scope(state: \.counter, action: /AppAction.counter) {
+            CounterReducer()
+        }
+        Scope(state: \.todo, action: /AppAction.todo) {
+            TodoReducer()
+        }
+    }
+}
 ```
 
 ## State、Action、Reducerの詳細
@@ -148,50 +188,63 @@ enum AppAction: Equatable {
 
 Reducerは、Actionを受け取り、現在のStateを新しいStateに変換する純粋関数です。
 
-#### Reducerの型シグネチャ
-
-```swift
-Reducer<State, Action, Environment>
-```
-
-- **State**: 管理する状態の型
-- **Action**: 処理するアクションの型
-- **Environment**: 依存関係（API、スケジューラーなど）
-
 #### Reducerの実装パターン
 
+新しいTCAでは、`struct`で`Reducer`プロトコルに準拠します：
+
 ```swift
-let counterReducer = Reducer<CounterState, CounterAction, CounterEnvironment> { 
-    state, action, environment in
+struct CounterReducer: Reducer {
+    struct State: Equatable {
+        var count: Int = 0
+        var step: Int = 1
+        var errorMessage: String?
+    }
     
-    switch action {
-    case .increment:
-        state.count += 1
-        return .none
-        
-    case .decrement:
-        state.count -= 1
-        return .none
-        
-    case .reset:
-        state.count = 0
-        return .none
-        
-    case .setStep(let step):
-        state.step = step
-        return .none
-        
-    case .loadCount(let result):
-        switch result {
-        case .success(let count):
-            state.count = count
-        case .failure(let error):
-            state.errorMessage = error.localizedDescription
+    enum Action: Equatable {
+        case increment
+        case decrement
+        case reset
+        case setStep(Int)
+        case loadCount(Result<Int, Error>)
+    }
+    
+    func reduce(into state: inout State, action: Action) -> Effect<Action> {
+        switch action {
+        case .increment:
+            state.count += 1
+            return .none
+            
+        case .decrement:
+            state.count -= 1
+            return .none
+            
+        case .reset:
+            state.count = 0
+            return .none
+            
+        case .setStep(let step):
+            state.step = step
+            return .none
+            
+        case .loadCount(let result):
+            switch result {
+            case .success(let count):
+                state.count = count
+            case .failure(let error):
+                state.errorMessage = error.localizedDescription
+            }
+            return .none
         }
-        return .none
     }
 }
 ```
+
+**ポイント**:
+- `struct CounterReducer: Reducer`でReducerプロトコルに準拠
+- `State`と`Action`をReducer内に定義するか、`typealias`で別ファイルの型を参照
+- `reduce(into:action:)`メソッドで状態を更新
+- `inout`キーワードでStateを参照渡し（効率的に更新可能）
+- 戻り値は`Effect<Action>`型
 
 ## 一方向データフロー
 
@@ -225,11 +278,17 @@ User Interaction (ループ)
 Storeは、StateとReducerを保持し、Actionを処理するオブジェクトです。
 
 ```swift
-let store = Store(
-    initialState: CounterState(count: 0),
-    reducer: counterReducer,
-    environment: CounterEnvironment()
-)
+let store = Store(initialState: CounterReducer.State()) {
+    CounterReducer()
+}
+```
+
+または、`StoreOf`を使用：
+
+```swift
+let store: StoreOf<CounterReducer> = Store(initialState: CounterReducer.State()) {
+    CounterReducer()
+}
 ```
 
 ### ViewStore
@@ -237,11 +296,17 @@ let store = Store(
 ViewStoreは、ViewがStoreと対話するためのインターフェースです。
 
 ```swift
-WithViewStore(self.store) { viewStore in
+WithViewStore(self.store, observe: { $0 }) { viewStore in
     // viewStore.send(.action) でActionを送信
-    // viewStore.state でStateにアクセス
+    // viewStore.count でStateにアクセス
+    Text("Count: \(viewStore.count)")
 }
 ```
+
+**ポイント**:
+- `observe`パラメータで、どの部分のStateを観察するかを指定
+- `observe: { $0 }`でState全体を観察
+- 特定のプロパティのみを観察する場合は`observe: \.count`のように指定可能
 
 ## まとめ
 
