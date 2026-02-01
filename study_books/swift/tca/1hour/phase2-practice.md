@@ -22,11 +22,37 @@
 3. Version: 最新の安定版を選択
 4. Add to Target: CounterApp
 
+### 3. ディレクトリ構成
+
+TCAのベストプラクティスに基づいた推奨ディレクトリ構成は以下の通りです：
+
+```
+CounterApp/
+├── CounterApp/
+│   ├── App.swift                    # アプリのエントリーポイント
+│   └── Features/                    # 機能ごとにフォルダを分ける
+│       └── Counter/                 # Counter機能
+│           ├── CounterView.swift     # View
+│           ├── CounterState.swift   # State
+│           ├── CounterAction.swift  # Action
+│           └── CounterReducer.swift  # Reducer
+```
+
+**構成のポイント**:
+- `Features/`フォルダで機能ごとに整理
+- 各機能（Counter）を独立したフォルダに配置
+- State、Action、Reducer、Viewを同じフォルダに配置して関連性を明確化
+- 将来的に機能が増えても拡張しやすい構造
+
+**注意**: この構成は推奨ですが、プロジェクトの規模やチームの方針に応じて調整してください。小規模なプロジェクトの場合は、`Features/`フォルダを省略して直接`Counter/`フォルダを作成しても問題ありません。
+
 ## 実装手順
 
-### Step 1: Stateの定義
+以下の手順で、上記のディレクトリ構成に従ってファイルを作成していきます。
 
-`CounterState.swift`を作成します：
+### Step 1: ディレクトリとStateの定義
+
+まず、`Features/Counter/`フォルダを作成し、その中に`CounterState.swift`を作成します：
 
 ```swift
 import Foundation
@@ -42,7 +68,7 @@ struct CounterState: Equatable {
 
 ### Step 2: Actionの定義
 
-`CounterAction.swift`を作成します：
+`Features/Counter/CounterAction.swift`を作成します：
 
 ```swift
 enum CounterAction: Equatable {
@@ -58,47 +84,56 @@ enum CounterAction: Equatable {
 
 ### Step 3: Reducerの実装
 
-`CounterReducer.swift`を作成します：
+`Features/Counter/CounterReducer.swift`を作成します：
 
 ```swift
 import ComposableArchitecture
 
-let counterReducer = Reducer<CounterState, CounterAction, Void> { state, action, _ in
-    switch action {
-    case .increment:
-        state.count += 1
-        return .none
+struct CounterReducer: Reducer {
+    typealias State = CounterState
+    typealias Action = CounterAction
+    
+    func reduce(into state: inout State, action: Action) -> Effect<Action> {
+        switch action {
+        case .increment:
+            state.count += 1
+            return .none
+            
+        case .decrement:
+            state.count -= 1
+            return .none
         
-    case .decrement:
-        state.count -= 1
-        return .none
-        
-    case .reset:
-        state.count = 0
-        return .none
+        case .reset:
+            state.count = 0
+            return .none
+        }
     }
 }
 ```
 
 **ポイント**:
-- `Reducer`は3つの型パラメータを取る: `State`, `Action`, `Environment`
-- 今回はEnvironmentは使わないので`Void`を指定
-- Actionに応じてStateを更新
-- 副作用がない場合は`.none`を返す
+- `struct CounterReducer: Reducer`でReducerプロトコルに準拠
+- `typealias`を使って、別ファイルで定義した`CounterState`と`CounterAction`を参照
+  - `typealias State = CounterState`で、Reducer内の`State`が`CounterState`を指すように定義
+  - `typealias Action = CounterAction`で、Reducer内の`Action`が`CounterAction`を指すように定義
+- `reduce(into:action:)`メソッドで状態を更新
+- `inout`キーワードでStateを参照渡し（関数内で直接変更可能、パフォーマンスが良い）
+- 戻り値は`Effect<Action>`型で、副作用がない場合は`.none`を返す
+  - `Effect`は非同期処理やAPI呼び出しなどの副作用を表す型（今回は使用しない）
 
 ### Step 4: Viewの実装
 
-`CounterView.swift`を作成します：
+`Features/Counter/CounterView.swift`を作成します：
 
 ```swift
 import SwiftUI
 import ComposableArchitecture
 
 struct CounterView: View {
-    let store: Store<CounterState, CounterAction>
+    let store: StoreOf<CounterReducer>
     
     var body: some View {
-        WithViewStore(self.store) { viewStore in
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
             VStack(spacing: 20) {
                 Text("Count: \(viewStore.count)")
                     .font(.largeTitle)
@@ -133,17 +168,42 @@ struct CounterView: View {
         }
     }
 }
+
+#Preview {
+    CounterView(
+        store: Store(initialState: CounterState()) {
+            CounterReducer()
+        }
+    )
+}
 ```
 
 **ポイント**:
-- `Store`をViewに渡す
-- `WithViewStore`を使って、StoreからViewStoreを取得
+- `StoreOf<CounterReducer>`を使用（Reducerから自動的にStateとActionの型を推論）
+- `WithViewStore`の`observe`パラメータで、どの部分のStateを観察するかを指定
+- `observe: { $0 }`でState全体を観察
 - `viewStore.send()`でActionを送信
 - `viewStore.count`でStateを読み取り
+- `#Preview`でXcodeのプレビュー機能を使用可能（Xcode 15以降）
+  - プレビューでViewの見た目を確認しながら開発できる
+  - Storeを作成してCounterViewに渡す
 
 ### Step 5: Appの統合
 
-`CounterApp.swift`（または`App.swift`）を更新します：
+プロジェクトのルートにある`CounterApp.swift`（または`App.swift`）を更新します：
+
+**ファイル構成の確認**:
+```
+CounterApp/
+├── CounterApp/
+│   ├── App.swift                    ← ここを更新
+│   └── Features/
+│       └── Counter/
+│           ├── CounterView.swift
+│           ├── CounterState.swift
+│           ├── CounterAction.swift
+│           └── CounterReducer.swift
+```
 
 ```swift
 import SwiftUI
@@ -154,11 +214,9 @@ struct CounterApp: App {
     var body: some Scene {
         WindowGroup {
             CounterView(
-                store: Store(
-                    initialState: CounterState(),
-                    reducer: counterReducer,
-                    environment: ()
-                )
+                store: Store(initialState: CounterState()) {
+                    CounterReducer()
+                }
             )
         }
     }
@@ -166,8 +224,33 @@ struct CounterApp: App {
 ```
 
 **ポイント**:
-- `Store`を作成し、初期状態とReducerを指定
-- Environmentは`()`（Void）を指定
+- `Store(initialState:reducer:)`でStoreを作成
+- 初期状態として`CounterState()`を指定
+- Reducerとして`CounterReducer()`のインスタンスを指定
+- 新しいAPIでは、Environmentパラメータは不要（必要に応じてReducer内で定義）
+
+## 完成したプロジェクト構成
+
+実装が完了すると、以下のようなディレクトリ構成になります：
+
+```
+CounterApp/
+├── CounterApp/
+│   ├── App.swift                    ✅ 完成
+│   └── Features/
+│       └── Counter/
+│           ├── CounterView.swift     ✅ 完成
+│           ├── CounterState.swift   ✅ 完成
+│           ├── CounterAction.swift  ✅ 完成
+│           └── CounterReducer.swift ✅ 完成
+└── CounterApp.xcodeproj/
+```
+
+この構成により、以下のメリットが得られます：
+- **機能の独立性**: Counter機能が独立したフォルダにまとまっている
+- **拡張性**: 新しい機能（例: Todo機能）を追加する際は、`Features/Todo/`フォルダを作成するだけ
+- **保守性**: 関連するファイルが同じ場所にあるため、見つけやすく修正しやすい
+- **スケーラビリティ**: プロジェクトが大きくなっても構造が明確
 
 ## 実行と確認
 
