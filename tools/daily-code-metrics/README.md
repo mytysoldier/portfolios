@@ -43,6 +43,13 @@ python -m pip install -r requirements.txt
 python visualize_metrics.py
 ```
 
+集計単位の指定（デフォルトは日次）:
+```bash
+python visualize_metrics.py --granularity daily
+python visualize_metrics.py --granularity weekly
+python visualize_metrics.py --granularity monthly
+```
+
 カスタム出力先の例:
 ```bash
 python visualize_metrics.py --plots-dir output/report/custom
