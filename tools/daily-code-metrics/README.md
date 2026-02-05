@@ -26,6 +26,28 @@ cp .env.sample .env
 ./collect_daily_code.sh 2026-02-04 "email1|email2"
 ```
 
+## 可視化（Python + venv）
+matplotlib でグラフを出力します。出力先は `output/report/YYYY-MM-DD/` です。
+
+```bash
+# venv を作成
+python -m venv .venv
+
+# venv を有効化
+source .venv/bin/activate
+
+# 依存をインストール
+python -m pip install -r requirements.txt
+
+# グラフ出力
+python visualize_metrics.py
+```
+
+カスタム出力先の例:
+```bash
+python visualize_metrics.py --plots-dir output/report/custom
+```
+
 ## 出力
 出力先:
 

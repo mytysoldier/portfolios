@@ -1,2 +1,4 @@
 *
 !.gitignore
+!report/
+!report/.gitkeep
