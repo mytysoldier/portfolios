@@ -24,6 +24,14 @@ cp .env.sample .env
 
 # 日付と author を指定（正規表現可）
 ./collect_daily_code.sh 2026-02-04 "email1|email2"
+
+# 日付と author を複数指定（カンマ区切り）
+./collect_daily_code.sh 2026-02-04 "email1,email2"
+
+# ローカルの未コミット差分も集計したい場合は以下を含める
+# - ワークツリーの変更
+# - ステージング済みの変更
+# - 未追跡ファイル
 ```
 
 ## 可視化（Python + venv）
