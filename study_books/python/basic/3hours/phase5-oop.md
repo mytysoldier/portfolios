@@ -256,6 +256,71 @@ class SavingsAccount(BankAccount):
 2. `Shape` 基底クラスと、`Circle`、`Rectangle` サブクラスでポリモーフィズムを実装する
 3. ジェネレータでフィボナッチ数列を無限に生成する
 
+<details>
+<summary>解答例</summary>
+
+**1. Rectangle クラス**
+
+```python
+class Rectangle:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+
+r = Rectangle(3, 4)
+print(r.area())       # 12
+print(r.perimeter())  # 14
+```
+
+**2. Shape とポリモーフィズム**
+
+```python
+class Shape:
+    def area(self):
+        raise NotImplementedError
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+    def area(self):
+        return 3.14159 * self.radius ** 2
+
+class Rectangle(Shape):
+    def __init__(self, w, h):
+        self.width, self.height = w, h
+
+    def area(self):
+        return self.width * self.height
+
+shapes = [Circle(2), Rectangle(3, 4)]
+for s in shapes:
+    print(s.area())
+```
+
+**3. フィボナッチジェネレータ**
+
+```python
+def fib():
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+
+# 最初の10個を取得
+for i, n in enumerate(fib()):
+    if i >= 10:
+        break
+    print(n, end=" ")
+```
+</details>
+
 ## まとめ
 
 - クラス: `class`、`__init__`、`self`、インスタンス変数

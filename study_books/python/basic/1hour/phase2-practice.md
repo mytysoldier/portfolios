@@ -198,9 +198,42 @@ print(f"最大値: {max(numbers)}")
 - `elif` を組み合わせる
 </details>
 
+<details>
+<summary>解答例</summary>
+
+```python
+for i in range(1, 21):
+    if i % 15 == 0:
+        print("FizzBuzz")
+    elif i % 3 == 0:
+        print("Fizz")
+    elif i % 5 == 0:
+        print("Buzz")
+    else:
+        print(i)
+```
+</details>
+
 ### 2. 合計計算機
 
 ユーザーが数値を入力し続け、空Enterで終了。入力された数値の合計を表示する。
+
+<details>
+<summary>解答例</summary>
+
+```python
+total = 0
+while True:
+    line = input("数値を入力（空Enterで終了）: ")
+    if line == "":
+        break
+    try:
+        total += float(line)
+    except ValueError:
+        print("数値を入力してください")
+print(f"合計: {total}")
+```
+</details>
 
 ### 3. リストのフィルタ
 
@@ -209,6 +242,22 @@ print(f"最大値: {max(numbers)}")
 ```python
 # 例: [1, 2, 3, 4, 5, 6] → [2, 4, 6]
 ```
+
+<details>
+<summary>解答例</summary>
+
+```python
+numbers = [1, 2, 3, 4, 5, 6]
+evens = [n for n in numbers if n % 2 == 0]
+print(evens)  # [2, 4, 6]
+
+# または for ループで
+evens = []
+for n in numbers:
+    if n % 2 == 0:
+        evens.append(n)
+```
+</details>
 
 ## まとめ
 

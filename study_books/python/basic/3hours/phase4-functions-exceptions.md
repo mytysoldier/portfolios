@@ -228,6 +228,53 @@ def read_lines(filename):
 2. ラムダを使ってリストをソートする
 3. 例外処理で堅牢な計算機（+,-,*,/）を作る
 
+<details>
+<summary>解答例</summary>
+
+**1. デフォルト引数とキーワード引数**
+
+```python
+def greet(name, greeting="Hello", punctuation="!"):
+    return f"{greeting}, {name}{punctuation}"
+
+print(greet("Alice"))                    # Hello, Alice!
+print(greet("Bob", greeting="Hi"))      # Hi, Bob!
+print(greet("Carol", punctuation="."))   # Hello, Carol.
+```
+
+**2. ラムダでソート**
+
+```python
+pairs = [(2, "two"), (1, "one"), (3, "three")]
+pairs.sort(key=lambda p: p[1])  # 2番目要素でソート
+print(pairs)  # [(1, 'one'), (3, 'three'), (2, 'two')]
+```
+
+**3. 例外処理付き計算機**
+
+```python
+while True:
+    try:
+        a = float(input("数値1: "))
+        op = input("演算子 (+, -, *, /): ")
+        b = float(input("数値2: "))
+        if op == "+":
+            print(a + b)
+        elif op == "-":
+            print(a - b)
+        elif op == "*":
+            print(a * b)
+        elif op == "/":
+            print(a / b if b != 0 else "ゼロ除算エラー")
+        else:
+            print("無効な演算子")
+    except ValueError:
+        print("数値を入力してください")
+    except KeyboardInterrupt:
+        break
+```
+</details>
+
 ## まとめ
 
 - 関数: `def`、`return`、デフォルト引数、*args、**kwargs

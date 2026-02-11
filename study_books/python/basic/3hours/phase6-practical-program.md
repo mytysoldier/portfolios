@@ -243,6 +243,34 @@ if __name__ == "__main__":
 2. タスクの編集（タイトル変更）機能を追加する
 3. 日付によるタスクの並び替えを実装する
 
+<details>
+<summary>解答例</summary>
+
+**1. タスク削除**: `TaskManager` に以下を追加
+
+```python
+def delete(self, index):
+    if 0 <= index < len(self.tasks):
+        self.tasks.pop(index)
+        self._save()
+```
+
+メインループに `case "delete"` を追加し、`idx = int(input("削除する番号: "))` で `manager.delete(idx)` を呼ぶ。
+
+**2. タスク編集**: `TaskManager` に以下を追加
+
+```python
+def update(self, index, new_title):
+    if 0 <= index < len(self.tasks):
+        self.tasks[index].title = new_title
+        self._save()
+```
+
+`Task` の `to_dict` で `title` を保存していることを確認。メインループで `update` コマンドを追加。
+
+**3. 日付による並び替え**: `Task` に `created_at` を追加し、`datetime` で保存。読み込み時に `sorted(key=lambda t: t.created_at)` で並び替える。または `TaskManager._load` で `datetime.fromisoformat()` を使って日付を復元し、`list_tasks` や保存時にソートする。
+</details>
+
 ## まとめ
 
 - **モジュール**: `import`、`from ... import`、`__name__`

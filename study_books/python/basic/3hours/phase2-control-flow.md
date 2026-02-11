@@ -184,6 +184,35 @@ for n in range(2, 30):
 2. **フィボナッチ数列**: 100未満のフィボナッチ数を全て出力する
 3. **ネストループ**: ピラミッド（`*` を使った三角形）を出力する
 
+<details>
+<summary>解答例</summary>
+
+**1. 九九表**
+
+```python
+for i in range(1, 10):
+    for j in range(1, 10):
+        print(f"{i * j:3}", end="")
+    print()
+```
+
+**2. フィボナッチ数列**
+
+```python
+a, b = 0, 1
+while a < 100:
+    print(a, end=" ")
+    a, b = b, a + b
+```
+
+**3. ピラミッド**
+
+```python
+for i in range(1, 6):
+    print(" " * (5 - i) + "*" * (2 * i - 1))
+```
+</details>
+
 ## まとめ
 
 - `if` / `elif` / `else` で条件分岐

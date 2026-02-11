@@ -226,6 +226,34 @@ print(f"合格者: {passed}, 平均: {average:.1f}")
 2. 辞書を使って学生名と成績を管理し、平均点を計算する
 3. リスト内包で1〜20の偶数の二乗のリストを作る
 
+<details>
+<summary>解答例</summary>
+
+**1. 共通要素をセットで求める**
+
+```python
+list1 = [1, 2, 3, 4, 5]
+list2 = [4, 5, 6, 7, 8]
+common = set(list1) & set(list2)
+print(common)  # {4, 5}
+```
+
+**2. 辞書で学生名と成績を管理、平均点を計算**
+
+```python
+scores = {"Alice": 85, "Bob": 92, "Carol": 78}
+average = sum(scores.values()) / len(scores)
+print(f"平均点: {average:.1f}")
+```
+
+**3. リスト内包で偶数の二乗**
+
+```python
+squares = [x**2 for x in range(1, 21) if x % 2 == 0]
+print(squares)  # [4, 16, 36, 64, 100, 144, 196, 256, 324, 400]
+```
+</details>
+
 ## まとめ
 
 - **リスト**: ミュータブル、`append`、スライス、内包表記
