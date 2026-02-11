@@ -17,6 +17,16 @@ DerivedData/
 .build/
 .swiftpm/
 
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+.eggs/
+
 # その他
 .DS_Store
 *.swp

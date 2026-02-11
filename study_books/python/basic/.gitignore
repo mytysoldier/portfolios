@@ -1,0 +1,3 @@
+# 演習用ファイルは無視し、tutorialフォルダ自体は空ディレクトリとして管理
+tutorial/*
+!tutorial/.gitkeep

@@ -31,6 +31,7 @@
 1. [Phase 1: Pythonの基本](./phase1-basics.md) を読んで理論を理解する
 2. [Phase 2: 実践](./phase2-practice.md) の例を実際にコードを書きながら進める
 3. 練習問題に取り組む
+4. 演習用のファイルは [tutorial](../tutorial/) フォルダ下に作成していく
 
 ## 前提知識
 
