@@ -268,7 +268,50 @@ def update(self, index, new_title):
 
 `Task` の `to_dict` で `title` を保存していることを確認。メインループで `update` コマンドを追加。
 
-**3. 日付による並び替え**: `Task` に `created_at` を追加し、`datetime` で保存。読み込み時に `sorted(key=lambda t: t.created_at)` で並び替える。または `TaskManager._load` で `datetime.fromisoformat()` を使って日付を復元し、`list_tasks` や保存時にソートする。
+**3. 日付による並び替え**: `Task` に `created_at` を追加し、`datetime` で保存。読み込み時に `datetime.fromisoformat()` で復元し、`sorted(key=lambda t: t.created_at)` で並び替える。
+
+```python
+# Task クラスの修正
+from datetime import datetime
+
+class Task:
+    def __init__(self, title, done=False, created_at=None):
+        self.title = title
+        self.done = done
+        self.created_at = created_at or datetime.now()
+
+    def __str__(self):
+        status = "✓" if self.done else " "
+        return f"[{status}] {self.title}"
+
+    def to_dict(self):
+        return {
+            "title": self.title,
+            "done": self.done,
+            "created_at": self.created_at.isoformat(),
+        }
+
+    @classmethod
+    def from_dict(cls, d):
+        created_at = d.get("created_at")
+        if created_at:
+            created_at = datetime.fromisoformat(created_at)
+        return cls(d["title"], d.get("done", False), created_at)
+```
+
+```python
+# TaskManager._load の修正（読み込み時に日付でソート）
+def _load(self):
+    if self.filename.exists():
+        with open(self.filename, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            tasks = [Task.from_dict(t) for t in data]
+            tasks.sort(key=lambda t: t.created_at)
+            return tasks
+    return []
+```
+
+既存のタスク（`created_at` がない）には `from_dict` で `created_at=None` を渡すと `datetime.now()` が使われる。新規タスクは `add` で `Task(title)` を作る際に自動で `created_at` が設定される。
 </details>
 
 ## まとめ
