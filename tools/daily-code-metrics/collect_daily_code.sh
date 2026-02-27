@@ -239,3 +239,6 @@ printf "%s,%d,%d,%d\n" "$DATE" "$total_add" "$total_del" "$total_touched" >> "$O
 
 echo "Wrote $OUT_DETAIL_CSV"
 echo "Wrote $OUT_SUMMARY_CSV"
+
+# 全日付のCSVを統合（Grafana用）
+"${SCRIPT_DIR}/aggregate_csv.sh"

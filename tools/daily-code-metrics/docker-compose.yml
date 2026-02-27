@@ -1,0 +1,22 @@
+services:
+  csv-server:
+    image: nginx:alpine
+    container_name: daily-code-metrics-csv
+    volumes:
+      - ./output/aggregated:/usr/share/nginx/html:ro
+    expose:
+      - "80"
+
+  grafana:
+    build: ./grafana
+    container_name: daily-code-metrics-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - csv-server
+    restart: unless-stopped
