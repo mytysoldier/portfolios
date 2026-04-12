@@ -1,9 +1,0 @@
-# 件名に含まれると JUNK
-セール
-sale
-キャンペーン
-おすすめ
-
-# From に含まれると JUNK
-noreply
-info

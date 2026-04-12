@@ -1,11 +1,6 @@
 import type { Mail } from "./types";
 import { getAuth } from "./auth/google";
-import {
-  loadKeywordLines,
-  loadTextFileRequired,
-  resolveRulePath,
-} from "./rules/load";
-import { isJunk } from "./rules/keyword";
+import { loadTextFileIfExists, resolveRulePath } from "./rules/load";
 import { classifyJunkBatchWithOpenAI } from "./openai/classify";
 import {
   batchApplyJunkLabels,
@@ -16,26 +11,7 @@ import {
 import { sendSlackDmReport } from "./slack/report";
 
 export async function main() {
-  const mode = (process.env.CLASSIFY_MODE ?? "keyword").toLowerCase();
-  const useAi = mode === "ai" || mode === "openai";
-
-  let whitelist: string[] = [];
-  let blacklist: string[] = [];
-  let aiInstructions = "";
-
-  if (useAi) {
-    const promptPath =
-      process.env.CLASSIFY_PROMPT_PATH ??
-      resolveRulePath("classify-prompt.txt");
-    aiInstructions = loadTextFileRequired(promptPath);
-  } else {
-    const whitelistPath =
-      process.env.WHITELIST_PATH ?? resolveRulePath("whitelist.txt");
-    const blacklistPath =
-      process.env.BLACKLIST_PATH ?? resolveRulePath("blacklist.txt");
-    whitelist = loadKeywordLines(whitelistPath);
-    blacklist = loadKeywordLines(blacklistPath);
-  }
+  const aiInstructions = resolveAiClassifyPrompt();
 
   const auth = getAuth();
   const messages = await listMessages(auth);
@@ -53,13 +29,13 @@ export async function main() {
   const trashOnJunk = isTruthyEnv(process.env.GMAIL_TRASH_ON_JUNK);
 
   console.log(`対象メール数: ${mails.length}`);
-  console.log(`判定モード: ${useAi ? "ai (OpenAI・1 回バッチ)" : "keyword"}`);
+  console.log(`判定: OpenAI（1 回バッチ）`);
   console.log(
     `JUNK をゴミ箱へ移動: ${trashOnJunk ? "有効 (GMAIL_TRASH_ON_JUNK)" : "無効"}`,
   );
 
   let junkById = new Map<string, boolean>();
-  if (useAi && mails.length > 0) {
+  if (mails.length > 0) {
     junkById = await classifyJunkBatchWithOpenAI(mails, aiInstructions);
   }
 
@@ -70,9 +46,7 @@ export async function main() {
     console.log(`\n件名: ${mail.subject}`);
     console.log(`From: ${mail.from}`);
 
-    const junk = useAi
-      ? (junkById.get(mail.id) ?? false)
-      : isJunk(mail, whitelist, blacklist);
+    const junk = junkById.get(mail.id) ?? false;
 
     if (junk) {
       console.log("→ JUNK判定");
@@ -96,7 +70,7 @@ export async function main() {
   }
 
   await sendSlackDmReport({
-    modeLabel: useAi ? "AI" : "keyword",
+    modeLabel: "AI",
     labeledJunk,
     kept,
     moveJunkToTrash: trashOnJunk,
@@ -107,4 +81,18 @@ function isTruthyEnv(v: string | undefined): boolean {
   if (!v) return false;
   const s = v.trim().toLowerCase();
   return s === "1" || s === "true" || s === "yes" || s === "on";
+}
+
+/** 優先順: CLASSIFY_PROMPT → classify-prompt.txt（任意）。無ければ空の指示。 */
+function resolveAiClassifyPrompt(): string {
+  const inline = process.env.CLASSIFY_PROMPT?.trim();
+  if (inline) return inline;
+
+  const promptPath =
+    process.env.CLASSIFY_PROMPT_PATH ??
+    resolveRulePath("classify-prompt.txt");
+  const fromFile = loadTextFileIfExists(promptPath);
+  if (fromFile) return fromFile;
+
+  return "";
 }
