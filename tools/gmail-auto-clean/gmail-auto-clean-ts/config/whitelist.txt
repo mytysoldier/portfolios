@@ -1,0 +1,9 @@
+# From に含まれると JUNK にしない（部分一致・大文字小文字無視）
+amazon
+yamato
+github
+
+# 件名に含まれると JUNK にしない
+ランニング
+マラソン
+run

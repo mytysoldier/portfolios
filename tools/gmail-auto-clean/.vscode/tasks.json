@@ -1,0 +1,49 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "gmail-auto-clean: run (dist)",
+      "type": "shell",
+      "command": "npm run build && npm run start",
+      "options": {
+        "cwd": "${workspaceFolder}/gmail-auto-clean-ts"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "gmail-auto-clean: dev (ts-node)",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/gmail-auto-clean-ts"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "gmail-auto-clean: get refresh token",
+      "type": "shell",
+      "command": "npm run get-token",
+      "options": {
+        "cwd": "${workspaceFolder}/gmail-auto-clean-ts"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
