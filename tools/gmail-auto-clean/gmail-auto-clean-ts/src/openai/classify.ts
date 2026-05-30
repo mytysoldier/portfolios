@@ -34,7 +34,7 @@ async function openAiChatJson(
   if (!apiKey) {
     throw new Error("AI モードには OPENAI_API_KEY が必要です");
   }
-  const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
+  const model = process.env.OPENAI_MODEL?.trim() || "gpt-4o-mini";
 
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
