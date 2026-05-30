@@ -69,6 +69,12 @@ npm run start
 
 `node src/index.ts` は使わず、上記の npm スクリプトを使ってください。
 
+### GitHub Actions（4 時間ごと）
+
+リポジトリ直下の [`.github/workflows/gmail_auto_clean.yml`](../../../.github/workflows/gmail_auto_clean.yml) で、**UTC の 0 / 4 / 8 / 12 / 16 / 20 時**（4 時間ごと）に実行されます。日本時間（JST）では **9 / 13 / 17 / 21 / 1 / 5 時**です。
+
+リポジトリの **Settings → Secrets and variables → Actions** に、上記の必須環境変数（および任意の Slack 等）を Secret として登録してください。手動実行は Actions タブの **Run workflow** から可能です。
+
 ## 動作の概要
 
 1. **受信トレイの未読**（最大 30 件）を取得し、件名・From を読む。

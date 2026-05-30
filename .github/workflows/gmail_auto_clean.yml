@@ -1,0 +1,48 @@
+name: Gmail Auto Clean
+
+on:
+  schedule:
+    # UTC の 0, 4, 8, 12, 16, 20 時（4 時間ごと）
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools/gmail-auto-clean/gmail-auto-clean-ts
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: tools/gmail-auto-clean/gmail-auto-clean-ts/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Run gmail auto clean
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+          CLASSIFY_PROMPT: ${{ secrets.CLASSIFY_PROMPT }}
+          CLASSIFY_PROMPT_PATH: ${{ secrets.CLASSIFY_PROMPT_PATH }}
+          GMAIL_TRASH_ON_JUNK: ${{ secrets.GMAIL_TRASH_ON_JUNK }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: ${{ secrets.SLACK_DM_USER_ID }}
+          SLACK_USER_ID: ${{ secrets.SLACK_USER_ID }}
+          SLACK_NOTIFY_EMAIL: ${{ secrets.SLACK_NOTIFY_EMAIL }}
+        run: npm run start
