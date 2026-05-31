@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.python-version.local
+uv.lock
+.fastapicloud/
+*.egg-info/
+.dist/
+.pytest_cache/
