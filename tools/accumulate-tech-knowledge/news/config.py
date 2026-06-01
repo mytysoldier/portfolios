@@ -45,7 +45,7 @@ def get_news_candidate_max() -> int:
 
 
 def get_api_key() -> str:
-    raw = os.getenv("OPENAI_API_KEY", "").strip()
+    raw = os.getenv("API_KEY", "").strip()
     if not raw:
         raise ValueError("API_KEY is not configured")
     return raw

@@ -1,0 +1,33 @@
+name: Accumulate Tech Knowledge News
+
+on:
+  schedule:
+    # JST 7:00 → UTC 22:00（前日扱いの UTC 日付に注意）
+    - cron: "0 22 * * *"
+    # JST 19:00 → UTC 10:00
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+
+jobs:
+  fetch-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call GET /news on FastAPI Cloud
+        env:
+          API_KEY: ${{ secrets.ACCUMULATE_TECH_KNOWLEDGE_API_KEY }}
+          NEWS_URL: ${{ secrets.ACCUMULATE_TECH_KNOWLEDGE_NEWS_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${API_KEY:-}" ] || [ -z "${NEWS_URL:-}" ]; then
+            echo "GitHub Secrets に ACCUMULATE_TECH_KNOWLEDGE_API_KEY と ACCUMULATE_TECH_KNOWLEDGE_NEWS_URL を登録してください。"
+            exit 1
+          fi
+          echo "GET ${NEWS_URL}"
+          response=$(curl -fsS -H "X-API-Key: ${API_KEY}" "${NEWS_URL}")
+          echo "${response}" | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          print('selection_method:', data.get('selection_method'))
+          print('count:', data.get('count'))
+          print('slack_notified:', data.get('slack_notified'))
+          "
